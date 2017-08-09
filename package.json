@@ -1,0 +1,15 @@
+{
+  "name": "laaj",
+  "version": "1.0.0",
+  "description": "A bot for A&J server",
+  "main": "bot.js",
+  "scripts": {
+    "test": "j!help"
+  },
+  "author": "Justin",
+  "license": "MIT",
+  "dependencies": {
+    "eris": "^0.7.0",
+    "node-schedule": "^1.2.3"
+  }
+}
