@@ -1,4 +1,4 @@
-const Eris = require("Eris");
+const Eris = require("eris");
 const commands = require("../bot.js")
 module.exports.run = (bot, msg, args) => {
     const config = require("../config.json");
