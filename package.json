@@ -1,10 +1,10 @@
 {
-  "name": "laaj",
+  "name": "bongon",
   "version": "1.0.0",
   "description": "A bot for A&J server",
   "main": "bot.js",
   "scripts": {
-    "test": "j!help"
+    "start": "node bot.js --production"
   },
   "author": "Justin",
   "license": "MIT",
