@@ -26,6 +26,7 @@ module.exports = {
     commands:commands,
     function: functions
 }
+bot.editStatus("online", {name: "j!help | BonGon", type: 0});
 bot.on("ready", () => {
     try{
         fs.readdir( `./commands/`, function( err, files ) {

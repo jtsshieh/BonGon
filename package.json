@@ -1,7 +1,7 @@
 {
-  "name": "bongon",
+  "name": "BonGon",
   "version": "1.0.0",
-  "description": "A bot for A&J server",
+  "description": "A nice bot",
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js --production"
