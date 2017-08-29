@@ -25,7 +25,7 @@ exports.run = (bot, msg, args) => {
     })
 }
 module.exports.help = {
-    description: "The command for showing how many gons you have.",
+    description: "Displays how many gons you currently have.",
     usage: "j!gons",
     permlevel: 0,
     category: "Gons"

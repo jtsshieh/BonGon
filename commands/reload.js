@@ -15,7 +15,7 @@ exports.run = (bot, msg, args) => {
 
 }
 module.exports.help = {
-    description: "The command for reloading other things",
+    description: "Reloads other commands/functions.",
     usage: "j!reload <type:args[0]> <name:name>",
     permlevel: 11,
     category: "Owner"

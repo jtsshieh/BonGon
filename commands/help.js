@@ -95,7 +95,7 @@ module.exports.run = (bot, msg, args) => {
     }
 }
 module.exports.help = {
-    description: "The command for listing all the commands or showing help for a command.",
+    description: "Displays all the commands or a page with information for 1 command.",
     usage: "j!help (command)",
     permlevel: 0,
     category: "Other"

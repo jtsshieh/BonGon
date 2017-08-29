@@ -8,7 +8,7 @@ exports.run = (bot, msg, args) => {
 
 }
 module.exports.help = {
-    description: "The command for deleting lots of messages quickly",
+    description: "Deltes many messages quickly",
     usage: "j!purge <number:messages>",
     permlevel: 5,
     category:"Mod"
