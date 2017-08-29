@@ -16,7 +16,7 @@ module.exports.run = (bot, msg, args) => {
 
             ],
             footer: {
-                text: `This message was delivered to ${msg.author.username}`
+                text: `To view help for a specific command, type ${config.prefix}help [command]`
             }
         }
 
