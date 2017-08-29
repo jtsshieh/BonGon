@@ -32,6 +32,7 @@ exports.run = (bot, msg, args) => {
 
 module.exports.help = {
     description: "The command for collecting your daily gons.",
-    usage: "j!daily",
-    permlevel: 0
+    usage: "j!dail\y",
+    permlevel: 0,
+    category: "gons"
 }

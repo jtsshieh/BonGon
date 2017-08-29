@@ -19,12 +19,40 @@ module.exports.run = (bot, msg, args) => {
                 text: `This message was delivered to ${msg.author.username}`
             }
         }
-        /*var categories = ["mod", "Owner", "Gons"]
-        for(var i = 0; i < categories.length; i++){
-            var tempdict = {name: catgories[i], value: ``, inline: true}
-            for(var i = 0; i < commands.commands[])
+
+        var categories = []
+        for(var key in commands.commands){
+            var obj = commands.commands[key];
+            for (var prop in obj) {
+                if (prop != "run") {
+                    matched = false;
+                    for(var i in categories) {
+                       if (categories[i] == commands.commands[key].help.category) {
+                          matched = true;
+                       }
+                    }
+
+                    if (!matched) {
+                       categories.push(commands.commands[key].help.category);
+                    }
+                }
+            }
+        }
+        for (var category in categories) {
+            var value = ""
+            for(var key in commands.commands){
+                var obj = commands.commands[key]
+                for (var prop in obj){
+                    if (prop != "run") {
+                        if (commands.commands[key].help.category === categories[category]){
+                            value = value + key + "\n"
+                        }
+                    }
+                }
+            }
+            var tempdict = {name: categories[category], value: value, inline: true}
             embeds.fields.push(tempdict)
-        }*/
+        }
         msg.channel.createMessage( { embed: embeds } )
     } else try{
         var embeds = {
@@ -69,5 +97,6 @@ module.exports.run = (bot, msg, args) => {
 module.exports.help = {
     description: "The command for listing all the commands or showing help for a command.",
     usage: "j!help (command)",
-    permlevel: 0
+    permlevel: 0,
+    category: "Other"
 }

@@ -11,5 +11,5 @@ module.exports.help = {
     description: "The command for deleting lots of messages quickly",
     usage: "j!purge <number:messages>",
     permlevel: 5,
-    category:"mod"
+    category:"Mod"
 }
