@@ -16,7 +16,7 @@ exports.run = (bot, msg, args) => {
             },
             {
                 name: "Privacy Policy",
-                value: "You agree that this bot will use you and your guild members information to enhance your expierience. \nIf you do not agree to this, either kick the bot off you guild or the guild with the bot.",
+                value: "You agree that this bot will use you and your guild members information to enhance your expierience. If you do not agree to this, either kick the bot off your guild or leave the guild with the bot.",
                 inline: true
             },
             {
