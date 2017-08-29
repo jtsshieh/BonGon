@@ -28,5 +28,5 @@ module.exports.help = {
     description: "The command for showing how many gons you have.",
     usage: "j!gons",
     permlevel: 0,
-    category: "gons"
+    category: "Gons"
 }

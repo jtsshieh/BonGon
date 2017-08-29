@@ -34,5 +34,5 @@ module.exports.help = {
     description: "The command for collecting your daily gons.",
     usage: "j!dail\y",
     permlevel: 0,
-    category: "gons"
+    category: "Gons"
 }
