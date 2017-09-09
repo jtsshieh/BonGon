@@ -120,6 +120,9 @@ class CommandClient extends Client {
                 description: "This help text",
                 fullDescription: "This command is used to view information of different bot commands, including this one."
             });
+            this.commandOptions.defaultCommandOptions.invalidUsageMessage = "Invalid usage. Do `%prefix%help %label%` to view proper usage.";
+        } else {
+            this.commandOptions.defaultCommandOptions.invalidUsageMessage = "Invalid usage.";
         }
     }
 
@@ -136,46 +139,65 @@ class CommandClient extends Client {
         if((!this.commandOptions.ignoreSelf || msg.author.id !== this.user.id) && (!this.commandOptions.ignoreBots || !msg.author.bot) && (msg.prefix = this.checkPrefix(msg))) {
             var args = msg.content.replace(/<@!/g, "<@").substring(msg.prefix.length).split(" ");
             var label = args.shift();
-            label = this.commandAliases[label] || label;
-            var command;
-            if((command = this.commands[label]) !== undefined || ((command = this.commands[label.toLowerCase()]) !== undefined && command.caseInsensitive)) {
+            var command = this.resolveCommand(label);
+            if(command !== undefined) {
                 msg.command = command;
-                Promise.resolve(command.process(args, msg)).then((resp) => {
+                Promise.resolve(msg.command.process(args, msg)).then((resp) => {
                     if(resp != null) {
                         this.createMessage(msg.channel.id, resp).then((newMsg) => {
-                            if(command.reactionButtons) {
-                                command.reactionButtons.forEach((button) => newMsg.addReaction(button.emoji));
+                            if(msg.command.reactionButtons) {
+                                msg.command.reactionButtons.forEach((button) => newMsg.addReaction(button.emoji));
                                 this.activeMessages[newMsg.id] = {
-                                    label: command.caseInsensitive ? label.toLowerCase() : label,
-                                    invoker: msg.author.id,
+                                    args: args,
+                                    command: msg.command,
                                     timeout: setTimeout(() => {
                                         this.unwatchMessage(newMsg.id, newMsg.channel.id);
-                                    }, command.reactionButtonTimeout)
+                                    }, msg.command.reactionButtonTimeout)
                                 };
                             }
                         });
                     }
                 }).catch((err) => {
-                    this.emit("warn", err);
-                    if(command.errorMessage) {
-                        this.createMessage(msg.channel.id, command.errorMessage);
+                    this.emit("error", err);
+                    if(msg.command.errorMessage) {
+                        if(typeof msg.command.errorMessage === "function") {
+                            var reply = msg.command.errorMessage();
+                            if(reply !== undefined) {
+                                this.createMessage(msg.channel.id, reply);
+                            }
+                        }else{
+                            this.createMessage(msg.channel.id, msg.command.errorMessage);
+                        }
                     }
                 });
             }
         }
     }
 
+    resolveCommand(label) {
+        label = this.commandAliases[label] || label;
+        var command = this.commands[label];
+        if(command) {
+            return command;
+        }
+        label = label.toLowerCase();
+        label = this.commandAliases[label] || label;
+        command = this.commands[label];
+        if(command && command.caseInsensitive) {
+            return command;
+        }
+    }
+
     onMessageReactionEvent(msg, emoji, userID) {
-        if(!this.ready || userID === this.user.id || !msg.content) {
+        if(!this.ready || userID === this.user.id || !(msg.content || msg.embeds || msg.attachments)) {
             return;
         }
 
         emoji = emoji.id ? `${emoji.name}:${emoji.id}` : emoji.name;
 
         var activeMessage = this.activeMessages[msg.id];
-        var command;
-        if(activeMessage && activeMessage.invoker === userID && (command = this.commands[activeMessage.label]) && command.reactionButtons) {
-            var action = command.reactionButtons.find((button) => button.emoji === emoji);
+        if(activeMessage && activeMessage.command.reactionButtons) {
+            var action = activeMessage.command.reactionButtons.find((button) => button.emoji === emoji);
             if(!action) {
                 return;
             }
@@ -186,7 +208,7 @@ class CommandClient extends Client {
                     break;
                 }
                 case "edit": {
-                    Promise.resolve(action.execute(msg, emoji, userID)).then((resp) => {
+                    Promise.resolve(action.execute(msg, activeMessage.args)).then((resp) => {
                         if(resp != null) {
                             this.editMessage(msg.channel.id, msg.id, resp);
                         }
@@ -203,7 +225,7 @@ class CommandClient extends Client {
     * @arg {String|Array} prefix The bot prefix. Can be either an array of prefixes or a single prefix. "@mention" will be automatically replaced with the bot's actual mention
     */
     registerGuildPrefix(guildID, prefix) {
-        if(this.preReady){
+        if(!this.preReady){
             this.guildPrefixes[guildID] = prefix;
         } else {
             if(Array.isArray(prefix)){
@@ -278,6 +300,7 @@ class CommandClient extends Client {
     * @arg {Array<String>} [options.requirements.roleNames] An array of role names that would allow a user to use the command
     * @arg {Number} [options.cooldown] The cooldown between command usage in milliseconds
     * @arg {String} [options.cooldownMessage] A message to show when the command is on cooldown
+    * @arg {String} [options.invalidUsageMessage] A message to show when a command was improperly used
     * @arg {String} [options.permissionMessage] A message to show when the user doesn't have permissions to use the command
     * @arg {String} [options.errorMessage] A message to show if the execution of the command handler somehow fails.
     * @arg {Array<{emoji: String, type: String, response: Function | String | Array<Function | String>}>} [options.reactionButtons] An array of objects specifying reaction buttons

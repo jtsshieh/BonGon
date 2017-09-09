@@ -9,7 +9,6 @@ const User = require("./User");
 * Represents a message
 * @prop {String} id The ID of the message
 * @prop {Channel} channel The channel the message is in
-* @prop {Guild?} guild The guild the message channel is in. Alias to channel.guild
 * @prop {Number} timestamp Timestamp of message creation
 * @prop {Number} type The type of the message
 * @prop {User} author The message author
@@ -134,16 +133,18 @@ class Message extends Base {
                 if(this.channel.guild) {
                     var member = this.channel.guild.members.get(mention.id);
                     if(member) {
-                        this._cleanContent = this._cleanContent.replace(new RegExp(`<@\!${mention.id}>`, "g"), "@" + member.nick || mention.username);
+                        this._cleanContent = this._cleanContent.replace(new RegExp(`<@!${mention.id}>`, "g"), "@" + member.nick || mention.username);
                     }
                 }
-                this._cleanContent = this._cleanContent.replace(new RegExp(`<@\!?${mention.id}>`, "g"), "@" + mention.username);
+                this._cleanContent = this._cleanContent.replace(new RegExp(`<@!?${mention.id}>`, "g"), "@" + mention.username);
             });
         }
 
         if(this.channel.guild && this.roleMentions) {
             for(var roleID of this.roleMentions) {
-                this._cleanContent = this._cleanContent.replace(new RegExp(`<@&${roleID}>`, "g"), "@" + this.channel.guild.roles.get(roleID).name);
+                var role = this.channel.guild.roles.get(roleID);
+                var roleName = role ? role.name : "deleted-role";
+                this._cleanContent = this._cleanContent.replace(new RegExp(`<@&${roleID}>`, "g"), "@" + roleName);
             }
         }
 

@@ -7,7 +7,7 @@ const SequentialBucket = require("../util/SequentialBucket");
 const Zlib = require("zlib");
 
 /**
-* Handles APi requests
+* Handles API requests
 */
 class RequestHandler {
     constructor(client, forceQueueing) {
@@ -75,6 +75,10 @@ class RequestHandler {
                         headers["X-Audit-Log-Reason"] = body.reason;
                         delete body.reason;
                     }
+                    if(body && body.queryReason) {
+                        body.reason = body.queryReason;
+                        delete body.queryReason;
+                    }
                     if(file) {
                         if(Array.isArray(file)) {
                             data = new MultipartData();
@@ -128,8 +132,6 @@ class RequestHandler {
 
                 var req = HTTPS.request({
                     method: method,
-                    // host: ~url.indexOf("154461004984614912") ? "requestb.in" : "discordapp.com",
-                    // path: ~url.indexOf("154461004984614912") ? "/1jje57y1" : this.baseURL + url,
                     host: "discordapp.com",
                     path: this.baseURL + url,
                     headers: headers
@@ -149,7 +151,6 @@ class RequestHandler {
                     reject(reqError);
                 }).once("error", (err) => {
                     reqError = err;
-                    // console.log(err);
                     req.abort();
                 });
 

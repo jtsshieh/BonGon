@@ -1,7 +1,6 @@
 const Eris = require("eris");
 const fs = require('fs');
 const bank = require("../functions/bank.js")
-const encrypto = require("../functions/encrypt.js")
 exports.run = (bot, msg, args) => {
     fs.readFile('./users.json', function(err,content){
         if (err){
@@ -12,11 +11,6 @@ exports.run = (bot, msg, args) => {
             if(arrayOfObjects[msg.author.id]) {
                 var embedToUse = bank.bank(msg, bot, 1, ["Available Gons"], [`***You have ${arrayOfObjects[msg.author.id]['gons']} gons***`], [true])
                 msg.channel.createMessage({embed:embedToUse})
-                console.log(msg.author.id)
-                idEncrypted = encrypto.encrypt(msg.author.id)
-                console.log(idEncrypted)
-                idUnEncrypted = encrypto.decrypt(idEncrypted)
-                console.log(idUnEncrypted)
             }
             else{
                 arrayOfObjects[msg.author.id] = {};

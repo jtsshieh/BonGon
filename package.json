@@ -9,7 +9,7 @@
   "author": "Justin",
   "license": "MIT",
   "dependencies": {
-    "eris": "^0.7.0",
-    "node-schedule": "^1.2.3"
+    "eris": "^0.7.2",
+    "node-schedule": "^1.2.4"
   }
 }

@@ -2,6 +2,7 @@
 
 const Bucket = require("../util/Bucket");
 const Call = require("../structures/Call");
+const CategoryChannel = require("../structures/CategoryChannel");
 const Constants = require("../Constants");
 const ExtendedUser = require("../structures/ExtendedUser");
 const OPCodes = Constants.GatewayOPCodes;
@@ -553,6 +554,10 @@ class Shard extends EventEmitter {
             }
             case "GUILD_MEMBER_ADD": {
                 var guild = this.client.guilds.get(packet.d.guild_id);
+                if(!guild) { // Eventual Consistency™ (╯°□°）╯︵ ┻━┻
+                    this.client.emit("warn", `Missing guild ${packet.d.guild_id} in GUILD_MEMBER_ADD`);
+                    break;
+                }
                 packet.d.id = packet.d.user.id;
                 ++guild.memberCount;
                 /**
@@ -609,7 +614,7 @@ class Shard extends EventEmitter {
                 */
                 this.client.emit("guildMemberRemove", guild, guild.members.remove(packet.d) || {
                     id: packet.d.id,
-                    user: new User(packet.d.user)
+                    user: new User(packet.d.user, this.client)
                 });
                 break;
             }
@@ -649,6 +654,10 @@ class Shard extends EventEmitter {
             }
             case "GUILD_UPDATE": {
                 var guild = this.client.guilds.get(packet.d.id);
+                if(!guild) {
+                    this.emit("warn", `Guild ${packet.d.id} undefined in GUILD_UPDATE`);
+                    break;
+                }
                 var oldGuild = null;
                 oldGuild = {
                     name: guild.name,
@@ -684,7 +693,11 @@ class Shard extends EventEmitter {
             case "GUILD_DELETE": {
                 var voiceConnection = this.client.voiceConnections.get(packet.d.id);
                 if(voiceConnection) {
-                    this.client.leaveVoiceChannel(voiceConnection.channelID);
+                    if(voiceConnection.channelID) {
+                        this.client.leaveVoiceChannel(voiceConnection.channelID);
+                    } else {
+                        this.client.voiceConnections.leave(packet.d.id);
+                    }
                 }
 
                 delete this.client.guildShardMap[packet.d.id];
@@ -741,12 +754,24 @@ class Shard extends EventEmitter {
                 * @prop {Role} role The role
                 */
                 var guild = this.client.guilds.get(packet.d.guild_id);
+                if(!guild) {
+                    this.client.emit("warn", `Missing guild ${packet.d.guild_id} in GUILD_ROLE_CREATE`);
+                    break;
+                }
                 this.client.emit("guildRoleCreate", guild, guild.roles.add(packet.d.role, guild));
                 break;
             }
             case "GUILD_ROLE_UPDATE": {
                 var guild = this.client.guilds.get(packet.d.guild_id);
+                if(!guild) {
+                    this.client.emit("warn", `Guild ${packet.d.guild_id} undefined in GUILD_ROLE_UPDATE`);
+                    break;
+                }
                 var role = guild.roles.add(packet.d.role, guild);
+                if(!role) {
+                    this.emit("warn", `Role ${packet.d.role} in guild ${packet.d.guild_id} undefined in GUILD_ROLE_UPDATE`);
+                    break;
+                }
                 var oldRole = null;
                 if(role) {
                     oldRole = {
@@ -782,9 +807,11 @@ class Shard extends EventEmitter {
                 * @prop {Role} role The role
                 */
                 var guild = this.client.guilds.get(packet.d.guild_id);
-                if(guild) { // Eventual Consistency™ (╯°□°）╯︵ ┻━┻
-                    this.client.emit("guildRoleDelete", guild, guild.roles.remove({id: packet.d.role_id}));
+                if(!guild) {
+                    this.client.emit("warn", `Missing guild ${packet.d.guild_id} in GUILD_ROLE_DELETE`);
+                    break;
                 }
+                this.client.emit("guildRoleDelete", guild, guild.roles.remove({id: packet.d.role_id}));
                 break;
             }
             case "CHANNEL_CREATE": {
@@ -798,13 +825,22 @@ class Shard extends EventEmitter {
                         this.client.privateChannelMap[packet.d.recipients[0].id] = packet.d.id;
                         this.client.emit("channelCreate", this.client.privateChannels.add(packet.d, this.client));
                     }
-                } else if(packet.d.type === 0 || packet.d.type === 2) {
+                } else if(packet.d.type === 0 || packet.d.type === 2 || packet.d.type === 4) {
                     var guild = this.client.guilds.get(packet.d.guild_id);
                     if(!guild) {
+                        this.client.emit("warn", `Missing guild ${packet.d.guild_id} in CHANNEL_CREATE`);
                         break;
                     }
-                    var channel = guild.channels.add(packet.d, guild);
+                    var channel = guild.channels.add(packet.d.type === 4 ? new CategoryChannel(packet.d, guild) : packet.d, guild);
                     this.client.channelGuildMap[packet.d.id] = packet.d.guild_id;
+                    if(packet.d.parent_id) {
+                        var parentChannel = guild.channels.get(packet.d.parent_id);
+                        if(!parentChannel) {
+                            this.client.emit("warn", `Missing category channel ${packet.d.parent_id} in CHANNEL_CREATE`);
+                            break;
+                        }
+                        parentChannel.channels.add(channel);
+                    }
                     this.client.emit("channelCreate", channel);
                 } else if(packet.d.type === 3) {
                     if(this.id === 0) {
@@ -830,16 +866,35 @@ class Shard extends EventEmitter {
                         icon: channel.icon
                     };
                 }
-                if(channel.type === 0 || channel.type === 2) {
+                if(channel.type === 0 || channel.type === 2 || channel.type === 4) {
                     var oldChannel = {
                         name: channel.name,
                         topic: channel.topic,
                         position: channel.position,
                         bitrate: channel.bitrate,
-                        permissionOverwrites: channel.permissionOverwrites
+                        nsfw: channel.nsfw,
+                        permissionOverwrites: channel.permissionOverwrites,
+                        parentID: channel.parentID
                     };
                 }
                 channel.update(packet.d);
+
+                if(packet.d.parent_id) {
+                    var guild = this.client.guilds.get(packet.d.guild_id);
+                    if(packet.d.parent_id !== channel.parentID) {
+                        var oldParentChannel = guild.channels.get(channel.parentID);
+                        if(!oldParentChannel) {
+                            break;
+                        }
+                        oldParentChannel.channels.remove(channel);
+                    }
+                    var parentChannel = guild.channels.get(packet.d.parent_id);
+                    if(!parentChannel) {
+                        this.client.emit("warn", `Missing category channel ${packet.d.parent_id} in UPDATE`);
+                        break;
+                    }
+                    parentChannel.channels.add(channel);
+                }
                 /**
                 * Fired when a channel is updated
                 * @event Client#channelUpdate
@@ -847,6 +902,7 @@ class Shard extends EventEmitter {
                 * @prop {Object} oldChannel The old channel data
                 * @prop {String} oldChannel.name The name of the channel
                 * @prop {Number} oldChannel.position The position of the channel
+                * @prop {Boolean} oldChannel.nsfw Whether the channel is NSFW or not
                 * @prop {String?} oldChannel.topic The topic of the channel (text channels only)
                 * @prop {Number?} oldChannel.bitrate The bitrate of the channel (voice channels only)
                 * @prop {Collection} oldChannel.permissionOverwrites Collection of PermissionOverwrites in this channel
@@ -868,9 +924,14 @@ class Shard extends EventEmitter {
                             this.client.emit("channelDelete", channel);
                         }
                     }
-                } else if(packet.d.type === 0 || packet.d.type === 2) {
+                } else if(packet.d.type === 0 || packet.d.type === 2 || packet.d.type === 4) {
                     delete this.client.channelGuildMap[packet.d.id];
-                    var channel = this.client.guilds.get(packet.d.guild_id).channels.remove(packet.d);
+                    var guild = this.client.guilds.get(packet.d.guild_id);
+                    if(!guild) {
+                        this.client.emit("warn", `Missing guild ${packet.d.guild_id} in CHANNEL_DELETE`);
+                        break;
+                    }
+                    var channel = guild.channels.remove(packet.d);
                     if(!channel) {
                         break;
                     }
@@ -997,7 +1058,7 @@ class Shard extends EventEmitter {
                 * @prop {String} reasons.platform_type Platform you share with the user
                 * @prop {String} reasons.name Username of suggested user on that platform
                 */
-                this.client.emit("friendSuggestionCreate",new User(packet.d.suggested_user), packet.d.reasons);
+                this.client.emit("friendSuggestionCreate",new User(packet.d.suggested_user, this.client), packet.d.reasons);
                 break;
             }
             case "FRIEND_SUGGESTION_DELETE": {
@@ -1255,7 +1316,7 @@ class Shard extends EventEmitter {
                     break;
                 }
                 var oldTimestamp = channel.lastPinTimestamp;
-                channel.lastPinTimestamp = Date.parse(packet.d.timestamp);
+                channel.lastPinTimestamp = Date.parse(packet.d.last_pin_timestamp);
                 /**
                 * Fired when a channel pin timestamp is updated
                 * @event Client#channelPinUpdate
@@ -1412,7 +1473,7 @@ class Shard extends EventEmitter {
         this._rPackets = 0;
         this._rStartTime = Date.now();
         this.status = "connecting";
-        this.ws = new WebSocket(this.client.gatewayURL);
+        this.ws = new WebSocket(this.client.gatewayURL, this.client.options.ws);
         this.ws.onopen = () => {
             if(!this.client.token) {
                 return this.disconnect(null, new Error("Token not specified"));
@@ -1517,7 +1578,7 @@ class Shard extends EventEmitter {
             this.client.emit("error", event, this.id);
         };
         this.ws.onclose = (event) => {
-            var err = event.code === 1000 ? null : new Error(event.code + ": " + event.reason);
+            var err = !event.code || event.code === 1000 ? null : new Error(event.code + ": " + event.reason);
             var reconnect = "auto";
             if(event.code) {
                 this.client.emit("warn", `${event.code === 1000 ? "Clean" : "Unclean"} WS close: ${event.code}: ${event.reason}`, this.id);
@@ -1646,6 +1707,7 @@ class Shard extends EventEmitter {
             this.presence.status = status;
         }
         if(game !== undefined) {
+            game.type = game.url ? 1 : 0;
             this.presence.game = game;
         }
 

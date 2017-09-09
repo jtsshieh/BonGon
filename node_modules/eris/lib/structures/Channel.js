@@ -52,7 +52,7 @@ class Channel extends Base {
 
     /**
     * Create a message in a text channel
-    * Note: If you want to DM someone, the user ID is **not** the DM channel ID. use Client.getDMChanne() to get the DM channel ID for a user
+    * Note: If you want to DM someone, the user ID is **not** the DM channel ID. use Client.getDMChannel() to get the DM channel ID for a user
     * @arg {String | Object} content A string or object. If an object is passed:
     * @arg {String} content.content A content string
     * @arg {Boolean} [content.tts] Set the message TTS flag
@@ -157,27 +157,6 @@ class Channel extends Base {
     */
     unsendMessage(messageID) {
         return (this._client || this.guild.shard.client).deleteMessage.call((this._client || this.guild.shard.client), this.id, messageID);
-    }
-
-    /**
-    * Bulk delete messages (bot accounts only)
-    * @arg {String[]} messageIDs Array of message IDs to delete
-    * @returns {Promise}
-    */
-    deleteMessages(messageIDs) {
-        return (this._client || this.guild.shard.client).deleteMessages.call((this._client || this.guild.shard.client), this.id, messageIDs);
-    }
-
-    /**
-    * Purge previous messages in the channel with an optional filter (bot accounts only)
-    * @arg {Number} limit The max number of messages to search through, -1 for no limit
-    * @arg {function} [filter] Optional filter function that returns a boolean when passed a Message object
-    * @arg {String} [before] Get messages before this message ID
-    * @arg {String} [after] Get messages after this message ID
-    * @returns {Promise<Number>} Resolves with the number of messages deleted
-    */
-    purge(limit, filter, before, after) {
-        return (this._client || this.guild.shard.client).purgeChannel.call((this._client || this.guild.shard.client), this.id, limit, filter, before, after);
     }
 }
 

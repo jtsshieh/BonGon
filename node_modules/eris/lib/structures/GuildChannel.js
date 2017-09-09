@@ -15,6 +15,7 @@ const PermissionOverwrite = require("./PermissionOverwrite");
 * @prop {Guild} guild The guild that owns the channel
 * @prop {Collection<Message>} messages Collection of Messages in this channel
 * @prop {String} lastMessageID The ID of the last message in this channel
+* @prop {String?} parentID The ID of the category this channel belongs to
 * @prop {Number} lastPinTimestamp The timestamp of the last pinned message
 * @prop {Collection<PermissionOverwrite>} permissionOverwrites Collection of PermissionOverwrites in this channel
 * @prop {Number} type The type of the channel, either 0 (text) or 2 (voice)
@@ -32,7 +33,7 @@ class GuildChannel extends Channel {
         this.guild = guild;
         if(this.type === 2) {
             this.voiceMembers = new Collection(Member);
-        } else {
+        } else if(this.type === 0) {
             if(messageLimit == null && guild) {
                 messageLimit = guild.shard.client.options.messageLimit;
             }
@@ -49,6 +50,8 @@ class GuildChannel extends Channel {
         this.position = data.position !== undefined ? data.position : this.position;
         this.bitrate = data.bitrate !== undefined ? data.bitrate : this.bitrate;
         this.userLimit = data.user_limit !== undefined ? data.user_limit : this.userLimit;
+        this.parentID = data.parent_id !== undefined ? data.parent_id : this.parentID;
+        this.nsfw = this.type !== 2 && ((this.name.length === 4 ? this.name === "nsfw" : this.name.startsWith("nsfw-")) || data.nsfw);
         if(data.permission_overwrites) {
             this.permissionOverwrites = new Collection(PermissionOverwrite);
             data.permission_overwrites.forEach((overwrite) => {
@@ -68,28 +71,28 @@ class GuildChannel extends Channel {
         if(permission & Permissions.administrator) {
             return new Permission(Permissions.all);
         }
+        var overwrite = this.permissionOverwrites.get(this.guild.id);
+        if(overwrite) {
+            permission = (permission & ~overwrite.deny) | overwrite.allow;
+        }
         var deny = 0;
         var allow = 0;
-        for(var overwrite of this.permissionOverwrites) {
-            if(overwrite[1].type === "role" && (overwrite[1].id === this.guild.id || ~member.roles.indexOf(overwrite[1].id))) {
-                deny |= overwrite[1].deny;
-                allow |= overwrite[1].allow;
+        for(var roleID of member.roles) {
+            if((overwrite = this.permissionOverwrites.get(roleID))) {
+                deny |= overwrite.deny;
+                allow |= overwrite.allow;
             }
         }
         permission = (permission & ~deny) | allow;
-        var memberOverwrite = this.permissionOverwrites.get(memberID);
-        if(memberOverwrite) {
-            permission = (permission & ~memberOverwrite.deny) | memberOverwrite.allow;
+        overwrite = this.permissionOverwrites.get(memberID);
+        if(overwrite) {
+            permission = (permission & ~overwrite.deny) | overwrite.allow;
         }
         return new Permission(permission);
     }
 
     get mention() {
         return `<#${this.id}>`;
-    }
-
-    get nsfw() {
-        return this.type !== 2 && (this.name.length === 4 ? this.name === "nsfw" : this.name.startsWith("nsfw-"));
     }
 
     /**
@@ -99,6 +102,7 @@ class GuildChannel extends Channel {
     * @arg {String} [options.topic] The topic of the channel (guild text channels only)
     * @arg {Number} [options.bitrate] The bitrate of the channel (guild voice channels only)
     * @arg {Number} [options.userLimit] The channel user limit (guild voice channels only)
+    * @arg {Number?} [options.parentID] The ID of the parent channel category for this channel (guild text/voice channels only)
     * @arg {String} [reason] The reason to be displayed in audit logs
     * @returns {Promise<GuildChannel>}
     */
@@ -186,6 +190,27 @@ class GuildChannel extends Channel {
     */
     createWebhook(options, reason) {
         return this.guild.shard.client.createChannelWebhook.call(this.guild.shard.client, this.id, options, reason);
+    }
+
+    /**
+    * Bulk delete messages (bot accounts only)
+    * @arg {String[]} messageIDs Array of message IDs to delete
+    * @returns {Promise}
+    */
+    deleteMessages(messageIDs) {
+        return this.guild.shard.client.deleteMessages.call(this.guild.shard.client, this.id, messageIDs);
+    }
+
+    /**
+    * Purge previous messages in the channel with an optional filter (bot accounts only)
+    * @arg {Number} limit The max number of messages to search through, -1 for no limit
+    * @arg {function} [filter] Optional filter function that returns a boolean when passed a Message object
+    * @arg {String} [before] Get messages before this message ID
+    * @arg {String} [after] Get messages after this message ID
+    * @returns {Promise<Number>} Resolves with the number of messages deleted
+    */
+    purge(limit, filter, before, after) {
+        return this.guild.shard.client.purgeChannel.call(this.guild.shard.client, this.id, limit, filter, before, after);
     }
 }
 
