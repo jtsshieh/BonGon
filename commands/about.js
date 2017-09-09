@@ -22,7 +22,11 @@ exports.run = (bot, msg, args) => {
             {
                 name: "Credits",
                 value: "Creator: jtsshieh#6242 \nLibrary: Eris \nA HUGE Helper: EiJay #7711 \non the Unofficial Discord API server"
-            }
+            },
+            {
+                name: "Shard Id",
+                value: msg.member.guild.shard.id
+            },
         ],
         footer: {
             text: `This message was delivered to ${msg.author.username}`
@@ -30,7 +34,11 @@ exports.run = (bot, msg, args) => {
     }
     msg.channel.createMessage( { embed : embeds } )
 }
-module.exports.help = {
+exports.conf = {
+    aliases:[]
+}
+exports.help = {
+    name: "about",
     description: "Displays the about page",
     usage: "j!about",
     permlevel: 0,

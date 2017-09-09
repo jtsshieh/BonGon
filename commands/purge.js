@@ -7,7 +7,11 @@ exports.run = (bot, msg, args) => {
     msg.channel.purge(args[0] + 1)
 
 }
-module.exports.help = {
+exports.conf = {
+    aliases:[]
+}
+exports.help = {
+    name: "purge",
     description: "Deletes many messages quickly",
     usage: "j!purge <number:messages>",
     permlevel: 5,

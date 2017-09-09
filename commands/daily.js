@@ -29,8 +29,11 @@ exports.run = (bot, msg, args) => {
             })
         })
 }
-
-module.exports.help = {
+exports.conf = {
+    aliases:[]
+}
+exports.help = {
+    name: "daily",
     description: "Collects your daily gons if they are available.",
     usage: "j!daily",
     permlevel: 0,
