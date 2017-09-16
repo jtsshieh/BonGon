@@ -25,7 +25,8 @@ bot.functions = new Eris.Collection();
 
 const rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout
+    output: process.stdout,
+    prompt: 'BonGon>'
 });
 
 fs.readdir('./commands/', (err, files) => {
@@ -92,17 +93,23 @@ bot.reload = command => {
 bot.editStatus("online", {name: "j!help | BonGon", type: 0});
 //Ready Event
 bot.on("ready", () => {
+    console.log("Welcome to the BonGon Console. To list all the commands, type 'help'")
+    rl.prompt();
 
-    /*rl.question(`Welcome to the BonGon console. Type 'help'. For a list of all the commands`, (answer) => {
-        switch(answer){
-            case "help":
-                console.log("gons :: A way of getting an amount of gons from someone.")
-            case "gons":
-                rl.question(`Type the user id of the person`, (answer) => {
-
-                }
-        }
-    });*/
+    rl.on('line', (line) => {
+        switch (line.trim()) {
+            case 'help':
+                console.log('help :: Display help for the console \nexit :: Exits this program');
+                break;
+            case 'exit':
+                console.log('Bye Bye!')
+                process.exit(0)
+            default:
+                console.log(`'${line.trim()}' is not one of the commads`);
+            break;
+      }
+      rl.prompt();
+    })
 });
 
 
@@ -143,10 +150,6 @@ bot.on('warn', (message, id) => {
 bot.on('error', (error, id) => {
     console.log(`Error: Shard ${id} - ${error['stack']}`)
 
-})
-
-bot.on('debug', (message, id) => {
-    console.log(`Debug: ${id !== undefined ? 'Shard ' + id + ' - ' : ''}${message}`)
 })
 
 bot.on('shardReady', id => {

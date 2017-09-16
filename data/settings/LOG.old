@@ -1,0 +1,5 @@
+2017/09/16-08:48:45.483 3dccc Recovering log #43
+2017/09/16-08:48:45.483 3dccc Level-0 table #45: started
+2017/09/16-08:48:45.674 3dccc Level-0 table #45: 356 bytes OK
+2017/09/16-08:48:46.115 3dccc Delete type=0 #43
+2017/09/16-08:48:46.118 3dccc Delete type=3 #41
