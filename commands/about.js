@@ -21,7 +21,7 @@ exports.run = (bot, msg, args) => {
             },
             {
                 name: "Credits",
-                value: "Creator: jtsshieh#6242 \nLibrary: Eris \nA HUGE Helper: EiJay #7711 \non the Unofficial Discord API server"
+                value: "Creator: jtsshieh#6242 \nLibrary: Eris \nA HUGE Helper: ElJay #7711 \non the Unofficial Discord API server"
             },
             {
                 name: "Shard Id",

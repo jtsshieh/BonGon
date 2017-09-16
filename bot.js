@@ -2,62 +2,73 @@ const Eris = require("eris");
 const fs = require('fs');
 const schedule = require('node-schedule')
 const config = require('./config.json')
-
+const Enmap = require("enmap");
 schedule.scheduleJob({hour: 00, minute: 00}, () => {
-    fs.readFile('users.json', function(err,content){
-    var arrayOfObjects = JSON.parse(content)
-        for (var key in arrayOfObjects) {
-            arrayOfObjects[key]['daily'] = false
-        }
-    fs.writeFile('./users.json', JSON.stringify(arrayOfObjects), 'utf-8', function(err) {
-            if (err) throw err
-        })
-    })
+    bot.settings.set(msg.author.id['daily'], false)
 })
 var bot = new Eris(config.token);
-var commands = {};
-var functions = {};
-var events = {};
-var game = false;
-var message = "";
-var sentMessage = false;
 const talkedRecently = new Set();
 bot.getBotGateway().then(result => {
     let shards = result.shards;
     bot.options.maxShards = shards
 });
-
-module.exports = {
-    commands:commands,
-    function: functions,
-    game: game,
-    message: message
-}
-
+bot.settings = new Enmap({name: "settings", persistent: true});
+bot.settings = new Enmap({name: "gons", persistent: true});
 bot.commands = new Eris.Collection();
 bot.aliases = new Eris.Collection();
+bot.functions = new Eris.Collection();
+
 fs.readdir('./commands/', (err, files) => {
     if (err) console.error(err);
-    console.log(`Loading a total of ${files.length} commands.`);
-    files.forEach(f => {
-        let props = require(`./commands/${f}`);
-        console.log(`Loading Command: ${props.help.name}`);
-        bot.commands.set(props.help.name, props);
-        props.conf.aliases.forEach(alias => {
-            bot.aliases.set(alias, props.help.name);
-        });
+    console.log(`Attempting to load a total of ${files.length} commands into the memory.`);
+    files.forEach(file => {
+        try{
+            let command = require(`./commands/${file}`);
+            console.log(`Attempting to load the command "${command.help.name}".`);
+            bot.commands.set(command.help.name, command);
+            command.conf.aliases.forEach(alias => {
+                bot.aliases.set(alias, command.help.name);
+                console.log(`Attempting to load "${alias}" as an alias for "${command.help.name}"`)
+            });
+        }
+        catch(err){
+            console.log(`An error has occured trying to load a command. Here is the error.`)
+            console.log(err)
+        }
     });
+    console.log(`Command Loading complete!`)
 });
+
+fs.readdir('./functions/', (err, files) => {
+    if (err) console.error(err);
+    console.log(`Attempting to load a total of ${files.length} functions into the memory.`);
+    files.forEach(file => {
+        try{
+            let functions = require(`./functions/${file}`);
+            console.log(`Attempting to load the function "${file.substr(0, file.lastIndexOf("."))}".`);
+            bot.functions.set(file.substr(0, file.lastIndexOf(".")), functions);
+        }
+        catch(err){
+            console.log(`An error has occured trying to load a function. Here is the error.`)
+            console.log(err)
+        }
+    });
+    console.log(`Function Loading complete!`)
+});
+
+bot.on("guildCreate", (guild) => {
+    bot.settings.set(guild.id, {"prefix": "j!", "modlogs":"mod-logs", "welcome": false, "welcomeMessage": "Welcome to the server", "welcomeChannel" : "general", "Perm2": "Trusted", "Perm3": "Moderator", "Perm4" : "Admin", "Perm5": "Owner"});
+})
 
 bot.reload = command => {
     return new Promise((resolve, reject) => {
         try {
             delete require.cache[require.resolve(`./commands/${command}`)];
-        let cmd = require(`./commands/${command}`);
-        bot.commands.delete(command);
-            bot.aliases.forEach((cmd, alias) => {
-                if (cmd === command) bot.aliases.delete(alias);
-            });
+            let cmd = require(`./commands/${command}`);
+            bot.commands.delete(command);
+                bot.aliases.forEach((cmd, alias) => {
+                    if (cmd === command) bot.aliases.delete(alias);
+                });
             bot.commands.set(command, cmd);
             cmd.conf.aliases.forEach(alias => {
                 bot.aliases.set(alias, cmd.help.name);
@@ -71,26 +82,17 @@ bot.reload = command => {
 bot.editStatus("online", {name: "j!help | BonGon", type: 0});
 //Ready Event
 bot.on("ready", () => {
-    try{
-        //Try to read all the functions in the functions folder
-        fs.readdir( `./functions/`, function( err, files ) {
-            if( err ) return console.error( "Could not list the directory.", err );
-            files.forEach( function( file, index ) {
-                functions[file.substr(0, file.lastIndexOf("."))] = require(`./functions/${file}`);
-                console.log(`Loaded function ${file.substr(0, file.lastIndexOf("."))}`)
-            } );
-        } )
-    }
-    catch(e){
-        console.log(e)
-    }
+
 });
 
 
 bot.on("messageCreate", (msg) =>{
     if (msg.author.bot) return;
-    if (!msg.content.startsWith(config.prefix)) return;
-    let command = msg.content.split(' ')[0].slice(config.prefix.length);
+    if (bot.settings.get(msg.member.guild.id) == undefined){
+        bot.settings.set(msg.member.guild.id, {"prefix": "j!", "modlogs":"mod-logs", "welcome": false, "welcomeMessage": "Welcome to the server", "welcomeChannel" : "general", "Perm2": "Trusted", "Perm3": "Moderator", "Perm4" : "Admin", "Perm5": "Owner"});
+    }
+    if (!msg.content.startsWith(bot.settings.get(msg.member.guild.id).prefix)) return;
+    let command = msg.content.split(' ')[0].slice(bot.settings.get(msg.member.guild.id).prefix.length);
     let args = msg.content.split(' ').slice(1);
     let cmd;
     if (bot.commands.has(command)) {

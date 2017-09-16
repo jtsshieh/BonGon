@@ -1,0 +1,14 @@
+2017/09/15-22:09:43.277 3af90 Recovering log #33
+2017/09/15-22:09:43.277 3af90 Level-0 table #35: started
+2017/09/15-22:09:44.924 3af90 Level-0 table #35: 356 bytes OK
+2017/09/15-22:09:45.427 3af90 Delete type=0 #33
+2017/09/15-22:09:45.434 3af90 Delete type=3 #31
+2017/09/15-22:09:45.526 3a0dc Compacting 4@0 + 1@1 files
+2017/09/15-22:09:45.599 3a0dc Generated table #37@0: 1 keys, 356 bytes
+2017/09/15-22:09:45.599 3a0dc Compacted 4@0 + 1@1 files => 356 bytes
+2017/09/15-22:09:45.695 3a0dc compacted to: files[ 0 1 0 0 0 0 0 ]
+2017/09/15-22:09:45.697 3a0dc Delete type=2 #24
+2017/09/15-22:09:45.702 3a0dc Delete type=2 #26
+2017/09/15-22:09:45.710 3a0dc Delete type=2 #29
+2017/09/15-22:09:45.719 3a0dc Delete type=2 #32
+2017/09/15-22:09:45.741 3a0dc Delete type=2 #35

@@ -19,31 +19,32 @@ module.exports.run = (bot, msg, args) => {
             }
         }
 
-        var categories = []
-        for(var key in bot.commands){
-            var obj = bot.commands[key];
+        msg.channel.createMessage(output, {code:"asciidoc"});
+        for(var key in bot.commands.keys()){
+            var obj = bot.commands.get(key);
+            console.log(bot.commands)
             for (var prop in obj) {
                 if (prop != "run") {
                     matched = false;
                     for(var i in categories) {
-                       if (categories[i] == bot.commands[key].help.category) {
+                       if (categories[i] == bot.commands.keys().help.category) {
                           matched = true;
                        }
                     }
 
                     if (!matched) {
-                       categories.push(bot.commands[key].help.category);
+                       categories.push(bot.commands.keys().help.category);
                     }
                 }
             }
         }
         for (var category in categories) {
             var value = ""
-            for(var key in bot.commands){
-                var obj = bot.commands[key]
+            for(var key in bot.commands.keys()){
+                var obj = bot.commands.keys()
                 for (var prop in obj){
                     if (prop != "run") {
-                        if (bot.commands[key].help.category === categories[category]){
+                        if (bot.commands.keys().help.category === categories[category]){
                             value = value + key + "\n"
                         }
                     }
@@ -90,8 +91,28 @@ module.exports.run = (bot, msg, args) => {
                     text: `Parameter wrapped in () are optional. Parameters wrapped in <> are required.`
                 }
             }
-            msg.channel.createMessage( {embed} )
         }
+        else{
+            var embed = {
+                title: `Error`,
+                author: {
+                    name: `BonGon`,
+                    icon_url: bot.user.avatarURL
+                },
+                color: 0xff0000,
+                fields: [
+                    {
+                        name: "Command not found",
+                        value: `The command ${args[0]} was not found in the system. Type j!help for help`,
+                        inline:true
+                    }
+                ],
+                footer: {
+                    text: `Parameter wrapped in () are optional. Parameters wrapped in <> are required.`
+                }
+            }
+        }
+        msg.channel.createMessage( {embed} )
     }
 }
 exports.conf = {
