@@ -9,6 +9,7 @@
   "author": "Justin",
   "license": "MIT",
   "dependencies": {
+    "chalk-console": "^1.0.1",
     "enmap": "^0.1.2",
     "eris": "^0.7.2",
     "node-schedule": "^1.2.4"

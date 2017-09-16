@@ -1,5 +1,14 @@
-2017/09/16-08:48:45.483 3dccc Recovering log #43
-2017/09/16-08:48:45.483 3dccc Level-0 table #45: started
-2017/09/16-08:48:45.674 3dccc Level-0 table #45: 356 bytes OK
-2017/09/16-08:48:46.115 3dccc Delete type=0 #43
-2017/09/16-08:48:46.118 3dccc Delete type=3 #41
+2017/09/16-09:42:38.004 2d2b4 Recovering log #60
+2017/09/16-09:42:38.004 2d2b4 Level-0 table #62: started
+2017/09/16-09:42:38.182 2d2b4 Level-0 table #62: 416 bytes OK
+2017/09/16-09:42:38.648 2d2b4 Delete type=0 #60
+2017/09/16-09:42:38.652 2d2b4 Delete type=3 #58
+2017/09/16-09:42:38.694 3eeb4 Compacting 4@0 + 1@1 files
+2017/09/16-09:42:38.867 3eeb4 Generated table #64@0: 2 keys, 416 bytes
+2017/09/16-09:42:38.867 3eeb4 Compacted 4@0 + 1@1 files => 416 bytes
+2017/09/16-09:42:38.897 3eeb4 compacted to: files[ 0 1 0 0 0 0 0 ]
+2017/09/16-09:42:38.899 3eeb4 Delete type=2 #50
+2017/09/16-09:42:38.958 3eeb4 Delete type=2 #52
+2017/09/16-09:42:38.963 3eeb4 Delete type=2 #55
+2017/09/16-09:42:38.969 3eeb4 Delete type=2 #59
+2017/09/16-09:42:38.975 3eeb4 Delete type=2 #62

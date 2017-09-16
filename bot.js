@@ -4,7 +4,7 @@ const schedule = require('node-schedule')
 const config = require('./config.json')
 const Enmap = require("enmap");
 const readline = require('readline');
-
+const console = require('chalk-console');
 
 schedule.scheduleJob({hour: 00, minute: 00}, () => {
     bot.gons.set(msg.author.id['daily'], false)
@@ -15,7 +15,6 @@ bot.getBotGateway().then(result => {
     let shards = result.shards;
     bot.options.maxShards = shards
 });
-
 
 bot.settings = new Enmap({name: "settings", persistent: true});
 bot.gons = new Enmap({name: "gons", persistent: true});
@@ -28,43 +27,43 @@ const rl = readline.createInterface({
     output: process.stdout,
     prompt: 'BonGon>'
 });
-
+console.clear();
 fs.readdir('./commands/', (err, files) => {
     if (err) console.error(err);
-    console.log(`Attempting to load a total of ${files.length} commands into the memory.`);
+    console.cyan(`Attempting to load a total of ${files.length} commands into the memory.`, false);
     files.forEach(file => {
         try{
             let command = require(`./commands/${file}`);
-            console.log(`Attempting to load the command "${command.help.name}".`);
+            console.blue(`Attempting to load the command "${command.help.name}".`, false);
             bot.commands.set(command.help.name, command);
             command.conf.aliases.forEach(alias => {
                 bot.aliases.set(alias, command.help.name);
-                console.log(`Attempting to load "${alias}" as an alias for "${command.help.name}"`)
+                console.blue(`Attempting to load "${alias}" as an alias for "${command.help.name}"`, false)
             });
         }
         catch(err){
-            console.log(`An error has occured trying to load a command. Here is the error.`)
-            console.log(err)
+            console.red(`An error has occured trying to load a command. Here is the error.`)
+            console.red(err)
         }
     });
-    console.log(`Command Loading complete!`)
+    console.green(`Command Loading complete!`)
 });
 
 fs.readdir('./functions/', (err, files) => {
     if (err) console.error(err);
-    console.log(`Attempting to load a total of ${files.length} functions into the memory.`);
+    console.cyan(`Attempting to load a total of ${files.length} functions into the memory.`, false);
     files.forEach(file => {
         try{
             let functions = require(`./functions/${file}`);
-            console.log(`Attempting to load the function "${file.substr(0, file.lastIndexOf("."))}".`);
+            console.blue(`Attempting to load the function "${file.substr(0, file.lastIndexOf("."))}".`, false);
             bot.functions.set(file.substr(0, file.lastIndexOf(".")), functions);
         }
         catch(err){
-            console.log(`An error has occured trying to load a function. Here is the error.`)
-            console.log(err)
+            console.red(`An error has occured trying to load a function. Here is the error.`)
+            console.red(err)
         }
     });
-    console.log(`Function Loading complete!`)
+    console.green(`Function Loading complete!`)
 });
 
 bot.on("guildCreate", (guild) => {
@@ -140,28 +139,28 @@ bot.on("messageCreate", (msg) =>{
 
 //Events
 bot.on('disconnect', () => {
-    console.log('Bot has now Disconnected from Discord')
+    console.red('Bot has now Disconnected from Discord')
 })
 
 bot.on('warn', (message, id) => {
-    console.log(`Warning: Shard ${id} - ${message}`)
+    console.yellow(`Warning: Shard ${id} - ${message}`)
 })
 
 bot.on('error', (error, id) => {
-    console.log(`Error: Shard ${id} - ${error['stack']}`)
+    console.red(`Error: Shard ${id} - ${error['stack']}`)
 
 })
 
 bot.on('shardReady', id => {
-    console.log(`Shard ${id} is Now Ready`)
+    console.green(`Shard ${id} is Now Ready`)
 })
 
 bot.on('shardResume', id => {
-    console.log(`Shard ${id} has Resumed`)
+    console.yellow(`Shard ${id} has Resumed`)
 })
 
 bot.on('shardDisconnect', (error, id) => {
-    console.log(`Shard ${id} has Disconnected` + (error ? ': ' + error.message : ''))
+    console.red(`Shard ${id} has Disconnected` + (error ? ': ' + error.message : ''))
 })
 
 bot.connect();
