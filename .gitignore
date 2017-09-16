@@ -1,6 +1,6 @@
 # Dependency directories
 node_modules
 #Data
-./data
+data
 #.bat
 *.bat
