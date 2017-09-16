@@ -27,7 +27,7 @@ const rl = readline.createInterface({
     output: process.stdout,
     prompt: 'BonGon>'
 });
-console.clear();
+
 fs.readdir('./commands/', (err, files) => {
     if (err) console.error(err);
     console.cyan(`Attempting to load a total of ${files.length} commands into the memory.`, false);
