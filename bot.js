@@ -3,8 +3,11 @@ const fs = require('fs');
 const schedule = require('node-schedule')
 const config = require('./config.json')
 const Enmap = require("enmap");
+const readline = require('readline');
+
+
 schedule.scheduleJob({hour: 00, minute: 00}, () => {
-    bot.settings.set(msg.author.id['daily'], false)
+    bot.gons.set(msg.author.id['daily'], false)
 })
 var bot = new Eris(config.token);
 const talkedRecently = new Set();
@@ -12,11 +15,18 @@ bot.getBotGateway().then(result => {
     let shards = result.shards;
     bot.options.maxShards = shards
 });
+
+
 bot.settings = new Enmap({name: "settings", persistent: true});
-bot.settings = new Enmap({name: "gons", persistent: true});
+bot.gons = new Enmap({name: "gons", persistent: true});
 bot.commands = new Eris.Collection();
 bot.aliases = new Eris.Collection();
 bot.functions = new Eris.Collection();
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
 
 fs.readdir('./commands/', (err, files) => {
     if (err) console.error(err);
@@ -83,6 +93,16 @@ bot.editStatus("online", {name: "j!help | BonGon", type: 0});
 //Ready Event
 bot.on("ready", () => {
 
+    /*rl.question(`Welcome to the BonGon console. Type 'help'. For a list of all the commands`, (answer) => {
+        switch(answer){
+            case "help":
+                console.log("gons :: A way of getting an amount of gons from someone.")
+            case "gons":
+                rl.question(`Type the user id of the person`, (answer) => {
+
+                }
+        }
+    });*/
 });
 
 
