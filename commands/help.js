@@ -1,5 +1,5 @@
 const Eris = require("eris");
-module.exports.run = (bot, msg, args) => {
+exports.run = (bot, msg, args) => {
     const config = require("../config.json");
 
     if (!args[0]) {
@@ -19,8 +19,7 @@ module.exports.run = (bot, msg, args) => {
             }
         }
 
-        msg.channel.createMessage(output, {code:"asciidoc"});
-        for(var key in bot.commands.keys()){
+        /*for(var key in bot.commands.keys()){
             var obj = bot.commands.get(key);
             console.log(bot.commands)
             for (var prop in obj) {
@@ -53,7 +52,7 @@ module.exports.run = (bot, msg, args) => {
             var tempdict = {name: categories[category], value: value, inline: true}
             embeds.fields.push(tempdict)
         }
-        msg.channel.createMessage( {embed} )
+        msg.channel.createMessage( {embed} )*/
     } else{
         const command = args[0];
         if (bot.commands.has(command)) {
@@ -116,7 +115,8 @@ module.exports.run = (bot, msg, args) => {
     }
 }
 exports.conf = {
-    aliases:["h"]
+    aliases:["h"],
+    guildOnly: false
 }
 exports.help = {
     name: "help",

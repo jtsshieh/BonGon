@@ -35,7 +35,8 @@ exports.run = (bot, msg, args) => {
     msg.channel.createMessage( { embed : embeds } )
 }
 exports.conf = {
-    aliases:[]
+    aliases:[],
+    guildOnly: false
 }
 exports.help = {
     name: "about",

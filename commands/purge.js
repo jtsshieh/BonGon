@@ -8,7 +8,8 @@ exports.run = (bot, msg, args) => {
 
 }
 exports.conf = {
-    aliases:[]
+    aliases:[],
+    guildOnly: true
 }
 exports.help = {
     name: "purge",

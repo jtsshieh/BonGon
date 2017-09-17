@@ -28,7 +28,8 @@ exports.run = (bot, msg, args) => {
 
 }
 exports.conf = {
-    aliases:["r"]
+    aliases:["r"],
+    guildOnly: false
 }
 exports.help = {
     name: "reload",

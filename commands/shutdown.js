@@ -7,6 +7,7 @@ exports.run = async (bot, msg, args) => {
 
 exports.conf = {
     aliases: [],
+    guildOnly: false
 };
 
 exports.help = {
