@@ -79,9 +79,6 @@ app.get('/', function(request, response) {
     response.render('pages/index');
 });
 
-app.listen(app.get('port'), function() {
-    console.green('Dashboard running at Port ', app.get('port'));
-});
 /*fs.readdir('./events/', (err, files) => {
     if (err) console.error(err);
     console.cyan(`Attempting to load a total of ${files.length} events into the memory.`, false);
@@ -207,3 +204,6 @@ bot.on('shardDisconnect', (error, id) => {
 })
 
 bot.connect();
+app.listen(app.get('port'), function() {
+    console.green('Dashboard running at Port ', app.get('port'));
+});
