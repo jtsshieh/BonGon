@@ -5,6 +5,7 @@ const config = require('./config.json')
 const Enmap = require("enmap");
 const readline = require('readline');
 const console = require('chalk-console');
+const startWebServer = require("./Web/Server.js");
 
 schedule.scheduleJob({hour: 00, minute: 00}, () => {
     bot.gons.set(msg.author.id['daily'], false)
@@ -15,6 +16,8 @@ bot.getBotGateway().then(result => {
     let shards = result.shards;
     bot.options.maxShards = shards
 });
+
+startWebServer(bot)
 
 bot.settings = new Enmap({name: "settings", persistent: true});
 bot.gons = new Enmap({name: "gons", persistent: true});
@@ -64,20 +67,7 @@ fs.readdir('./functions/', (err, files) => {
     });
     console.green(`Function Loading complete!`)
 });
-var express = require('express');
-var app = express();
 
-app.set('port', (process.env.PORT || 5000));
-
-app.use(express.static(__dirname + '/public'));
-
-// views is directory for all template files
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
-
-app.get('/', function(request, response) {
-    response.render('pages/index');
-});
 
 /*fs.readdir('./events/', (err, files) => {
     if (err) console.error(err);
@@ -204,6 +194,3 @@ bot.on('shardDisconnect', (error, id) => {
 })
 
 bot.connect();
-app.listen(app.get('port'), function() {
-    console.green('Dashboard running at Port ', app.get('port'));
-});
