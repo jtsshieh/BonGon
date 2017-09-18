@@ -4,7 +4,7 @@
   "description": "A nice bot",
   "main": "bot.js",
   "scripts": {
-    "start": "node bot.js --production"
+    "start": "node Web/server.js --production"
   },
   "author": "Justin",
   "license": "MIT",

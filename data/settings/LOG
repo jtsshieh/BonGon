@@ -1,5 +1,5 @@
-2017/09/17-13:25:38.117 3bd24 Recovering log #5
-2017/09/17-13:25:38.117 3bd24 Level-0 table #7: started
-2017/09/17-13:25:38.477 3bd24 Level-0 table #7: 356 bytes OK
-2017/09/17-13:25:39.152 3bd24 Delete type=0 #5
-2017/09/17-13:25:39.158 3bd24 Delete type=3 #4
+2017/09/17-21:55:41.793 53f78 Recovering log #50
+2017/09/17-21:55:41.793 53f78 Level-0 table #52: started
+2017/09/17-21:55:41.998 53f78 Level-0 table #52: 391 bytes OK
+2017/09/17-21:55:42.307 53f78 Delete type=0 #50
+2017/09/17-21:55:42.313 53f78 Delete type=3 #48

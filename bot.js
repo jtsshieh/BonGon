@@ -133,6 +133,7 @@ bot.on("ready", () => {
 });
 
 bot.on("messageCreate", (msg) => {
+
     let prefix = ""
     if (msg.author.bot) return;
     if (msg.channel.guild){
@@ -144,17 +145,16 @@ bot.on("messageCreate", (msg) => {
     else{
         prefix = "j!"
     }
-    if (!msg.content.startsWith()) return;
-    let command = msg.content.split(' ')[0].slice(prefix);
+    let command = msg.content.split("j!")[1];
     let args = msg.content.split(' ').slice(1);
     let cmd;
+    console.log(command)
     if (bot.commands.has(command)) {
         cmd = bot.commands.get(command);
     } else if (bot.aliases.has(command)) {
         cmd = bot.commands.get(bot.aliases.get(command));
     }
     if (cmd) {
-        if (cmd && !msg.channel.guild && cmd.conf.guildOnly) return msg.channel.createMessage("This command is unavailable through private messages. Please run this command in a guild.");
         try{
             cmd.run(bot, msg, args);
         }
