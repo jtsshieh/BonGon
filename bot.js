@@ -5,7 +5,6 @@ const config = require('./config.json')
 const Enmap = require("enmap");
 const readline = require('readline');
 const console = require('chalk-console');
-const startWebServer = require("./Web/Server.js");
 
 schedule.scheduleJob({hour: 00, minute: 00}, () => {
     bot.gons.set(msg.author.id['daily'], false)
@@ -16,8 +15,6 @@ bot.getBotGateway().then(result => {
     let shards = result.shards;
     bot.options.maxShards = shards
 });
-
-startWebServer(bot)
 
 bot.settings = new Enmap({name: "settings", persistent: true});
 bot.gons = new Enmap({name: "gons", persistent: true});
