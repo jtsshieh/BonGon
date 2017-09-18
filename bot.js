@@ -148,7 +148,6 @@ bot.on("messageCreate", (msg) => {
     let command = msg.content.split("j!")[1];
     let args = msg.content.split(' ').slice(1);
     let cmd;
-    console.log(command)
     if (bot.commands.has(command)) {
         cmd = bot.commands.get(command);
     } else if (bot.aliases.has(command)) {
