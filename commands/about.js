@@ -1,8 +1,8 @@
-const Eris = require("eris");
+const Eris = require('eris');
 exports.run = (bot, msg, args) => {
     var embeds = {
-        title: "About BonGon",
-        description: "A few important things",
+        title: 'About BonGon',
+        description: 'A few important things',
         author: {
             name: msg.author.username,
             icon_url: msg.author.avatarURL
@@ -10,21 +10,21 @@ exports.run = (bot, msg, args) => {
         color: 0x00afff,
         fields: [
             {
-                name: "Licence",
-                value: "BonGon is licenced under the MIT licence",
+                name: 'Licence',
+                value: 'BonGon is licenced under the MIT licence',
                 inline : true
             },
             {
-                name: "Privacy Policy",
-                value: "You agree that this bot will use you and your guild members information to enhance your expierience. If you do not agree to this, either kick the bot off your guild or leave the guild with the bot.",
+                name: 'Privacy Policy',
+                value: 'You agree that this bot will use you and your guild members information to enhance your expierience. If you do not agree to this, either kick the bot off your guild or leave the guild with the bot.',
                 inline: true
             },
             {
-                name: "Credits",
-                value: "Creator: jtsshieh#6242 \nLibrary: Eris \nA HUGE Helper: ElJay #7711 \non the Unofficial Discord API server"
+                name: 'Credits',
+                value: 'Creator: jtsshieh#6242 \nLibrary: Eris \nA HUGE Helper: ElJay #7711 \non the Unofficial Discord API server'
             },
             {
-                name: "Shard Id",
+                name: 'Shard Id',
                 value: msg.member.guild.shard.id
             },
         ],
@@ -39,9 +39,9 @@ exports.conf = {
     guildOnly: false
 }
 exports.help = {
-    name: "about",
-    description: "Displays the about page",
-    usage: "j!about",
+    name: 'about',
+    description: 'Displays the about page',
+    usage: 'j!about',
     permlevel: 0,
-    category: "Other"
+    category: 'Other'
 }

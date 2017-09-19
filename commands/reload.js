@@ -1,9 +1,9 @@
-const Eris = require("eris");
+const Eris = require('eris');
 const fs = require('fs');
 exports.run = (bot, msg, args) => {
-    if(!args || args.size < 1) return message.reply("Must provide a command name to reload.");
+    if(!args || args.size < 1) return message.reply('Must provide a command name to reload.');
     // the path is relative to the *current folder*, so just ./filename.js
-    if(msg.author.id == "236279900728721409"){
+    if(msg.author.id == '236279900728721409'){
         let command;
         if (bot.commands.has(args[0])) {
             command = args[0];
@@ -28,13 +28,13 @@ exports.run = (bot, msg, args) => {
 
 }
 exports.conf = {
-    aliases:["r"],
+    aliases:['r'],
     guildOnly: false
 }
 exports.help = {
-    name: "reload",
-    description: "Reloads other commands/functions.",
-    usage: "j!reload <type:args[0]> <name:name>",
+    name: 'reload',
+    description: 'Reloads other commands/functions.',
+    usage: 'j!reload <type:args[0]> <name:name>',
     permlevel: 11,
-    category: "Owner"
+    category: 'Owner'
 }

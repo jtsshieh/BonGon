@@ -1,11 +1,11 @@
-const Eris = require("eris");
+const Eris = require('eris');
 exports.run = (bot, msg, args) => {
-    const config = require("../config.json");
+    const config = require('../config.json');
 
     if (!args[0]) {
         var embed = {
-            title: "Help",
-            description: "The wonderful fantastic help message",
+            title: 'Help',
+            description: 'The wonderful fantastic help message',
             author: {
                 name: msg.author.username,
                 icon_url: msg.author.avatarURL
@@ -23,7 +23,7 @@ exports.run = (bot, msg, args) => {
             var obj = bot.commands.get(key);
             console.log(bot.commands)
             for (var prop in obj) {
-                if (prop != "run") {
+                if (prop != 'run') {
                     matched = false;
                     for(var i in categories) {
                        if (categories[i] == bot.commands.keys().help.category) {
@@ -38,13 +38,13 @@ exports.run = (bot, msg, args) => {
             }
         }
         for (var category in categories) {
-            var value = ""
+            var value = ''
             for(var key in bot.commands.keys()){
                 var obj = bot.commands.keys()
                 for (var prop in obj){
-                    if (prop != "run") {
+                    if (prop != 'run') {
                         if (bot.commands.keys().help.category === categories[category]){
-                            value = value + key + "\n"
+                            value = value + key + '\n'
                         }
                     }
                 }
@@ -66,22 +66,22 @@ exports.run = (bot, msg, args) => {
                 color: 0x00afff,
                 fields: [
                     {
-                        name: "Command",
+                        name: 'Command',
                         value: `${args[0]}`,
                         inline:true
                     },
                     {
-                        name: "Usage",
+                        name: 'Usage',
                         value: commands.help.usage,
                         inline:true
                     },
                     {
-                        name:"Perm Level",
+                        name:'Perm Level',
                         value: commands.help.permlevel,
                         inline:true
                     },
                     {
-                        name: "Description",
+                        name: 'Description',
                         value: commands.help.description,
                         inline: true
                     }
@@ -101,7 +101,7 @@ exports.run = (bot, msg, args) => {
                 color: 0xff0000,
                 fields: [
                     {
-                        name: "Command not found",
+                        name: 'Command not found',
                         value: `The command ${args[0]} was not found in the system. Type j!help for help`,
                         inline:true
                     }
@@ -115,13 +115,13 @@ exports.run = (bot, msg, args) => {
     }
 }
 exports.conf = {
-    aliases:["h"],
+    aliases:['h'],
     guildOnly: false
 }
 exports.help = {
-    name: "help",
-    description: "Displays all the commands or a page with information for 1 command.",
-    usage: "j!help (command)",
+    name: 'help',
+    description: 'Displays all the commands or a page with information for 1 command.',
+    usage: 'j!help (command)',
     permlevel: 0,
-    category: "Other"
+    category: 'Other'
 }
