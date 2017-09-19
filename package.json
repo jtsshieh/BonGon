@@ -1,7 +1,7 @@
 {
   "name": "BonGon",
   "version": "1.0.0",
-  "description": "A nice bot",
+  "description": "A bot for Discord made in Eris",
   "main": "bot.js",
   "scripts": {
     "start": "node Web/server.js --production"
