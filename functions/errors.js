@@ -1,4 +1,3 @@
-const Eris = require('eris');
 module.exports = (bot) =>{
     bot.errorMessage = (bot, error) => {
         var embed = {
@@ -16,12 +15,12 @@ module.exports = (bot) =>{
                 }
             ],
             footer: {
-                text: ` This error has automatically been reported to jtsshieh#6424`
+                text: 'This error has automatically been reported to jtsshieh#6424'
             }
-        }
+        };
         bot.getDMChannel('236279900728721409').then(channel => {
             channel.createMessage({embed});
         });
-        return embed
-    }
-}
+        return embed;
+    };
+};

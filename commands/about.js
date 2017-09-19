@@ -1,5 +1,4 @@
-const Eris = require('eris');
-exports.run = (bot, msg, args) => {
+exports.run = (bot, msg) => {
     var embeds = {
         title: 'About BonGon',
         description: 'A few important things',
@@ -31,17 +30,17 @@ exports.run = (bot, msg, args) => {
         footer: {
             text: `This message was delivered to ${msg.author.username}`
         }
-    }
-    msg.channel.createMessage( { embed : embeds } )
-}
+    };
+    msg.channel.createMessage( { embed : embeds } );
+};
 exports.conf = {
     aliases:[],
     guildOnly: false
-}
+};
 exports.help = {
     name: 'about',
     description: 'Displays the about page',
     usage: 'j!about',
     permlevel: 0,
     category: 'Other'
-}
+};

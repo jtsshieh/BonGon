@@ -1,11 +1,8 @@
-const Eris = require('eris');
 exports.run = (bot, msg, args) => {
-    const config = require('../config.json');
-
     if (!args[0]) {
-        var embed = {
+        let embed = {
             title: 'Help',
-            description: 'The wonderful fantastic help message',
+            description: `Commands start with ${bot.settings.get(msg.member.channel.id).prefix}`,
             author: {
                 name: msg.author.username,
                 icon_url: msg.author.avatarURL
@@ -15,9 +12,9 @@ exports.run = (bot, msg, args) => {
 
             ],
             footer: {
-                text: `To view help for a specific command, type ${config.prefix}help [command]`
+                text: 'To view help for a specific command, type ${config.prefix}help [command]'
             }
-        }
+        };
 
         /*for(var key in bot.commands.keys()){
             var obj = bot.commands.get(key);
@@ -51,23 +48,24 @@ exports.run = (bot, msg, args) => {
             }
             var tempdict = {name: categories[category], value: value, inline: true}
             embeds.fields.push(tempdict)
-        }
-        msg.channel.createMessage( {embed} )*/
+        }*/
+        msg.channel.createMessage( {embed} );
     } else{
-        const command = args[0];
+        let command = args[0];
         if (bot.commands.has(command)) {
-            commands = bot.commands.get(command);
-            var embed = {
+            let commands = bot.commands.get(command);
+            var embed = {};
+            embed = {
                 title: `Help for the command ${args[0]}`,
                 author: {
-                    name: `BonGon`,
+                    name: 'BonGon',
                     icon_url: bot.user.avatarURL
                 },
                 color: 0x00afff,
                 fields: [
                     {
                         name: 'Command',
-                        value: `${args[0]}`,
+                        value: args[0],
                         inline:true
                     },
                     {
@@ -87,15 +85,15 @@ exports.run = (bot, msg, args) => {
                     }
                 ],
                 footer: {
-                    text: `Parameter wrapped in () are optional. Parameters wrapped in <> are required.`
+                    text: 'Parameter wrapped in () are optional. Parameters wrapped in <> are required.'
                 }
-            }
+            };
         }
         else{
-            var embed = {
-                title: `Error`,
+            embed = {
+                title: 'Error',
                 author: {
-                    name: `BonGon`,
+                    name: 'BonGon',
                     icon_url: bot.user.avatarURL
                 },
                 color: 0xff0000,
@@ -107,21 +105,21 @@ exports.run = (bot, msg, args) => {
                     }
                 ],
                 footer: {
-                    text: `Parameter wrapped in () are optional. Parameters wrapped in <> are required.`
+                    text: 'Parameter wrapped in () are optional. Parameters wrapped in <> are required.'
                 }
-            }
+            };
         }
-        msg.channel.createMessage( {embed} )
+        msg.channel.createMessage( {embed} );
     }
-}
+};
 exports.conf = {
     aliases:['h'],
     guildOnly: false
-}
+};
 exports.help = {
     name: 'help',
     description: 'Displays all the commands or a page with information for 1 command.',
     usage: 'j!help (command)',
     permlevel: 0,
     category: 'Other'
-}
+};

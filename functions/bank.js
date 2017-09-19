@@ -1,4 +1,3 @@
-const Eris = require('eris');
 module.exports = (bot) =>{
     bot.bank = (msg, bot, numberOfFields, names, values, inline) => {
         var embed = {
@@ -15,11 +14,11 @@ module.exports = (bot) =>{
             footer: {
                 text: `This message was delivered to ${msg.author.username}`
             }
-        }
+        };
         for(var i = 0; i < numberOfFields; i++){
-            var tempdict = {name: names[i], value: values[i], inline: inline[i]}
-            embed.fields.push(tempdict)
+            var tempdict = {name: names[i], value: values[i], inline: inline[i]};
+            embed.fields.push(tempdict);
         }
-        return embed
-    }
-}
+        return embed;
+    };
+};

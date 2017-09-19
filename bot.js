@@ -1,23 +1,24 @@
-const Eris = require("eris");
+const Eris = require('eris');
 const fs = require('fs');
-const schedule = require('node-schedule')
-const config = require('./config.json')
-const Enmap = require("enmap");
+const schedule = require('node-schedule');
+const config = require('./config.json');
+const Enmap = require('enmap');
 const readline = require('readline');
 const console = require('chalk-console');
 
-schedule.scheduleJob({hour: 00, minute: 00}, () => {
-    bot.gons.set(msg.author.id['daily'], false)
-})
+schedule.scheduleJob({hour: 0, minute: 0}, () => {
+    for (let key in bot.gons) {
+        bot.gons.set(key['daily'], false);
+    }
+});
 var bot = new Eris(config.token);
-const talkedRecently = new Set();
 bot.getBotGateway().then(result => {
     let shards = result.shards;
-    bot.options.maxShards = shards
+    bot.options.maxShards = shards;
 });
 
-bot.settings = new Enmap({name: "settings", persistent: true});
-bot.gons = new Enmap({name: "gons", persistent: true});
+bot.settings = new Enmap({name: 'settings', persistent: true});
+bot.gons = new Enmap({name: 'gons', persistent: true});
 bot.commands = new Eris.Collection();
 bot.aliases = new Eris.Collection();
 
@@ -37,15 +38,15 @@ fs.readdir('./commands/', (err, files) => {
             bot.commands.set(command.help.name, command);
             command.conf.aliases.forEach(alias => {
                 bot.aliases.set(alias, command.help.name);
-                console.blue(`Attempting to load "${alias}" as an alias for "${command.help.name}"`, false)
+                console.blue(`Attempting to load "${alias}" as an alias for "${command.help.name}"`, false);
             });
         }
         catch(err){
-            console.red(`An error has occured trying to load a command. Here is the error.`)
-            console.red(err)
+            console.red('An error has occured trying to load a command. Here is the error.');
+            console.red(err);
         }
     });
-    console.green(`Command Loading complete!`)
+    console.green('Command Loading complete!');
 });
 
 fs.readdir('./functions/', (err, files) => {
@@ -55,14 +56,14 @@ fs.readdir('./functions/', (err, files) => {
 
         try{
             require(`./functions/${file}`)(bot);
-            console.blue(`Attempting to load the function "${file.substr(0, file.lastIndexOf("."))}".`, false);
+            console.blue(`Attempting to load the function "${file.substr(0, file.lastIndexOf('.'))}".`, false);
         }
         catch(err){
-            console.red(`An error has occured trying to load a function. Here is the error.`)
-            console.red(err.stack)
+            console.red('An error has occured trying to load a function. Here is the error.');
+            console.red(err.stack);
         }
     });
-    console.green(`Function Loading complete!`)
+    console.green('Function Loading complete!');
 });
 
 
@@ -71,7 +72,7 @@ fs.readdir('./functions/', (err, files) => {
     console.cyan(`Attempting to load a total of ${files.length} events into the memory.`, false);
     files.forEach(file => {
         try{
-            let eventName = file.split(".")[0];
+            let eventName = file.split('.')[0];
             let event = require(`./events/${file}`)(bot);
             console.blue(`Attempting to load the event "${eventName}".`, false);
             bot.on(eventName, (...args) => event.execute(...args));
@@ -87,9 +88,9 @@ fs.readdir('./functions/', (err, files) => {
 
 
 
-bot.on("guildCreate", (guild) => {
-    bot.settings.set(guild.id, {"prefix": "j!", "modlogs":"mod-logs", "welcome": false, "welcomeMessage": "Welcome to the server", "welcomeChannel" : "general", "Perm2": "Trusted", "Perm3": "Moderator", "Perm4" : "Admin", "Perm5": "Owner"});
-})
+bot.on('guildCreate', (guild) => {
+    bot.settings.set(guild.id, {'prefix': 'j!', 'modlogs':'mod-logs', 'welcome': false, 'welcomeMessage': 'Welcome to the server', 'welcomeChannel' : 'general', 'Perm2': 'Trusted', 'Perm3': 'Moderator', 'Perm4' : 'Admin', 'Perm5': 'Owner'});
+});
 
 bot.reload = command => {
     return new Promise((resolve, reject) => {
@@ -97,9 +98,9 @@ bot.reload = command => {
             delete require.cache[require.resolve(`./commands/${command}`)];
             let cmd = require(`./commands/${command}`);
             bot.commands.delete(command);
-                bot.aliases.forEach((cmd, alias) => {
-                    if (cmd === command) bot.aliases.delete(alias);
-                });
+            bot.aliases.forEach((cmd, alias) => {
+                if (cmd === command) bot.aliases.delete(alias);
+            });
             bot.commands.set(command, cmd);
             cmd.conf.aliases.forEach(alias => {
                 bot.aliases.set(alias, cmd.help.name);
@@ -110,10 +111,10 @@ bot.reload = command => {
         }
     });
 };
-bot.editStatus("online", {name: "j!help | BonGon", type: 0});
+bot.editStatus('online', {name: 'j!help | BonGon', type: 0});
 //Ready Event
-bot.on("ready", () => {
-    console.log("Welcome to the BonGon Console. To list all the commands, type 'help'")
+bot.on('ready', () => {
+    console.log('Welcome to the BonGon Console. To list all the commands, type "help"');
     rl.prompt();
 
     rl.on('line', (line) => {
@@ -122,30 +123,31 @@ bot.on("ready", () => {
                 console.log('help :: Display help for the console \nexit :: Exits this program');
                 break;
             case 'exit':
-                console.log('Bye Bye!')
-                process.exit(0)
+                console.log('Bye Bye!');
+                process.exit(0);
+                break;
             default:
                 console.log(`'${line.trim()}' is not one of the commads`);
-            break;
-      }
-      rl.prompt();
-    })
+                break;
+        }
+        rl.prompt();
+    });
 });
 
-bot.on("messageCreate", (msg) => {
+bot.on('messageCreate', (msg) => {
 
-    let prefix = ""
+    let prefix = '';
     if (msg.author.bot) return;
     if (msg.channel.guild){
         if (bot.settings.get(msg.member.guild.id) == undefined){
-            bot.settings.set(msg.member.guild.id, {"prefix": "j!", "modlogs":"mod-logs", "welcome": false, "welcomeMessage": "Welcome to the server", "welcomeChannel" : "general", "Perm2": "Trusted", "Perm3": "Moderator", "Perm4" : "Admin", "Perm5": "Owner"});
+            bot.settings.set(msg.member.guild.id, {'prefix': 'j!', 'modlogs':'mod-logs', 'welcome': false, 'welcomeMessage': 'Welcome to the server', 'welcomeChannel' : 'general', 'Perm2': 'Trusted', 'Perm3': 'Moderator', 'Perm4' : 'Admin', 'Perm5': 'Owner'});
         }
-        prefix = bot.settings.get(msg.member.guild.id).prefix
+        prefix = bot.settings.get(msg.member.guild.id).prefix;
     }
     else{
-        prefix = "j!"
+        prefix = 'j!';
     }
-    let command = msg.content.split("j!")[1];
+    let command = msg.content.split(prefix)[1];
     let args = msg.content.split(' ').slice(1);
     let cmd;
     if (bot.commands.has(command)) {
@@ -158,35 +160,35 @@ bot.on("messageCreate", (msg) => {
             cmd.run(bot, msg, args);
         }
         catch(e){
-            msg.channel.createMessage({ embed: bot.errorMessage(bot, e.stack) })
+            msg.channel.createMessage({ embed: bot.errorMessage(bot, e.stack) });
         }
     }
 });
 
 //Events
 bot.on('disconnect', () => {
-    console.red('Bot has now Disconnected from Discord')
-})
+    console.red('Bot has now Disconnected from Discord');
+});
 
 bot.on('warn', (message, id) => {
-    console.yellow(`Warning: Shard ${id} - ${message}`)
-})
+    console.yellow(`Warning: Shard ${id} - ${message}`);
+});
 
 bot.on('error', (error, id) => {
-    console.red(`Error: Shard ${id} - ${error['stack']}`)
+    console.red(`Error: Shard ${id} - ${error['stack']}`);
 
-})
+});
 
 bot.on('shardReady', id => {
-    console.green(`Shard ${id} is Now Ready`)
-})
+    console.green(`Shard ${id} is Now Ready`);
+});
 
 bot.on('shardResume', id => {
-    console.yellow(`Shard ${id} has Resumed`)
-})
+    console.yellow(`Shard ${id} has Resumed`);
+});
 
 bot.on('shardDisconnect', (error, id) => {
-    console.red(`Shard ${id} has Disconnected` + (error ? ': ' + error.message : ''))
-})
+    console.red(`Shard ${id} has Disconnected` + (error ? ': ' + error.message : ''));
+});
 
 bot.connect();
