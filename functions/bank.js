@@ -1,9 +1,9 @@
-const Eris = require("eris");
+const Eris = require('eris');
 module.exports = (bot) =>{
     bot.bank = (msg, bot, numberOfFields, names, values, inline) => {
         var embed = {
-            title: "The Bank",
-            description: "*A important message from the gon bank :bank:*",
+            title: 'The Bank',
+            description: '*A important message from the gon bank :bank:*',
             author: {
                 name: msg.author.username,
                 icon_url: msg.author.avatarURL
