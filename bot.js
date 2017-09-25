@@ -2,13 +2,12 @@ const Eris = require('eris');
 const fs = require('fs');
 const schedule = require('node-schedule');
 const config = require('./config.json');
-const Enmap = require('enmap');
 const readline = require('readline');
 const console = require('chalk-console');
 
 schedule.scheduleJob({hour: 0, minute: 0}, () => {
     for (let key in bot.gons) {
-        bot.gons.set(key['daily'], false);
+        bot.gons.set(key['daily'], 'false');
     }
 });
 var bot = new Eris(config.token);
@@ -17,8 +16,8 @@ bot.getBotGateway().then(result => {
     bot.options.maxShards = shards;
 });
 
-bot.settings = new Enmap({name: 'settings', persistent: true});
-bot.gons = new Enmap({name: 'gons', persistent: true});
+bot.settings = new Eris.Collection;
+bot.gons = new Eris.Collection;
 bot.commands = new Eris.Collection();
 bot.aliases = new Eris.Collection();
 
@@ -147,8 +146,9 @@ bot.on('messageCreate', (msg) => {
     else{
         prefix = 'j!';
     }
-    let command = msg.content.split(prefix)[1];
-    let args = msg.content.split(' ').slice(1);
+    let args = msg.content.slice(prefix.length).trim().split(/ +/g);
+    let command = args.shift();
+    console.log(args);
     let cmd;
     if (bot.commands.has(command)) {
         cmd = bot.commands.get(command);
