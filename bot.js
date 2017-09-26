@@ -2,6 +2,7 @@ const Eris = require('eris');
 const fs = require('fs');
 const schedule = require('node-schedule');
 const config = require('./config.json');
+const Enmap = require('enmap');
 const readline = require('readline');
 const console = require('chalk-console');
 
@@ -16,8 +17,8 @@ bot.getBotGateway().then(result => {
     bot.options.maxShards = shards;
 });
 
-bot.settings = new Eris.Collection;
-bot.gons = new Eris.Collection;
+bot.settings = new Enmap({name: 'settings', persistent: true});
+bot.gons = new Enmap({name: 'gons', persistent: true});
 bot.commands = new Eris.Collection();
 bot.aliases = new Eris.Collection();
 

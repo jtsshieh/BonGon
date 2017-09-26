@@ -1,15 +1,14 @@
-exports.run = (bot, msg, args) => {
-    if(!args.length) return msg.channel.createMessage('Must provide a number of messagees to purge.');
-    const user = message.mentions.users.first();
-    const amount = parseInt(message.content.split(' ')[1]) ? parseInt(message.content.split(' ')[1]) : parseInt(message.content.split(' ')[2]);
-    if (!amount) return message.reply('Must specify an amount to delete!');
-    if (!amount && !user) return message.reply('Must specify a user and amount, or just an amount, of messages to purge!');
-    message.channel.fetchMessages({ limit: amount }).then((messages) => {
+exports.run = (bot, msg) => {
+    const user = msg.mentions.users.first();
+    const amount = parseInt(msg.content.split(' ')[1]) ? parseInt(msg.content.split(' ')[1]) : parseInt(msg.content.split(' ')[2]);
+    if (!amount) return msg.reply('Must specify an amount to delete!');
+    if (!amount && !user) return msg.reply('Must specify a user and amount, or just an amount, of msgs to purge!');
+    msg.channel.fetchmsgs({ limit: amount }).then((msgs) => {
         if (user) {
-            const filterBy = user ? user.id : this.client.user.id;
-            messages = messages.filter(m => m.author.id === filterBy).array().slice(0, amount);
+            const filterBy = user ? user.id : this.bot.user.id;
+            msgs = msgs.filter(m => m.author.id === filterBy).array().slice(0, amount);
         }
-        message.channel.bulkDelete(messages).catch(error => console.log(error.stack));
+        msg.channel.purge(msgs).catch(error => console.log(error.stack));
     });
 };
 exports.conf = {
@@ -18,8 +17,8 @@ exports.conf = {
 };
 exports.help = {
     name: 'purge',
-    description: 'Deletes many messages quickly',
-    usage: 'j!purge <number:messages>',
+    description: 'Deletes many msgs quickly',
+    usage: 'j!purge <number:msgs>',
     permlevel: 5,
     category:'Mod'
 };

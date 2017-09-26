@@ -1,5 +1,5 @@
 exports.run = (bot, msg) => {
-    if(bot.gons.has(msg.author.id)) {
+    if(bot.gons.get(msg.author.id) == undefined) {
         if(bot.gons.get(msg.author.id)['daily'] === 'false'){
             bot.gons.get(msg.author.id)['gons'] +=100;
             bot.gons.get(msg.author.id)['daily'] = 'true';
