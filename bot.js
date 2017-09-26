@@ -147,6 +147,7 @@ bot.on('messageCreate', (msg) => {
     else{
         prefix = 'j!';
     }
+    if (!msg.content.startsWith(prefix))return;
     let args = msg.content.slice(prefix.length).trim().split(/ +/g);
     let command = args.shift();
     let cmd;
