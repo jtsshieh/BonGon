@@ -2,3 +2,5 @@
 node_modules
 #.bat
 *.bat
+#config
+config.json
