@@ -149,7 +149,6 @@ bot.on('messageCreate', (msg) => {
     }
     let args = msg.content.slice(prefix.length).trim().split(/ +/g);
     let command = args.shift();
-    console.log(args);
     let cmd;
     if (bot.commands.has(command)) {
         cmd = bot.commands.get(command);
