@@ -1,0 +1,14 @@
+2017/10/02-19:27:56.274 e5d8 Recovering log #64
+2017/10/02-19:27:56.275 e5d8 Level-0 table #66: started
+2017/10/02-19:27:56.339 e5d8 Level-0 table #66: 397 bytes OK
+2017/10/02-19:27:56.450 e5d8 Delete type=0 #64
+2017/10/02-19:27:56.461 e5d8 Delete type=3 #62
+2017/10/02-19:27:56.475 e5ec Compacting 4@0 + 1@1 files
+2017/10/02-19:27:56.566 e5ec Generated table #68@0: 2 keys, 397 bytes
+2017/10/02-19:27:56.566 e5ec Compacted 4@0 + 1@1 files => 397 bytes
+2017/10/02-19:27:56.588 e5ec compacted to: files[ 0 1 0 0 0 0 0 ]
+2017/10/02-19:27:56.588 e5ec Delete type=2 #55
+2017/10/02-19:27:56.590 e5ec Delete type=2 #57
+2017/10/02-19:27:56.594 e5ec Delete type=2 #60
+2017/10/02-19:27:56.598 e5ec Delete type=2 #63
+2017/10/02-19:27:56.628 e5ec Delete type=2 #66
