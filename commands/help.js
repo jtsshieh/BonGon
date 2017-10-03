@@ -12,8 +12,8 @@ exports.run = (bot, msg, args) => {
         } else{
             embed.setTitle('Error');
             embed.setAuthor('BonGon', bot.user.avatarURL);
-            embed.setColor(0x00afff);
-            embed.addField('Command not found', `The command ${command} was not found in the system. Type ${prefix}help for help`);
+            embed.setColor(0xff0000);
+            embed.addField('Command not found', `The command ${args[0]} was not found in the system. Type ${prefix}help for help`);
             embed.setFooter('Parameter wrapped in () are optional. Parameters wrapped in <> are required.');
             embed.setTimestamp();
         }
