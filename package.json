@@ -14,6 +14,7 @@
     "enmap": "^0.1.2",
     "eris": "^0.7.2",
     "express": "^4.15.4",
+    "native-level-promise": "^0.1.0",
     "node-schedule": "^1.2.4"
   },
   "engines": {

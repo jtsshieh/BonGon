@@ -21,6 +21,7 @@ bot.settings = new Enmap({name: 'settings', persistent: true});
 bot.gons = new Enmap({name: 'gons', persistent: true});
 bot.commands = new Eris.Collection();
 bot.aliases = new Eris.Collection();
+bot.RichEmbed = require ('./structures/embed.js');
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -89,7 +90,24 @@ fs.readdir('./functions/', (err, files) => {
 
 
 bot.on('guildCreate', (guild) => {
-    bot.settings.set(guild.id, {'prefix': 'j!', 'modlogs':'mod-logs', 'welcome': false, 'welcomeMessage': 'Welcome to the server', 'welcomeChannel' : 'general', 'Perm2': 'Trusted', 'Perm3': 'Moderator', 'Perm4' : 'Admin', 'Perm5': 'Owner'});
+    bot.settings.set(guild.id, {'prefix': 'b!', 'modlogs':'mod-logs', 'welcome': 1, 'welcomeMessage': 'Welcome to the server {mention}', 'welcomeChannel' : 'general', 'Perm2': 'Trusted', 'Perm3': 'Moderator', 'Perm4' : 'Admin', 'Perm5': 'Owner'});
+});
+
+bot.on('guildMemberAdd', (guild, member) => {
+    if (bot.settings.get(guild.id) == undefined){
+        bot.settings.set(guild.id, {'prefix': 'b!', 'modlogs':'mod-logs', 'welcome': 0, 'welcomeMessage': 'Welcome to the server {mention}', 'welcomeChannel' : 'general', 'Perm2': 'Trusted', 'Perm3': 'Moderator', 'Perm4' : 'Admin', 'Perm5': 'Owner'});
+    }
+    if(!bot.settings.get(guild.id).welcome == 0 && !bot.settings.get(guild.id).welcomeMessage == ''){
+        let welcome = bot.settings.get(guild.id).welcomeMessage.replace(/{user}}/gi, member.username);
+        welcome = welcome.replace(/{mention}}/gi, member.mention);
+        let welcomeChannel = guild.channels.find('name', bot.settings.get(guild.id).welcomeChannel);
+        if(welcomeChannel){
+            welcomeChannel.createMessage(welcome);
+        }
+    }
+
+
+
 });
 
 bot.reload = command => {
@@ -111,7 +129,7 @@ bot.reload = command => {
         }
     });
 };
-bot.editStatus('online', {name: 'j!help | BonGon', type: 0});
+bot.editStatus('online', {name: 'playing playing playing playing ', type: 0});
 //Ready Event
 bot.on('ready', () => {
     console.log('Welcome to the BonGon Console. To list all the commands, type "help"');
@@ -139,13 +157,13 @@ bot.on('messageCreate', (msg) => {
     let prefix = '';
     if (msg.author.bot) return;
     if (msg.channel.guild){
-        if (bot.settings.get(msg.member.guild.id) == undefined){
-            bot.settings.set(msg.member.guild.id, {'prefix': 'j!', 'modlogs':'mod-logs', 'welcome': false, 'welcomeMessage': 'Welcome to the server', 'welcomeChannel' : 'general', 'Perm2': 'Trusted', 'Perm3': 'Moderator', 'Perm4' : 'Admin', 'Perm5': 'Owner'});
+        if (bot.settings.get(msg.channel.guild.id) == undefined){
+            bot.settings.set(msg.channel.guild.id, {'prefix': 'b!', 'modlogs':'mod-logs', 'welcome': 0, 'welcomeMessage': 'Welcome to the server {mention}', 'welcomeChannel' : 'general', 'Perm2': 'Trusted', 'Perm3': 'Moderator', 'Perm4' : 'Admin', 'Perm5': 'Owner'});
         }
-        prefix = bot.settings.get(msg.member.guild.id).prefix;
+        prefix = bot.settings.get(msg.channel.guild.id).prefix;
     }
     else{
-        prefix = 'j!';
+        prefix = 'b!';
     }
     if (!msg.content.startsWith(prefix))return;
     let args = msg.content.slice(prefix.length).trim().split(/ +/g);

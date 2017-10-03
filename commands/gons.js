@@ -18,7 +18,7 @@ exports.conf = {
 exports.help = {
     name: 'gons',
     description: 'Displays how many gons you currently have.',
-    usage: 'j!gons',
+    usage: 'gons',
     permlevel: 0,
     category: 'Gons'
 };

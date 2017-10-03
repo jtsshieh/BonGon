@@ -32,7 +32,7 @@ exports.conf = {
 exports.help = {
     name: 'reload',
     description: 'Reloads other commands/functions.',
-    usage: 'j!reload <type:args[0]> <name:name>',
+    usage: 'reload <type:args[0]> <name:name>',
     permlevel: 11,
     category: 'Owner'
 };

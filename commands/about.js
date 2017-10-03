@@ -1,37 +1,15 @@
 exports.run = (bot, msg) => {
-    var embeds = {
-        title: 'About BonGon',
-        description: 'A few important things',
-        author: {
-            name: msg.author.username,
-            icon_url: msg.author.avatarURL
-        },
-        color: 0x00afff,
-        fields: [
-            {
-                name: 'Licence',
-                value: 'BonGon is licenced under the MIT licence',
-                inline : true
-            },
-            {
-                name: 'Privacy Policy',
-                value: 'You agree that this bot will use you and your guild members information to enhance your expierience. If you do not agree to this, either kick the bot off your guild or leave the guild with the bot.',
-                inline: true
-            },
-            {
-                name: 'Credits',
-                value: 'Creator: jtsshieh#6242 \nLibrary: Eris \nA HUGE Helper: ElJay #7711 \non the Unofficial Discord API server'
-            },
-            {
-                name: 'Shard Id',
-                value: msg.member.guild.shard.id
-            },
-        ],
-        footer: {
-            text: `This message was delivered to ${msg.author.username}`
-        }
-    };
-    msg.channel.createMessage( { embed : embeds } );
+    let embed = new bot.RichEmbed();
+    embed.setTitle('About BonGon');
+    embed.setDescription('A few important things');
+    embed.setAuthor(msg.author.username, msg.author.avatarURL);
+    embed.setColor(0x00aff);
+    embed.addField('Licence', 'BonGon is licenced under the MIT licence');
+    embed.addField('Privacy Policy', 'You agree that this bot will use you and your guild members information to enhance your expierience. If you do not agree to this, either kick the bot off your guild or leave the guild with the bot.');
+    embed.addField('Credits', 'Creator: jtsshieh#6242 \nLibrary: Eris \nA HUGE Helper: ElJay #7711 \non the Unofficial Discord API server');
+    embed.addField('Shard Id', msg.member.guild.shard.id);
+    embed.setTimestamp();
+    msg.channel.createMessage( { embed } );
 };
 exports.conf = {
     aliases:[],
@@ -40,7 +18,7 @@ exports.conf = {
 exports.help = {
     name: 'about',
     description: 'Displays the about page',
-    usage: 'j!about',
+    usage: 'about',
     permlevel: 0,
     category: 'Other'
 };

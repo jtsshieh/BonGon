@@ -13,7 +13,7 @@ exports.conf = {
 exports.help = {
     name: 'shutdown',
     description: 'Shutdowns the bot.',
-    usage: 'j!shutdown',
+    usage: 'shutdown',
     permlevel: 11,
     category: 'Owner'
 };

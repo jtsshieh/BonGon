@@ -27,7 +27,7 @@ exports.conf = {
 exports.help = {
     name: 'daily',
     description: 'Collects your daily gons if they are available.',
-    usage: 'j!daily',
+    usage: 'daily',
     permlevel: 0,
     category: 'Gons'
 };
