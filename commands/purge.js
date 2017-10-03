@@ -1,16 +1,36 @@
-exports.run = (bot, msg) => {
-    /*const user = msg.mentions.users.first();
-    const amount = parseInt(msg.content.split(' ')[1]) ? parseInt(msg.content.split(' ')[1]) : parseInt(msg.content.split(' ')[2]);
-    if (!amount) return msg.reply('Must specify an amount to delete!');
-    if (!amount && !user) return msg.reply('Must specify a user and amount, or just an amount, of msgs to purge!');
-    msg.channel.fetchmsgs({ limit: amount }).then((msgs) => {
-        if (user) {
-            const filterBy = user ? user.id : this.bot.user.id;
-            msgs = msgs.filter(m => m.author.id === filterBy).array().slice(0, amount);
-        }
-        msg.channel.purge(msgs).catch(error => console.log(error.stack));
-    });*/
-    msg.channel.createMessage('Purge is disabled due to technical issues.');
+exports.run = (bot, msg, args) => {
+    let user;
+    if(msg.mentions.length){
+        user = msg.mentions[0];
+    }
+    let amount = parseInt(args[0]) ? parseInt(args[0]) : parseInt(args[1]);
+    if (!amount) return msg.channel.createMessage('You must specify an amount of messages to delete.');
+    if (!amount && !user) return msg.channel.createMessage('You must specify an amount of messages to delete and a mention.');
+    msg.delete();
+    msg.channel.createMessage('Purging messages...').then(msg => {
+        setTimeout(function() {
+            if(!user){
+                msg.channel.purge(amount).then(no =>
+                    msg.channel.createMessage( `Purged ${+no} messages`).then(m => {
+                        setTimeout(function() {
+                            m.delete();
+                        }, 5000);
+                    })
+                );
+            }
+            else{
+                let filterBy = user ? user.id : this.bot.user.id;
+                msg.channel.purge(amount + 2, m => m.author.id === filterBy).then(no =>
+                    msg.channel.createMessage( `Purged ${+no} messages from ${user.username}`).then(m => {
+                        setTimeout(function() {
+                            m.delete();
+                        }, 5000);
+                    })
+                );
+            }
+            msg.delete();
+        }, 500);
+    });
 };
 exports.conf = {
     aliases:[],
@@ -19,7 +39,7 @@ exports.conf = {
 exports.help = {
     name: 'purge',
     description: 'Deletes many msgs quickly',
-    usage: 'purge <number:msgs>',
+    usage: 'purge (user:mention) <number:msgs>',
     permlevel: 5,
     category:'Mod'
 };
