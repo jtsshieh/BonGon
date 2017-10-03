@@ -37,7 +37,7 @@ exports.run = (bot, msg, args) => {
 
 };
 exports.conf = {
-    aliases: ['r'],
+    aliases: ['r', 'load'],
     guildOnly: false
 };
 exports.help = {
