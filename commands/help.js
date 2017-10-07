@@ -1,6 +1,5 @@
-exports.run = (bot, msg, args) => {
+exports.run = (bot, msg, args, prefix) => {
     let embed = new bot.RichEmbed();
-    let prefix = bot.settings.get(msg.channel.guild.id).prefix;
     if (!args[0]) {
         let categories = [];
         let commands = Array.from(bot.commands.keys());

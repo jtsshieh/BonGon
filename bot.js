@@ -2,7 +2,6 @@ const Eris = require('eris');
 const fs = require('fs');
 const schedule = require('node-schedule');
 const config = require('./config.json');
-const Enmap = require('enmap');
 const readline = require('readline');
 const console = require('chalk-console');
 
@@ -17,12 +16,11 @@ bot.getBotGateway().then(result => {
     bot.options.maxShards = shards;
 });
 
-bot.settings = new Enmap({name: 'settings', persistent: true});
-bot.gons = new Enmap({name: 'gons', persistent: true});
+bot.settings = new Eris.Collection();
 bot.commands = new Eris.Collection();
 bot.aliases = new Eris.Collection();
 bot.RichEmbed = require ('./structures/embed.js');
-
+bot.servers = {};
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -90,7 +88,7 @@ fs.readdir('./functions/', (err, files) => {
 
 
 bot.on('guildCreate', (guild) => {
-    bot.settings.set(guild.id, {'prefix': 'b!', 'modlogs':'mod-logs', 'welcome': 1, 'welcomeMessage': 'Welcome to the server {mention}', 'welcomeChannel' : 'general', 'Perm2': 'Trusted', 'Perm3': 'Moderator', 'Perm4' : 'Admin', 'Perm5': 'Owner'});
+    bot.settings.set(guild.id, {'prefix': 'b!', 'modlogs':'mod-logs', 'welcome': 0, 'welcomeMessage': 'Welcome to the server {mention}', 'welcomeChannel' : 'general', 'Perm2': 'Trusted', 'Perm3': 'Moderator', 'Perm4' : 'Admin', 'Perm5': 'Owner'});
 });
 
 bot.on('guildMemberAdd', (guild, member) => {
@@ -151,7 +149,6 @@ bot.on('ready', () => {
         rl.prompt();
     });
 });
-
 bot.on('messageCreate', (msg) => {
 
     let prefix = '';
@@ -175,8 +172,13 @@ bot.on('messageCreate', (msg) => {
         cmd = bot.commands.get(bot.aliases.get(command));
     }
     if (cmd) {
+        if(cmd.conf.guildOnly == true){
+            if(!msg.channel.guild){
+                return msg.channel.createMessage('This command can only be ran in a guild.');
+            }
+        }
         try{
-            cmd.run(bot, msg, args);
+            cmd.run(bot, msg, args, prefix);
         }
         catch(e){
             msg.channel.createMessage({ embed: bot.errorMessage(bot, e.stack) });

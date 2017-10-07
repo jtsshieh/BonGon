@@ -6,7 +6,7 @@ exports.run = (bot, msg) => {
 };
 
 exports.conf = {
-    aliases: [],
+    aliases: ['shut'],
     guildOnly: false
 };
 

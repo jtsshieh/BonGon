@@ -33,7 +33,7 @@ exports.run = (bot, msg, args) => {
     });
 };
 exports.conf = {
-    aliases:[],
+    aliases:['delete', 'rm', 'remove'],
     guildOnly: true
 };
 exports.help = {
