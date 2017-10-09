@@ -1,5 +1,6 @@
 exports.run = (bot, msg) => {
     let server = bot.MusicVariables(msg.member.guild.id);
+    if(!server.queue)return msg.channel.createMessage('There is nothing currently playing');
     const currentTime = Math.round(server.dispatcher ? server.dispatcher.time / 60 : 0);
     const totalTime = Math.round(server.nowPlaying.duration / 60);
     const timeLeft = Math.round(currentTime/totalTime * 7);
