@@ -1,14 +1,14 @@
 exports.run = (bot, msg) => {
     let server = bot.MusicVariables(msg.member.guild.id);
-    const currentTime = Math.round(server.dispatcher ? server.dispatcher.time / 60 : 0 * 10);
-    const totalTime = Math.round(server.nowPlaying.duration / 60 * 10);
-    const timeLeft = Math.round(currentTime/totalTime * 5);
+    const currentTime = Math.round(server.dispatcher ? server.dispatcher.time / 60 : 0);
+    const totalTime = Math.round(server.nowPlaying.duration / 60);
+    const timeLeft = Math.round(currentTime/totalTime * 7);
     let embed = new bot.RichEmbed();
     embed.setTitle('Music Player');
     embed.setAuthor(server.nowPlaying.title, server.nowPlaying.thumbnail);
     embed.setColor(0x00afff);
     let desc = '';
-    for(let x = 0; x < 5; x++){
+    for(let x = 0; x < 7; x++){
         if(timeLeft == x){
             desc += ':radio_button:';
         }
