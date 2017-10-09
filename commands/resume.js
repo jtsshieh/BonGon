@@ -1,10 +1,10 @@
 exports.run = (bot, msg, args, prefix) => {
-    let server = bot.setUpVariables(msg);
+    let server = bot.MusicVariables(msg.member.guild.id);
     if (!server) return msg.channel.createMessage('There is nothing to resume');
     if (!server.dispatcher) return msg.channel.createMessage('There is nothing to resume');
-    if (server.playing) return msg.channel.createMessage(`You can't resume a song that is already playing. Try ${prefix}pause`);
+    if (server.nowPlaying.playing) return msg.channel.createMessage(`You can't resume a song that is already playing. Try ${prefix}pause`);
     server.dispatcher.resume();
-    server.playing = true;
+    server.nowPlaying.playing = true;
     msg.channel.createMessage('Resumed the song');
 };
 

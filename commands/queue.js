@@ -1,37 +1,27 @@
 exports.run = (bot, msg, args) => {
-    let server = bot.setUpVariables(msg);
+    let server = bot.MusicVariables(msg.member.guild.id);
     if (args.length) {
         let args2 = Number(args[1]);
         switch (args[0]) {
             case 'remove':
-                if (!bot.servers[msg.member.guild.id]) bot.servers[msg.member.guild.id] = {
-                    queue: [],
-                    queueTitle: []
-                };
-                bot.servers[msg.member.guild.id].queue.splice(args2 - 1, 1);
-                bot.servers[msg.member.guild.id].queueTitle.splice(args2 - 1, 1);
+                server.queue.splice(args2 - 1, 1);
                 break;
             case 'r':
-                if (!bot.servers[msg.member.guild.id]) bot.servers[msg.member.guild.id] = {
-                    queue: [],
-                    queueTitle: []
-                };
-                bot.servers[msg.member.guild.id].queue.splice(args2 - 1, 1);
-                bot.servers[msg.member.guild.id].queueTitle.splice(args2 - 1, 1);
+                server.queue.splice(args2 - 1, 1);
                 break;
         }
     }
     let embed = new bot.RichEmbed();
-    embed.setTitle('Queue');
+    embed.setTitle(`${msg.member.guild.name}'s queue`);
     embed.setAuthor(bot.user.username, bot.user.avatarURL);
     embed.setColor(0x00afff);
     embed.setDescription('The queue for this server');
     embed.setTimestamp();
     let number = 0;
     let songs = '';
-    server.queueTitle.forEach(function(x) {
+    server.queue.forEach(function(x) {
         number++;
-        songs += number + '. ' + x + '\n';
+        songs += number + '. ' + x.title + '\n';
     });
     if (songs == '') {
         songs = '*There are no songs queued!*';

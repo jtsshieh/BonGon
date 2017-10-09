@@ -1,43 +1,59 @@
-const YTDL = require('ytdl-core');
-
-module.exports = (bot) =>{
+let YTDL = require('ytdl-core');
+module.exports = (bot) => {
     bot.playYT = (connection, msg) => {
-        let server = bot.setUpVariables(msg);
+        let server = bot.MusicVariables(msg.member.guild.id);
+
         server.dispatcher = connection;
-        connection.play(YTDL(server.queue[0], {
+        connection.play(YTDL(server.queue[0].url, {
             filter: 'audioonly'
         }));
-        server.playing = true;
+
+        server.nowPlaying = server.queue[0];
         server.queue.shift();
-        server.queueTitle.shift();
+        server.nowPlaying.playing = true;
+
+        let time = 0;
+        setInterval(
+            function () {
+                time = time + 1;
+                server.dispatcher.time = time;
+            }, 1000);
+
         connection.once('end', function() {
-            server.skips = 0;
-            if (server.queue[0]) bot.playYT(connection, msg);
-            else{
+            if (server.queue[0]){
+                server.nowPlaying = null;
+                bot.playYT(connection, msg);
+            }
+            else {
                 bot.leaveVoiceChannel(connection.channelID);
-                server.playing = false;
+                server.playing = true;
             }
         });
     };
-    bot.buildPlayer = (description = '', names = [], values = [], inline = [], thumbnail) => {
+    bot.buildPlayer = (description = '', names = [], values = [], inline = [], thumbnail, author = [bot.user.username, bot.user.avatarURL]) => {
         let embed = new bot.RichEmbed();
         embed.setTitle('Music Player');
-        embed.setAuthor(bot.user.username, bot.user.avatarURL);
+        embed.setAuthor(author[0], author[1]);
         embed.setColor(0x00afff);
         embed.setDescription(description);
         embed.setThumbnail(thumbnail);
         embed.setTimestamp();
-        for(let i = 0; i < names.length; i++){
+        for (let i = 0; i < names.length; i++) {
             embed.addField(names[i], values[i], inline[i]);
         }
         return embed;
     };
-    bot.setUpVariables = (msg) => {
-        if (!bot.servers[msg.member.guild.id]) bot.servers[msg.member.guild.id] = {
-            queue: [],
-            queueTitle: [],
-            skips: 0
-        };
-        return bot.servers[msg.member.guild.id];
+    bot.MusicVarShift = (guildID) => {
+        bot.MusicVariables(guildID);
+        bot.servers[guildID].foreach(function(x){
+            x.shift();
+        });
+        return bot.MusicVariables(guildID);
+    };
+    bot.MusicVariables = (guildID) => {
+        if (!bot.servers[guildID]) {
+            bot.servers[guildID] = {'queue' : [], 'dispatcher': null};
+        }
+        return bot.servers[guildID];
     };
 };

@@ -1,10 +1,10 @@
 exports.run = (bot, msg, args, prefix) => {
-    let server = bot.setUpVariables(msg);
+    let server = bot.MusicVariables(msg.member.guild.id);
     if (!server) return msg.channel.createMessage('There is nothing to pause');
     if (!server.dispatcher) return msg.channel.createMessage('There is nothing playing');
-    if (!server.playing) return msg.channel.createMessage(`The song is already paused. Try typing ${prefix}resume`);
+    if (!server.nowPlaying.playing) return msg.channel.createMessage(`The song is already paused. Try typing ${prefix}resume`);
     server.dispatcher.pause();
-    server.playing = false;
+    server.nowPlayin.playing = false;
     msg.channel.createMessage('Paused the song');
 };
 

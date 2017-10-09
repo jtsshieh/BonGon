@@ -1,33 +1,45 @@
 exports.run = (bot, msg, args) => {
-    const YTDL = require('ytdl-core');
-    const search = require('youtube-search');
     if (!args[0]) return msg.channel.createMessage('A name of the song of a link is needed.');
     if (!msg.member.voiceState.channelID) return msg.channel.createMessage('You are not in a voice channel');
-    let server = bot.setUpVariables(msg);
-    if (args[0].startsWith('http')) {
-        YTDL.getInfo(args.join(' '), function(err, info) {
-            let embed = bot.buildPlayer('A song has been queued', ['Title:', 'Link:'], [info.title, info.link], [true, true], info.thumbnails.default.url);
-            msg.channel.createMessage( { embed } );
-            server.queueTitle.push(info.title);
+    let YouTube = require('simple-youtube-api');
+    let moment = require('moment');
+    let youtube = new YouTube('AIzaSyDk97VQaFR-nCVZ0JWZbWYM5u7g-9B4ly4');
+    let url = args.join(' ').replace(/<(.+)>/g, '$1');
+    youtube.getVideo(url)
+        .then(results => {
+            YTVideo(results);
+        })
+        .catch(() =>{
+            youtube.searchVideos(args.join(' '), 1)
+                .then(results => {
+                    youtube.getVideo(results[0].url)
+                        .then(vid => {
+                            YTVideo(vid);
+                        });
+                });
         });
-        server.queue.push(args[0]);
-    } else {
-        let server = bot.servers[msg.member.guild.id];
-        let opts = {
-            key: 'AIzaSyDR7_oydL6a1imKIPD95-H8gQ4tvYz0I_c',
-        };
-        let name = args.join(' ');
-        search(name, opts, (err, results) => {
-            if (err) return console.log(err);
-            server.queue.push(results[0].link);
-            let embed = bot.buildPlayer('A song has been queued', ['Title:', 'Link:'], [results[0].title, results[0].link], [true, true], results[0].thumbnails.default.url);
-            msg.channel.createMessage( { embed } );
-            server.queueTitle.push(results[0].title);
+
+
+    function YTVideo(video) {
+        if (video.durationSeconds === 0) {
+            return msg.channel.createMessage('Live streams are not available');
+        }
+
+        let d = moment.duration({s: video.durationSeconds});
+        let server = bot.MusicVariables(msg.member.guild.id);
+        let time = moment().startOf('day').add(d).format('HH:mm:ss');
+
+        server.queue.push({url: video.url, title: video.title, thumbnail: video.thumbnails.high.url, duration: video.durationSeconds, requested: msg.author.tag, playing: false});
+
+        let embed = bot.buildPlayer('A song has been queued', ['Title:', 'Link:', 'Duration'], [video.title, video.url, time], [true, true, true], video.thumbnails.high.url, [video.title, video.thumbnails.high.url]);
+        msg.channel.createMessage( { embed } );
+
+        if(!bot.voiceConnections.get(msg.member.guild.id)) bot.joinVoiceChannel(msg.member.voiceState.channelID).then(function(connection) {
+            bot.playYT(connection, msg);
         });
+        return null;
     }
-    if(!bot.voiceConnections.get(msg.member.guild.id)) bot.joinVoiceChannel(msg.member.voiceState.channelID).then(function(connection) { //joins the vc
-        bot.playYT(connection, msg);
-    });
+
 };
 exports.conf = {
     aliases: ['p'],
@@ -36,7 +48,7 @@ exports.conf = {
 exports.help = {
     name: 'play',
     description: 'Search for a song or provide a link and the bot will play it.',
-    usage: 'play <text:ytlink/ytsearch>',
+    usage: 'play <text:ytlink/text:ytsearch>',
     permlevel: 0,
     category: 'Music'
 };

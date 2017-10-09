@@ -11,9 +11,10 @@
   "dependencies": {
     "chalk-console": "^1.0.1",
     "eris": "^0.7.2",
+    "moment": "^2.18.1",
     "native-level-promise": "^0.1.0",
     "node-schedule": "^1.2.4",
-    "youtube-search": "^1.0.10",
+    "simple-youtube-api": "^3.0.1",
     "ytdl-core": "^0.17.1"
   },
   "engines": {

@@ -1,11 +1,8 @@
 exports.run = (bot, msg) => {
-    let server = bot.setUpVariables(msg);
+    let server = bot.MusicVariables(msg.member.guild.id);
     if (!server) return msg.channel.createMessage('There is nothing to stop');
     if (!server.dispatcher) return msg.channel.createMessage('There is nothing to stop');
-    server.queue = [];
-    server.queueTitle = [];
-    server.playing = false;
-    server.dispatcher = null;
+    server = {};
     msg.channel.createMessage('Stopped the song and cleared the queue.');
 };
 
