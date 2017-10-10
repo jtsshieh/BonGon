@@ -21,8 +21,8 @@ exports.conf = {
 
 exports.help = {
     name: 'rules',
-    description: 'Lays out the rules',
+    description: 'Use these if you want...',
     usage: 'rules',
     permlevel: 0,
-    category: 'Music'
+    category: 'Misc'
 };
