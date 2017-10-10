@@ -19,8 +19,10 @@ exports.run = (bot, msg) => {
         }
     }
     let moment = require('moment');
-    let curTime = moment().startOf('day').add(server.dispatcher ? server.dispatcher.time : 0).format('HH:mm:ss');
-    let totTime = moment().startOf('day').add(server.nowPlaying.duration).format('HH:mm:ss');
+    let d = moment.duration({s: server.dispatcher ? server.dispatcher.time : 0});
+    let curTime = moment().startOf('day').add(d).format('HH:mm:ss');
+    let s = moment.duration({s: server.nowPlaying.duration});
+    let totTime = moment().startOf('day').add(s).format('HH:mm:ss');
     embed.addField('Title', server.nowPlaying.title);
     embed.addField('Position: ', trac + `\n**[${curTime}/${totTime}]**`);
     embed.addField('Url: ', server.nowPlaying.url);
