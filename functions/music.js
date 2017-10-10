@@ -13,13 +13,14 @@ module.exports = (bot) => {
         server.nowPlaying.playing = true;
 
         let time = 0;
-        setInterval(
+        let counter = setInterval(
             function () {
                 time = time + 1;
                 server.dispatcher.time = time;
             }, 1000);
 
         connection.once('end', function() {
+            clearInterval(counter);
             if (server.queue[0]){
                 server.nowPlaying = null;
                 bot.playYT(connection, msg);
