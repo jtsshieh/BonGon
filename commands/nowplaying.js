@@ -8,18 +8,24 @@ exports.run = (bot, msg) => {
     embed.setTitle('Music Player');
     embed.setAuthor(server.nowPlaying.title, server.nowPlaying.thumbnail);
     embed.setColor(0x00afff);
-    let desc = '';
+    let trac = '';
     for(let x = 0; x < 7; x++){
         if(timeLeft == x){
-            desc += ':radio_button:';
+            trac += ':radio_button:';
         }
 
         else{
-            desc+= '▬';
+            trac+= '▬';
         }
     }
-    embed.setDescription(desc);
-    if(server.playing == false){
+    let moment = require('moment');
+    let curTime = moment().startOf('day').add(server.dispatcher.time).format('HH:mm:ss');
+    let totTime = moment().startOf('day').add(server.nowPlaying.duration).format('HH:mm:ss');
+    embed.addField('Title', server.nowPlaying.title);
+    embed.addField('Position: ', trac + `\n**[${curTime}/${totTime}]**`);
+    embed.addField('Url: ', server.nowPlaying.url);
+    embed.addField('Requested by: ', server.nowPlaying.requested);
+    if(server.nowPlaying.playing == false){
         embed.addField('Paused', 'The song is currently paused.');
     }
     embed.setThumbnail(server.nowPlaying.thumbnail);
