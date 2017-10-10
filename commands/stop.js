@@ -6,6 +6,7 @@ exports.run = (bot, msg) => {
     server.dispatcher.stopPlaying();
     server = {};
     bot.leaveVoiceChannel(tempserver.dispatcher.channelID);
+    tempserver = {};
     msg.channel.createMessage('Stopped the song and cleared the queue.');
 };
 
