@@ -5,6 +5,7 @@ exports.run = (bot, msg, args) => {
     let moment = require('moment');
     let youtube = new YouTube(process.env.GOOGLE);
     let url = args.join(' ').replace(/<(.+)>/g, '$1');
+    if(!url) return;
     youtube.getVideo(url)
         .then(results => {
             YTVideo(results);
