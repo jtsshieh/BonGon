@@ -29,7 +29,7 @@ exports.run = (bot, msg, args) => {
         let server = bot.MusicVariables(msg.member.guild.id);
         let time = moment().startOf('day').add(d).format('HH:mm:ss');
 
-        server.queue.push({url: video.url, title: video.title, thumbnail: video.thumbnails.high.url, duration: video.durationSeconds, requested: msg.author.tag, playing: false});
+        server.queue.push({url: video.url, title: video.title, thumbnail: video.thumbnails.high.url, duration: video.durationSeconds, requested: msg.author.username + msg.author.discriminator, playing: false});
 
         let embed = bot.buildPlayer('A song has been queued', ['Title:', 'Link:', 'Duration'], [video.title, video.url, time], [true, true, true], video.thumbnails.high.url, [video.title, video.thumbnails.high.url]);
         msg.channel.createMessage( { embed } );
