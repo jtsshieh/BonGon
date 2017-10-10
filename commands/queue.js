@@ -20,8 +20,11 @@ exports.run = (bot, msg, args) => {
     let number = 0;
     let songs = '';
     server.queue.forEach(function(x) {
+        let moment = require('moment');
+        let s = moment.duration({s: x.duration});
+        let totTime = moment().startOf('day').add(s).format('HH:mm:ss');
         number++;
-        songs += number + '. ' + x.title + '\n';
+        songs += number + '. ' + x.title + ' - ' + totTime + ' - ' + 'Requested By: ' + x.requested + '\n';
     });
     if (songs == '') {
         songs = '*There are no songs queued!*';
