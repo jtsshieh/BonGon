@@ -1,7 +1,7 @@
 exports.run = (bot, msg, args, prefix) => {
     let server = bot.MusicVariables(msg.member.guild.id);
     if (!args[0]) {
-        let embed = bot.buildPlayer(`The current volume for this queue is ${server.dispatcher.volume * 10}%. Use ${prefix}volume to change it`, [], [], [], server.nowPlaying.thumbnail, [server.nowPlaying.title, server.nowPlaying.thumbnail]);
+        let embed = bot.buildPlayer(`The current volume for this queue is ${server.dispatcher.volume * 100}%. Use ${prefix}volume to change it`, [], [], [], server.nowPlaying.thumbnail, [server.nowPlaying.title, server.nowPlaying.thumbnail]);
         return msg.channel.createMessage({embed});
     }
 
@@ -12,7 +12,7 @@ exports.run = (bot, msg, args, prefix) => {
     let volume = Number(args[0]) / 100;
     if (server.dispatcher) {
         server.dispatcher.setVolume(volume);
-        msg.channel.createMessage(`Volume set: ${volume * 10}%`);
+        msg.channel.createMessage(`Volume set: ${volume * 100}%`);
     }
 };
 
