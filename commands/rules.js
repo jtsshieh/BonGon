@@ -1,7 +1,7 @@
 exports.run = (bot, msg) => {
     let embed = new bot.RichEmbed();
     embed.setTitle('Rules & info for GonBon');
-    embed.setDescriptio('Below are the rules and some info for this server');
+    embed.setDescription('Below are the rules and some info for this server');
     embed.setColor(0x00afff);
     embed.addField('Level 1 Rules', 'Do not spam the text channels\nDo not blast music in the voice channels\nOnly use one account at a time\nDon\'t use a nickname just to get to the top of the list\nKeep the conversation going');
     embed.addField('Level 2 Rules', 'Don\'t discriminate against anybody\nNEVER EVER share any malicious content\nDo not advertise anything\nDon\'t use a selfbot\n Don\'t threaten a DDOS');
