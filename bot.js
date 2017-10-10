@@ -94,6 +94,11 @@ bot.on('guildMemberAdd', (guild, member) => {
     if(guild.id == '353242685961928704'){
         let role = guild.roles.find(role => role.name == 'Member');
         member.addRole(role.id);
+        let memberChannel = guild.channels.find(channel => channel.name == 'member-alerts');
+        let embed = new bot.RichEmbed();
+        embed.setTitle('New Person Joined!');
+        embed.setDescription(member.username);
+        memberChannel.createMessage({embed});
     }
     if (bot.settings.get(guild.id) == undefined){
         bot.settings.set(guild.id, {'prefix': 'b!', 'modlogs':'mod-logs', 'welcome': 0, 'welcomeMessage': 'Welcome to the server {mention}', 'welcomeChannel' : 'general', 'Perm2': 'Trusted', 'Perm3': 'Moderator', 'Perm4' : 'Admin', 'Perm5': 'Owner'});
