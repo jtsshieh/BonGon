@@ -97,7 +97,10 @@ bot.on('guildMemberAdd', (guild, member) => {
         let memberChannel = guild.channels.find(channel => channel.name == 'member-alerts');
         let embed = new bot.RichEmbed();
         embed.setTitle('New Person Joined!');
-        embed.setDescription(member.username);
+        embed.setDescription('Name: ' + member.username + '\nJoined at: ' + member.joinedAt + '\n Joined Discord: ' + member.createdAt);
+        embed.setThumbnail(member.avatarURL);
+        embed.setAuthor(member.username + '#' + member.driscriminator, member.avatarURL);
+        embed.setColor(0x00afff);
         memberChannel.createMessage({embed});
     }
     if (bot.settings.get(guild.id) == undefined){
