@@ -26,7 +26,7 @@ module.exports = (bot) => {
             }
             else {
                 bot.leaveVoiceChannel(connection.channelID);
-                server.playing = true;
+                server = {};
             }
         });
     };
