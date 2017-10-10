@@ -1,7 +1,6 @@
 const Eris = require('eris');
 const fs = require('fs');
 const schedule = require('node-schedule');
-const config = require('./config.json');
 const readline = require('readline');
 const console = require('chalk-console');
 
@@ -10,7 +9,7 @@ schedule.scheduleJob({hour: 0, minute: 0}, () => {
         bot.gons.set(key['daily'], 'false');
     }
 });
-var bot = new Eris(config.token);
+var bot = new Eris(process.env.TOKEN);
 bot.getBotGateway().then(result => {
     let shards = result.shards;
     bot.options.maxShards = shards;

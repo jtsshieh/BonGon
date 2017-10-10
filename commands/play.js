@@ -3,7 +3,7 @@ exports.run = (bot, msg, args) => {
     if (!msg.member.voiceState.channelID) return msg.channel.createMessage('You are not in a voice channel');
     let YouTube = require('simple-youtube-api');
     let moment = require('moment');
-    let youtube = new YouTube('AIzaSyDk97VQaFR-nCVZ0JWZbWYM5u7g-9B4ly4');
+    let youtube = new YouTube(process.env.GOOGLE);
     let url = args.join(' ').replace(/<(.+)>/g, '$1');
     youtube.getVideo(url)
         .then(results => {

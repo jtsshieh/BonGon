@@ -23,11 +23,11 @@ module.exports = (bot) => {
                 server.dispatcher.time = time;
             }, 1000);
 
-        bot.musicEmit.on('paused', function() {
+        bot.musicEmit.on('paused', () => {
             clearInterval(counter);
         });
 
-        bot.musicEmit.on('resumed', function(){
+        bot.musicEmit.on('resumed',() =>{
             counter = setInterval(
                 function () {
                     time = time + 1;
