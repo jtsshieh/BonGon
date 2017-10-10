@@ -5,6 +5,7 @@ exports.run = (bot, msg, args, prefix) => {
     if (server.nowPlaying.playing) return msg.channel.createMessage(`You can't resume a song that is already playing. Try ${prefix}pause`);
     server.dispatcher.resume();
     server.nowPlaying.playing = true;
+    bot.musicEmit.emit('resumed');
     msg.channel.createMessage('Resumed the song');
 };
 
