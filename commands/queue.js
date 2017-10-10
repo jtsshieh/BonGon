@@ -24,7 +24,7 @@ exports.run = (bot, msg, args) => {
         let s = moment.duration({s: x.duration});
         let totTime = moment().startOf('day').add(s).format('HH:mm:ss');
         number++;
-        songs += number + '. ' + x.title + ' - ' + totTime + ' - ' + 'Requested By: ' + x.requested + '\n';
+        songs += number + '. **' + x.title + '** - **' + totTime + '** - **' + 'Requested By: ' + x.requested + '**\n';
     });
     if (songs == '') {
         songs = '*There are no songs queued!*';
