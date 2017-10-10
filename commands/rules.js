@@ -9,7 +9,7 @@ exports.run = (bot, msg) => {
     embed.addField('If Level 1 Rules are broken,', 'First offence: **Warn**\nSecond offence: **Jail**\nThird offence: **Kick**');
     embed.addField('If Level 2 Rules are broken,', 'First offence: **Jail**\nSecond offence: **Kick**\nThird offence: **Temp Ban**');
     embed.addField('If Level 3 Rules are broken,', 'First offence: **Temp Ban**\nSecond offence: **PERM BAN**');
-    embed.addField('Some Info', 'BonGon\'s prefix on this server is `b!. BonGon **WILL** collect all sorts of user data to enhance your experience. If you do not agree to this, your only choice is to leave the server.');
+    embed.addField('Some Info', 'BonGon\'s prefix on this server is `b!`. BonGon **WILL** collect all sorts of user data to enhance your experience. If you do not agree to this, your only choice is to leave the server.');
     embed.setFooter('If you have any questions regarding the rules or info, DM a staff member');
     msg.channel.createMessage({embed});
 };
