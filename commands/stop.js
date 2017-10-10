@@ -4,7 +4,7 @@ exports.run = (bot, msg) => {
     if (!server.dispatcher) return msg.channel.createMessage('There is nothing to stop');
     let tempserver = server;
     server.dispatcher.stopPlaying();
-    server = {};
+    bot.servers[msg.member.guild.id] = null;
     bot.leaveVoiceChannel(tempserver.dispatcher.channelID);
     tempserver = {};
     msg.channel.createMessage('Stopped the song and cleared the queue.');

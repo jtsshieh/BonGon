@@ -27,10 +27,11 @@ module.exports = (bot) => {
             }
             else {
                 bot.leaveVoiceChannel(connection.channelID);
-                server = {};
+                bot.servers[msg.member.guild.id] = null;
             }
         });
     };
+
     bot.buildPlayer = (description = '', names = [], values = [], inline = [], thumbnail, author = [bot.user.username, bot.user.avatarURL]) => {
         let embed = new bot.RichEmbed();
         embed.setTitle('Music Player');
@@ -44,13 +45,7 @@ module.exports = (bot) => {
         }
         return embed;
     };
-    bot.MusicVarShift = (guildID) => {
-        bot.MusicVariables(guildID);
-        bot.servers[guildID].foreach(function(x){
-            x.shift();
-        });
-        return bot.MusicVariables(guildID);
-    };
+
     bot.MusicVariables = (guildID) => {
         if (!bot.servers[guildID]) {
             bot.servers[guildID] = {'queue' : [], 'dispatcher': null};
