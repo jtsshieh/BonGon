@@ -99,7 +99,7 @@ bot.on('guildMemberAdd', (guild, member) => {
         embed.setTitle('New Person Joined!');
         embed.setDescription('Name: ' + member.username + '\nJoined at: ' + member.joinedAt + '\n Joined Discord: ' + member.createdAt);
         embed.setThumbnail(member.avatarURL);
-        embed.setAuthor(member.username + '#' + member.driscriminator, member.avatarURL);
+        embed.setAuthor(member.username + '#' + member.discriminator, member.avatarURL);
         embed.setColor(0x00afff);
         memberChannel.createMessage({embed});
     }
@@ -110,7 +110,7 @@ bot.on('guildMemberAdd', (guild, member) => {
         let welcome = bot.settings.get(guild.id).welcomeMessage.replace(/{user}}/gi, member.username);
         welcome = welcome.replace(/{mention}}/gi, member.mention);
         welcome = welcome.replace(/{user}}/gi, member.username);
-        welcome = welcome.replace(/{discrim}}/gi, member.driscriminator);
+        welcome = welcome.replace(/{discrim}}/gi, member.discriminator);
         let welcomeChannel = guild.channels.find('name', bot.settings.get(guild.id).welcomeChannel);
         if(welcomeChannel){
             welcomeChannel.createMessage(welcome);
