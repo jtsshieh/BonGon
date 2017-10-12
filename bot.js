@@ -97,7 +97,7 @@ bot.on('guildMemberAdd', (guild, member) => {
         let memberChannel = guild.channels.find(channel => channel.name == 'member-alerts');
         let embed = new bot.RichEmbed();
         embed.setTitle('New Person Joined!');
-        embed.setDescription('Name: ' + member.username + '\nJoined at: ' + member.joinedAt + '\n Joined Discord: ' + member.createdAt);
+        embed.setDescription('Name: ' + member.username + '\nJoined at: ' + member.joinedAt + '\nJoined Discord: ' + member.createdAt);
         embed.setThumbnail(member.avatarURL);
         embed.setAuthor(member.username + '#' + member.discriminator, member.avatarURL);
         embed.setColor(0x00afff);
@@ -109,7 +109,6 @@ bot.on('guildMemberAdd', (guild, member) => {
     if(!bot.settings.get(guild.id).welcome == 0 && !bot.settings.get(guild.id).welcomeMessage == ''){
         let welcome = bot.settings.get(guild.id).welcomeMessage.replace(/{user}}/gi, member.username);
         welcome = welcome.replace(/{mention}}/gi, member.mention);
-        welcome = welcome.replace(/{user}}/gi, member.username);
         welcome = welcome.replace(/{discrim}}/gi, member.discriminator);
         let welcomeChannel = guild.channels.find('name', bot.settings.get(guild.id).welcomeChannel);
         if(welcomeChannel){
@@ -191,6 +190,7 @@ bot.on('messageCreate', (msg) => {
             }
         }
         try{
+            msg.channel.sendTyping();
             cmd.run(bot, msg, args, prefix);
         }
         catch(e){
