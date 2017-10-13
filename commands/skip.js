@@ -6,6 +6,8 @@ exports.run = (bot, msg) => {
     let members = msg.channel.guild.channels.find(channel => channel.id == server.dispatcher.channelID).voiceMembers.size;
     server.nowPlaying.votes +=1;
     msg.channel.createMessage('1 vote added');
+    console.log(members);
+    console.log(server.nowPlaying.votes)
     if(Math.round((members-1)/2) < server.nowPlaying.votes){
         server.dispatcher.stop();
         msg.channel.createMessage('Enough votes have been aquired, skipped the song');

@@ -1,2 +1,2 @@
-node bot.js
+TOKEN=MzQzOTE2Mzk4NzA5NDQwNTEz.DL5vxg.9rW6K45O9i2DmO532D-JiASAE_o node bot.js
 PAUSE
