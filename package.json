@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "chalk-console": "^1.0.1",
-    "eris": "^0.7.2",
+    "eris": "^0.8.0",
     "moment": "^2.18.1",
     "native-level-promise": "^0.1.0",
     "node-schedule": "^1.2.4",
