@@ -1,11 +1,12 @@
 exports.run = (bot, msg) => {
+    if(!msg.channel.guild.id == '353242685961928704') return;
     let embed = new bot.RichEmbed();
     embed.setTitle('Rules & info for GonBon');
     embed.setDescription('Below are the rules and some info for this server');
     embed.setColor(0x00afff);
     embed.addField('Level 1 Rules', 'Do not spam the text channels\nDo not blast music in the voice channels\nOnly use one account at a time\nDon\'t use a nickname just to get to the top of the list\nKeep the conversation going');
     embed.addField('Level 2 Rules', 'Don\'t discriminate against anybody\nNEVER EVER share any malicious content\nDo not advertise anything\nDon\'t use a selfbot\nDon\'t threaten a DDOS');
-    embed.addField('Level 3 Rules', 'Don\'t post any NSFW in the main chat\nDon\'t ask for an affensive nickname');
+    embed.addField('Level 3 Rules', 'Don\'t post any NSFW in the main chat\nDon\'t ask for an offensive nickname');
     embed.addField('If Level 1 Rules are broken,', 'First offence: **Warn**\nSecond offence: **Jail**\nThird offence: **Kick**');
     embed.addField('If Level 2 Rules are broken,', 'First offence: **Jail**\nSecond offence: **Kick**\nThird offence: **Temp Ban**');
     embed.addField('If Level 3 Rules are broken,', 'First offence: **Temp Ban**\nSecond offence: **PERM BAN**');
