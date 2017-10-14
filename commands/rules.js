@@ -1,5 +1,5 @@
 exports.run = (bot, msg) => {
-    if(!msg.channel.guild.id == '353242685961928704') return;
+    if(msg.channel.guild.id != '353242685961928704') return;
     let embed = new bot.RichEmbed();
     embed.setTitle('Rules & info for GonBon');
     embed.setDescription('Below are the rules and some info for this server');
