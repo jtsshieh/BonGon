@@ -1,2 +1,4 @@
 # BonGon
 A moderation and fun discord Bot
+
+# REFER TO THE WIKI FOR HELP ON SELFHOSTING AND CREATING MORE COMMANDS!!!
