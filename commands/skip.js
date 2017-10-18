@@ -10,7 +10,7 @@ exports.run = (bot, msg) => {
     console.log(members);
     console.log(server.nowPlaying.votes);
     console.log(Math.round((members-1)/2));
-    if(Math.round((members-1)/2) < server.nowPlaying.votes){
+    if(Math.round((members-1)/2) <= server.nowPlaying.votes){
         server.dispatcher.stop();
         msg.channel.createMessage('Enough votes have been aquired, skipped the song');
     }
