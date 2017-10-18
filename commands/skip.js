@@ -8,7 +8,8 @@ exports.run = (bot, msg) => {
     server.nowPlaying.votes +=1;
     msg.channel.createMessage('1 vote added');
     console.log(members);
-    console.log(server.nowPlaying.votes)
+    console.log(server.nowPlaying.votes);
+    console.log(Math.round((members-1)/2));
     if(Math.round((members-1)/2) < server.nowPlaying.votes){
         server.dispatcher.stop();
         msg.channel.createMessage('Enough votes have been aquired, skipped the song');
