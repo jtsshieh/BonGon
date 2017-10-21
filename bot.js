@@ -1,9 +1,6 @@
 const Eris = require('eris');
-const fs = require('fs');
-const schedule = require('node-schedule');
-const console = require('chalk-console');
 
-var bot = new Eris(process.env.TOKEN);
+let bot = new Eris(process.env.TOKEN);
 bot.getBotGateway().then(result => {
     let shards = result.shards;
     bot.options.maxShards = shards;
@@ -15,6 +12,17 @@ bot.aliases = new Eris.Collection();
 bot.RichEmbed = require ('./structures/embed.js');
 bot.servers = {};
 
+const cmdLoader = require('./loader/commandLoader');
+const funLoader = require('./loader/functionLoader');
+const eveLoader = require('./loader/eventLoader');
+
+async function load(){
+    await cmdLoader.load();
+    await funLoader.load();
+    await eveLoader.load();
+}
+
+load();
 bot.reload = command => {
     return new Promise((resolve, reject) => {
         try {
