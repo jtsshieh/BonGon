@@ -41,7 +41,8 @@ fs.readdir('./commands/', (err, files) => {
         }
         catch(err){
             console.red('An error has occured trying to load a command. Here is the error.');
-            console.red(err);
+            console.red(err.stack);
+            return;
         }
     });
     console.green('Command Loading complete!');
@@ -59,6 +60,7 @@ fs.readdir('./functions/', (err, files) => {
         catch(err){
             console.red('An error has occured trying to load a function. Here is the error.');
             console.red(err.stack);
+            return;
         }
     });
     console.green('Function Loading complete!');
@@ -78,7 +80,8 @@ fs.readdir('./events/', (err, files) => {
         }
         catch(err){
             console.red('An error has occured trying to load a event. Here is the error.');
-            console.red(err);
+            console.red(err.stack);
+            return;
         }
     });
     console.green('Events Loading complete!');
