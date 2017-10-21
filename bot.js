@@ -71,11 +71,9 @@ fs.readdir('./events/', (err, files) => {
     files.forEach(file => {
         try{
             let eventName = file.split('.')[0];
-            console.log(eventName);
-            let event = require(`./events/${file}`)(bot);
-            console.log(event);
+            let event = require(`./events/${file}`);
             console.blue(`Attempting to load the event "${eventName}".`, false);
-            bot.on(eventName, (...args) => event.execute(...args));
+            bot.on(eventName, event.bind(null, bot));
             delete require.cache[require.resolve(`./events/${file}`)];
         }
         catch(err){
