@@ -1,6 +1,6 @@
 module.exports = (bot, msg) => {
     let prefix = '';
-    if (bot.author.bot) return;
+    if (msg.author.bot) return;
     if (msg.channel.guild){
         if (bot.settings.get(msg.channel.guild.id) == undefined){
             bot.settings.set(msg.channel.guild.id, {'prefix': 'b!', 'modlogs':'mod-logs', 'welcome': 0, 'welcomeMessage': 'Welcome to the server {mention}', 'welcomeChannel' : 'general', 'Perm2': 'Trusted', 'Perm3': 'Moderator', 'Perm4' : 'Admin', 'Perm5': 'Owner'});
