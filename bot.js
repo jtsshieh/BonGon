@@ -97,10 +97,7 @@ bot.on('guildMemberAdd', (guild, member) => {
         let memberChannel = guild.channels.find(channel => channel.name == 'member-alerts');
         let embed = new bot.RichEmbed();
         embed.setTitle('New Person Joined!');
-        let moment = require('moment');
-        let joinedAt = moment(member.joinedAt, 'MM-DD-YYYY hh:mm:ss');
-        let createdAt = moment(member.createdAt, 'MM-DD-YY HH:MM:SS');
-        embed.setDescription('Name: ' + member.username + '\nJoined at: ' + joinedAt + '\nJoined Discord: ' + createdAt);
+        embed.setDescription('Name: ' + member.username + '\nJoined at: ' + member.joinedAt.toUTCString + '\nJoined Discord: ' + member.createdAt.toUTCString);
         embed.setThumbnail(member.avatarURL);
         embed.setAuthor(member.username + '#' + member.discriminator, member.avatarURL);
         embed.setColor(0x00afff);
