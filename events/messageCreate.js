@@ -3,7 +3,7 @@ module.exports = (bot, msg) => {
     if (msg.author.bot) return;
     if (msg.channel.guild){
         if (bot.settings.get(msg.channel.guild.id) == undefined){
-            bot.settings.set(msg.channel.guild.id, {'prefix': 'b!', 'modlogs':'mod-logs', 'welcome': 0, 'welcomeMessage': 'Welcome to the server {mention}', 'welcomeChannel' : 'mainchat', 'Perm2': 'Trusted', 'Perm3': 'Moderator', 'Perm4' : 'Admin', 'Perm5': 'Owner'});
+            bot.settings.set(msg.channel.guild.id, {'prefix': 'b!', 'modlogs':'mod-logs', 'welcome': 1, 'welcomeMessage': 'Welcome to the server {mention}', 'welcomeChannel' : 'mainchat', 'Perm2': 'Trusted', 'Perm3': 'Moderator', 'Perm4' : 'Admin', 'Perm5': 'Owner'});
         }
         prefix = bot.settings.get(msg.channel.guild.id).prefix;
     }
