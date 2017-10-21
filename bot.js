@@ -1,7 +1,6 @@
 const Eris = require('eris');
 const fs = require('fs');
 const schedule = require('node-schedule');
-const readline = require('readline');
 const console = require('chalk-console');
 
 schedule.scheduleJob({hour: 0, minute: 0}, () => {
@@ -20,11 +19,6 @@ bot.commands = new Eris.Collection();
 bot.aliases = new Eris.Collection();
 bot.RichEmbed = require ('./structures/embed.js');
 bot.servers = {};
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    prompt: 'BonGon>'
-});
 
 fs.readdir('./commands/', (err, files) => {
     if (err) console.error(err);
@@ -91,33 +85,18 @@ bot.on('guildCreate', (guild) => {
 });
 
 bot.on('guildMemberAdd', (guild, member) => {
-    if(guild.id == '353242685961928704'){
-        let role = guild.roles.find(role => role.name == 'Member');
-        member.addRole(role.id);
-        let memberChannel = guild.channels.find(channel => channel.name == 'member-alerts');
-        let embed = new bot.RichEmbed();
-        embed.setTitle('New Person Joined!');
-        embed.setDescription('Name: ' + member.username + '\nJoined at: ' + member.joinedAt.toUTCString() + '\nJoined Discord: ' + member.createdAt.toUTCString());
-        embed.setThumbnail(member.avatarURL);
-        embed.setAuthor(member.username + '#' + member.discriminator, member.avatarURL);
-        embed.setColor(0x00afff);
-        memberChannel.createMessage({embed});
-    }
     if (bot.settings.get(guild.id) == undefined){
-        bot.settings.set(guild.id, {'prefix': 'b!', 'modlogs':'mod-logs', 'welcome': 0, 'welcomeMessage': 'Welcome to the server {mention}', 'welcomeChannel' : 'general', 'Perm2': 'Trusted', 'Perm3': 'Moderator', 'Perm4' : 'Admin', 'Perm5': 'Owner'});
+        bot.settings.set(guild.id, {'prefix': 'b!', 'modlogs':'mod-logs', 'welcome': 1, 'welcomeMessage': 'Welcome to the server {mention}', 'welcomeChannel' : 'general', 'Perm2': 'Trusted', 'Perm3': 'Moderator', 'Perm4' : 'Admin', 'Perm5': 'Owner'});
     }
     if(!bot.settings.get(guild.id).welcome == 0 && !bot.settings.get(guild.id).welcomeMessage == ''){
         let welcome = bot.settings.get(guild.id).welcomeMessage.replace(/{user}}/gi, member.username);
         welcome = welcome.replace(/{mention}}/gi, member.mention);
         welcome = welcome.replace(/{discrim}}/gi, member.discriminator);
-        let welcomeChannel = guild.channels.find('name', bot.settings.get(guild.id).welcomeChannel);
+        let welcomeChannel = guild.channels.find(channel => channel.name == bot.settings.get(guild.id).welcomeChannel);
         if(welcomeChannel){
             welcomeChannel.createMessage(welcome);
         }
     }
-
-
-
 });
 
 bot.reload = command => {
@@ -140,52 +119,4 @@ bot.reload = command => {
     });
 };
 bot.editStatus('online', {name: 'playing playing playing playing ', type: 0});
-//Ready Event
-bot.on('ready', () => {
-    console.log('Welcome to the BonGon Console. To list all the commands, type "help"');
-    rl.prompt();
-
-    rl.on('line', (line) => {
-        switch (line.trim()) {
-            case 'help':
-                console.log('help :: Display help for the console \nexit :: Exits this program');
-                break;
-            case 'exit':
-                console.log('Bye Bye!');
-                process.exit(0);
-                break;
-            default:
-                console.log(`'${line.trim()}' is not one of the commads`);
-                break;
-        }
-        rl.prompt();
-    });
-});
-
-//Events
-bot.on('disconnect', () => {
-    console.red('Bot has now Disconnected from Discord');
-});
-
-bot.on('warn', (message, id) => {
-    console.yellow(`Warning: Shard ${id} - ${message}`);
-});
-
-bot.on('error', (error, id) => {
-    console.red(`Error: Shard ${id} - ${error['stack']}`);
-
-});
-
-bot.on('shardReady', id => {
-    console.green(`Shard ${id} is Now Ready`);
-});
-
-bot.on('shardResume', id => {
-    console.yellow(`Shard ${id} has Resumed`);
-});
-
-bot.on('shardDisconnect', (error, id) => {
-    console.red(`Shard ${id} has Disconnected` + (error ? ': ' + error.message : ''));
-});
-
 bot.connect();
