@@ -42,7 +42,6 @@ fs.readdir('./commands/', (err, files) => {
         catch(err){
             console.red('An error has occured trying to load a command. Here is the error.');
             console.red(err.stack);
-            return;
         }
     });
     console.green('Command Loading complete!');
@@ -60,7 +59,6 @@ fs.readdir('./functions/', (err, files) => {
         catch(err){
             console.red('An error has occured trying to load a function. Here is the error.');
             console.red(err.stack);
-            return;
         }
     });
     console.green('Function Loading complete!');
@@ -73,7 +71,9 @@ fs.readdir('./events/', (err, files) => {
     files.forEach(file => {
         try{
             let eventName = file.split('.')[0];
+            console.log(eventName);
             let event = require(`./events/${file}`)(bot);
+            console.log(event);
             console.blue(`Attempting to load the event "${eventName}".`, false);
             bot.on(eventName, (...args) => event.execute(...args));
             delete require.cache[require.resolve(`./events/${file}`)];
@@ -81,7 +81,6 @@ fs.readdir('./events/', (err, files) => {
         catch(err){
             console.red('An error has occured trying to load a event. Here is the error.');
             console.red(err.stack);
-            return;
         }
     });
     console.green('Events Loading complete!');

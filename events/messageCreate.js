@@ -33,4 +33,4 @@ module.exports = (bot, msg) => {
             msg.channel.createMessage({ embed: bot.errorMessage(bot, e.stack) });
         }
     }
-}
+};
