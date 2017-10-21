@@ -1,12 +1,12 @@
 const fs = require('fs');
 const console = require('chalk-console');
 exports.load = async() => {
-    fs.readdir('../commands/', (err, files) => {
+    fs.readdir('.../commands/', (err, files) => {
         if (err) console.error(err);
         console.cyan(`Attempting to load a total of ${files.length} commands into the memory.`, false);
         files.forEach(file => {
             try{
-                let command = require(`../commands/${file}`);
+                let command = require(`.../commands/${file}`);
                 console.blue(`Attempting to load the command "${command.help.name}".`, false);
                 bot.commands.set(command.help.name, command);
                 command.conf.aliases.forEach(alias => {
