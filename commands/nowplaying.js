@@ -1,6 +1,6 @@
-exports.run = (bot, msg) => {
+exports.run = async (bot, msg) => {
     let server = bot.MusicVariables(msg.member.guild.id);
-    if(!server.nowPlaying)return msg.channel.createMessage('There is nothing currently playing');
+    if(!server.nowPlaying)return await msg.channel.createMessage('There is nothing currently playing');
     const currentTime = Math.round(server.dispatcher ? server.dispatcher.time / 60 : 0);
     const totalTime = Math.round(server.nowPlaying.duration / 60);
     const timeLeft = Math.round(currentTime/totalTime * 7);
@@ -32,7 +32,7 @@ exports.run = (bot, msg) => {
     }
     embed.setThumbnail(server.nowPlaying.thumbnail);
     embed.setTimestamp();
-    msg.channel.createMessage({embed});
+    await msg.channel.createMessage({embed});
 };
 
 exports.conf = {

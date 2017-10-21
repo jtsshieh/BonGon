@@ -11,7 +11,7 @@ module.exports = async (bot, msg) => {
         prefix = 'b!';
     }
     if (!msg.content.startsWith(prefix))return;
-    let args = await msg.content.slice(prefix.length).trim().split(/ +/g);
+    let args = msg.content.slice(prefix.length).trim().split(/ +/g);
     let command = args.shift();
     let cmd;
     if (bot.commands.has(command)) {
@@ -30,7 +30,7 @@ module.exports = async (bot, msg) => {
             cmd.run(bot, msg, args, prefix);
         }
         catch(e){
-            msg.channel.createMessage({ embed: bot.errorMessage(bot, e.stack) });
+            await msg.channel.createMessage({ embed: bot.errorMessage(bot, e.stack) });
         }
     }
 };

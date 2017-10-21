@@ -1,13 +1,13 @@
-exports.run = (bot, msg) => {
+exports.run = async (bot, msg) => {
     let server = bot.MusicVariables(msg.member.guild.id);
-    if (!server) return msg.channel.createMessage('There is nothing to stop');
-    if (!server.dispatcher) return msg.channel.createMessage('There is nothing to stop');
+    if (!server) return await msg.channel.createMessage('There is nothing to stop');
+    if (!server.dispatcher) return await msg.channel.createMessage('There is nothing to stop');
     let tempserver = server;
     server.dispatcher.stopPlaying();
     bot.servers[msg.member.guild.id] = null;
     bot.leaveVoiceChannel(tempserver.dispatcher.channelID);
     tempserver = {};
-    msg.channel.createMessage('Stopped the song and cleared the queue.');
+    await msg.channel.createMessage('Stopped the song and cleared the queue.');
 };
 
 exports.conf = {

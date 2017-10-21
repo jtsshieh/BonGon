@@ -1,4 +1,4 @@
-exports.run = (bot, msg, args, prefix) => {
+exports.run = async (bot, msg, args, prefix) => {
     let embed = new bot.RichEmbed();
     if (!args[0]) {
         let categories = [];
@@ -24,7 +24,7 @@ exports.run = (bot, msg, args, prefix) => {
         embed.setColor(0x00afff);
         embed.setFooter(`The prefix for the server is ${prefix}`);
         embed.setTimestamp();
-        msg.channel.createMessage({embed});
+        await msg.channel.createMessage({embed});
     } else{
         let command;
         if (bot.commands.has(args[0])) {
@@ -62,7 +62,7 @@ exports.run = (bot, msg, args, prefix) => {
             embed.setFooter('Parameter wrapped in () are optional. Parameters wrapped in <> are required.');
         }
 
-        msg.channel.createMessage( {embed} );
+        await msg.channel.createMessage( {embed} );
     }
 };
 exports.conf = {

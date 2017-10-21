@@ -1,12 +1,12 @@
-exports.run = (bot, msg, args, prefix) => {
+exports.run = async (bot, msg, args, prefix) => {
     let server = bot.MusicVariables(msg.member.guild.id);
-    if (!server) return msg.channel.createMessage('There is nothing to resume');
-    if (!server.dispatcher) return msg.channel.createMessage('There is nothing to resume');
-    if (server.nowPlaying.playing) return msg.channel.createMessage(`You can't resume a song that is already playing. Try ${prefix}pause`);
+    if (!server) return await msg.channel.createMessage('There is nothing to resume');
+    if (!server.dispatcher) return await msg.channel.createMessage('There is nothing to resume');
+    if (server.nowPlaying.playing) return await msg.channel.createMessage(`You can't resume a song that is already playing. Try ${prefix}pause`);
     server.dispatcher.resume();
     server.nowPlaying.playing = true;
     bot.musicEmit.emit('resumed');
-    msg.channel.createMessage('Resumed the song');
+    await msg.channel.createMessage('Resumed the song');
 };
 
 exports.conf = {

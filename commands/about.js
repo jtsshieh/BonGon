@@ -1,4 +1,4 @@
-exports.run = (bot, msg) => {
+exports.run = async (bot, msg) => {
     let embed = new bot.RichEmbed();
     embed.setTitle('About BonGon');
     embed.setDescription('A few important things');
@@ -11,7 +11,7 @@ exports.run = (bot, msg) => {
         embed.addField('Shard Id', msg.member.guild.shard.id);
     }
     embed.setTimestamp();
-    msg.channel.createMessage( { embed } );
+    await msg.channel.createMessage( { embed } );
 };
 exports.conf = {
     aliases:[],

@@ -1,5 +1,5 @@
-exports.run = (bot, msg, args) => {
-    if (!args.length) return msg.channel.createMessage('Must provide a command to reload.').then(m => {
+exports.run = async (bot, msg, args) => {
+    if (!args.length) return await msg.channel.createMessage('Must provide a command to reload.').then(m => {
         setTimeout(function() {
             m.delete();
         }, 5000);
@@ -12,24 +12,24 @@ exports.run = (bot, msg, args) => {
             command = bot.aliases.get(args[0]);
         }
         if (!command) {
-            return msg.channel.createMessage(`I cannot find the command: ${args[0]}`).then(m => {
+            return await msg.channel.createMessage(`I cannot find the command: ${args[0]}`).then(m => {
                 setTimeout(function() {
                     m.delete();
                 }, 5000);
             });
         } else {
-            msg.channel.createMessage(`Reloading: ${command}`)
+            await msg.channel.createMessage(`Reloading: ${command}`)
                 .then(m => {
-                    bot.reload(command)
+                    await bot.reload(command)
                         .then(() => {
-                            m.edit(`Successfully reloaded the command: ${command}`).then(m => {
+                            await m.edit(`Successfully reloaded the command: ${command}`).then(m => {
                                 setTimeout(function() {
                                     m.delete();
                                 }, 5000);
                             });
                         })
                         .catch(e => {
-                            m.edit(`Command reload failed: ${command}\n\`\`\`${e.stack}\`\`\``);
+                            await m.edit(`Command reload failed: ${command}\n\`\`\`${e.stack}\`\`\``);
                         });
                 });
         }

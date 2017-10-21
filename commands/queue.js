@@ -1,4 +1,4 @@
-exports.run = (bot, msg, args) => {
+exports.run = async (bot, msg, args) => {
     let server = bot.MusicVariables(msg.member.guild.id);
     if (args.length) {
         let args2 = Number(args[1]);
@@ -30,7 +30,7 @@ exports.run = (bot, msg, args) => {
         songs = '*There are no songs queued!*';
     }
     embed.addField('Songs', songs);
-    return msg.channel.createMessage({
+    return await msg.channel.createMessage({
         embed
     });
 };

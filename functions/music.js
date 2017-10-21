@@ -1,6 +1,6 @@
 let YTDL = require('ytdl-core');
 module.exports = (bot) => {
-    bot.playYT = (connection, msg) => {
+    bot.playYT = async (connection, msg) => {
         const EventEmitter = require('events');
         class MyEmitter extends EventEmitter {}
         bot.musicEmit = new MyEmitter();

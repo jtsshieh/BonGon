@@ -1,4 +1,4 @@
-module.exports = (bot) =>{
+module.exports = async (bot) =>{
     bot.errorMessage = (bot, error) => {
         let embed = new bot.RichEmbed();
         embed.setTitle('Error');
@@ -8,7 +8,7 @@ module.exports = (bot) =>{
         embed.addField('Error', error);
         embed.setFooter('This error has automatically been reported to jtsshieh#6424');
         embed.setTimestamp();
-        bot.getDMChannel('236279900728721409').then(channel => {
+        await bot.getDMChannel('236279900728721409').then(channel => {
             channel.createMessage({embed});
         });
         return embed;

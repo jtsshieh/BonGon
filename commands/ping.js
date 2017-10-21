@@ -1,4 +1,4 @@
-exports.run = (bot, msg) => {
+exports.run = async (bot, msg) => {
     const m = msg.channel.createMessage('If you see this, the bot is lagging').then(m => { // eslint-disable-line no-unused-vars
         let embed = new bot.RichEmbed();
         embed.setTitle('PONG!!');
@@ -8,8 +8,8 @@ exports.run = (bot, msg) => {
         embed.addField('Bot Latency (Client)', `${m.timestamp - msg.timestamp} ms`);
         embed.addField('Shard Id', msg.member.guild.shard.id);
         embed.setTimestamp();
-        msg.channel.createMessage( { embed } );
-        m.delete();
+        await msg.channel.createMessage( { embed } );
+        await m.delete();
     });
 };
 exports.conf = {

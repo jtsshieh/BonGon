@@ -1,4 +1,4 @@
-exports.run = (bot, msg, args) => {
+exports.run =async (bot, msg, args) => {
     let user;
     if(msg.mentions.length){
         user = msg.mentions[0];
@@ -7,11 +7,11 @@ exports.run = (bot, msg, args) => {
     if (!amount) return msg.channel.createMessage('You must specify an amount of messages to delete.');
     if (!amount && !user) return msg.channel.createMessage('You must specify an amount of messages to delete and a mention.');
     msg.delete();
-    msg.channel.createMessage('Purging messages...').then(msg => {
+    await msg.channel.createMessage('Purging messages...').then(msg => {
         setTimeout(function() {
             if(!user){
-                msg.channel.purge(amount).then(no =>
-                    msg.channel.createMessage( `Purged ${+no} messages`).then(m => {
+                await msg.channel.purge(amount).then(no =>
+                    await msg.channel.createMessage( `Purged ${+no} messages`).then(m => {
                         setTimeout(function() {
                             m.delete();
                         }, 5000);
@@ -20,8 +20,8 @@ exports.run = (bot, msg, args) => {
             }
             else{
                 let filterBy = user ? user.id : this.bot.user.id;
-                msg.channel.purge(amount + 2, m => m.author.id === filterBy).then(no =>
-                    msg.channel.createMessage( `Purged ${+no} messages from ${user.username}`).then(m => {
+                await msg.channel.purge(amount + 2, m => m.author.id === filterBy).then(no =>
+                    await msg.channel.createMessage( `Purged ${+no} messages from ${user.username}`).then(m => {
                         setTimeout(function() {
                             m.delete();
                         }, 5000);

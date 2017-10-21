@@ -1,19 +1,19 @@
-exports.run = (bot, msg, args) => {
-    if (!args[0]) return msg.channel.createMessage('A name of the song of a link is needed.');
-    if (!msg.member.voiceState.channelID) return msg.channel.createMessage('You are not in a voice channel');
+exports.run = async (bot, msg, args) => {
+    if (!args[0]) return await msg.channel.createMessage('A name of the song of a link is needed.');
+    if (!msg.member.voiceState.channelID) return await msg.channel.createMessage('You are not in a voice channel');
     let YouTube = require('simple-youtube-api');
     let moment = require('moment');
     let youtube = new YouTube(process.env.GOOGLE);
     let url = args.join(' ').replace(/<(.+)>/g, '$1');
     if(!url) return;
-    youtube.getVideo(url)
+    await youtube.getVideo(url)
         .then(results => {
             YTVideo(results);
         })
         .catch(() =>{
-            youtube.searchVideos(args.join(' '), 1)
+            await youtube.searchVideos(args.join(' '), 1)
                 .then(results => {
-                    youtube.getVideo(results[0].url)
+                    await youtube.getVideo(results[0].url)
                         .then(vid => {
                             YTVideo(vid);
                         });
@@ -21,7 +21,7 @@ exports.run = (bot, msg, args) => {
         });
 
 
-    function YTVideo(video) {
+    async function YTVideo(video) {
         if (video.durationSeconds === 0) {
             return msg.channel.createMessage('Live streams are not available');
         }
@@ -33,7 +33,7 @@ exports.run = (bot, msg, args) => {
         server.queue.push({url: video.url, title: video.title, thumbnail: video.thumbnails.high.url, duration: video.durationSeconds, requested: msg.author.mention , playing: false});
 
         let embed = bot.buildPlayer('A song has been queued', ['Title:', 'Link:', 'Duration'], [video.title, video.url, time], [true, true, true], video.thumbnails.high.url, [video.title, video.thumbnails.high.url]);
-        msg.channel.createMessage( { embed } );
+        await msg.channel.createMessage( { embed } );
 
         if(!bot.voiceConnections.get(msg.member.guild.id)) bot.joinVoiceChannel(msg.member.voiceState.channelID).then(function(connection) {
             bot.playYT(connection, msg);
