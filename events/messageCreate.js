@@ -1,4 +1,4 @@
-module.exports = (bot, msg) => {
+module.exports = async (bot, msg) => {
     let prefix = '';
     if (msg.author.bot) return;
     if (msg.channel.guild){
@@ -11,7 +11,7 @@ module.exports = (bot, msg) => {
         prefix = 'b!';
     }
     if (!msg.content.startsWith(prefix))return;
-    let args = msg.content.slice(prefix.length).trim().split(/ +/g);
+    let args = await msg.content.slice(prefix.length).trim().split(/ +/g);
     let command = args.shift();
     let cmd;
     if (bot.commands.has(command)) {
@@ -22,11 +22,11 @@ module.exports = (bot, msg) => {
     if (cmd) {
         if(cmd.conf.guildOnly == true){
             if(!msg.channel.guild){
-                return msg.channel.createMessage('This command can only be ran in a guild.');
+                await return msg.channel.createMessage('This command can only be ran in a guild.');
             }
         }
         try{
-            msg.channel.sendTyping();
+            await msg.channel.sendTyping();
             cmd.run(bot, msg, args, prefix);
         }
         catch(e){
