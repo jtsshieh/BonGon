@@ -9,6 +9,16 @@ exports.run = async (bot, msg, args) => {
             case 'r':
                 server.queue.splice(args2 - 1, 1);
                 break;
+            case 'repeat':
+                if(server.repeat == true){
+                    server.queue.repeat = false;
+                    msg.channel.createMessage('Repeat is know off!');
+                }
+                else{
+                    server.queue.repeat = true;
+                    msg.channel.createMessage('Repeat is know on!');
+                }
+                break;
         }
     }
     let embed = new bot.RichEmbed();

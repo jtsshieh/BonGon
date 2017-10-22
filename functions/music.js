@@ -1,6 +1,7 @@
 let YTDL = require('ytdl-core');
 module.exports = (bot) => {
     bot.playYT = async (connection, msg) => {
+        server.repeat = false;
         const EventEmitter = require('events');
         class MyEmitter extends EventEmitter {}
         bot.musicEmit = new MyEmitter();
@@ -13,7 +14,13 @@ module.exports = (bot) => {
         }));
 
         server.nowPlaying = server.queue[0];
-        server.queue.shift();
+        if(!server.repeat) {
+            server.queue.shift();
+        }
+        else{
+            server.queue.push(server.queue[0]);
+            server.queue.shift();
+        }
         server.nowPlaying.playing = true;
 
         let time = 0;
