@@ -10,5 +10,4 @@ module.exports = (bot) => {
         await eveLoader.load(bot);
         await strLoader.load(bot);
     }
-    load();
 }
