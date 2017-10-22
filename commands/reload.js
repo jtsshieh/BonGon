@@ -22,7 +22,7 @@ exports.run = async (bot, msg, args) => {
                 .then(m => {
                     bot.reload(command)
                         .then(() => {
-                            await m.edit(`Successfully reloaded the command: ${command}`).then(m => {
+                            m.edit(`Successfully reloaded the command: ${command}`).then(m => {
                                 setTimeout(function() {
                                     m.delete();
                                 }, 5000);
