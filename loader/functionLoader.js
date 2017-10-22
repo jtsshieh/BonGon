@@ -8,6 +8,7 @@ exports.load = async(bot) => {
 
             try{
                 require(`../functions/${file}`)(bot);
+                bot.functions.set(file.substr(0, file.lastIndexOf('.')), file.substr(0, file.lastIndexOf('.')))
                 console.blue(`Attempting to load the function "${file.substr(0, file.lastIndexOf('.'))}".`, false);
             }
             catch(err){
