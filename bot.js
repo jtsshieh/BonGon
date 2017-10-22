@@ -1,7 +1,7 @@
 const Eris = require('eris');
+let bot = new Eris(process.env.TOKEN);
 
 async function init(){
-    let bot = new Eris(process.env.TOKEN);
     bot.getBotGateway().then(result => {
         let shards = result.shards;
         bot.options.maxShards = shards;
