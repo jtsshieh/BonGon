@@ -8,8 +8,10 @@ exports.run = async (bot, msg, args) => {
         switch(args[0]){
             case 'command':
                 handleCommand(bot, msg, args);
+                break;
             case 'function':
                 handleFunction(bot, msg, args);
+                break;
             default:
                 msg.channel.createMessage('Type is invalid or none was specified.')
         }

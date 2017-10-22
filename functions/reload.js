@@ -6,7 +6,7 @@ module.exports = (bot) => {
                 let func = require(`../functions/${item}`)(bot);
                 switch(type){
                     case 'command':
-                        delete require.cache[require.resolve(`./commands/${item}`)];
+                        delete require.cache[require.resolve(`./commands/${item}.js`)];
                         bot.commands.delete(item);
                         bot.aliases.forEach((cmd, alias) => {
                             if (cmd === item) bot.aliases.delete(alias);
@@ -18,7 +18,7 @@ module.exports = (bot) => {
                         resolve();
                         break;
                     case 'function':
-                        delete require.cache[require.resolve(`./functions/${func}`)];
+                        delete require.cache[require.resolve(`./functions/${func}.js`)];
                         require(`../functions/${func}`)(bot);
                         resolve();
                         break;
