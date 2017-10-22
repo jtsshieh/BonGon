@@ -1,7 +1,6 @@
 let YTDL = require('ytdl-core');
 module.exports = (bot) => {
     bot.playYT = async (connection, msg) => {
-        server.repeat = false;
         const EventEmitter = require('events');
         class MyEmitter extends EventEmitter {}
         bot.musicEmit = new MyEmitter();
@@ -12,7 +11,8 @@ module.exports = (bot) => {
         connection.play(YTDL(server.queue[0].url, {
             filter: 'audioonly'
         }));
-
+        
+        server.repeat = false;
         server.nowPlaying = server.queue[0];
         if(!server.repeat) {
             server.queue.shift();
