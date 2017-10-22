@@ -14,10 +14,11 @@ exports.run = async (bot, msg, args) => {
                     server.queue.repeat = true;
                     msg.channel.createMessage('Repeat is now on!');
                 }
-                elseif(server.repeat == true){
+                else{
                     server.repeat = false;
                     msg.channel.createMessage('Repeat is now off!');
                 }
+
                 return;
         }
     }
