@@ -10,13 +10,13 @@ exports.run = async (bot, msg, args) => {
                 server.queue.splice(args2 - 1, 1);
                 break;
             case 'repeat':
-                if(server.repeat == true){
-                    server.queue.repeat = false;
-                    msg.channel.createMessage('Repeat is now off!');
-                }
-                else{
-                    server.repeat = true;
+                if(!server.repeat){
+                    server.queue.repeat = true;
                     msg.channel.createMessage('Repeat is now on!');
+                }
+                elseif(server.repeat == true){
+                    server.repeat = false;
+                    msg.channel.createMessage('Repeat is now off!');
                 }
                 return;
         }
