@@ -12,13 +12,13 @@ exports.run = async (bot, msg, args) => {
             case 'repeat':
                 if(server.repeat == true){
                     server.queue.repeat = false;
-                    msg.channel.createMessage('Repeat is know off!');
+                    msg.channel.createMessage('Repeat is now off!');
                 }
                 else{
-                    server.queue.repeat = true;
-                    msg.channel.createMessage('Repeat is know on!');
+                    server.repeat = true;
+                    msg.channel.createMessage('Repeat is now on!');
                 }
-                break;
+                return;
         }
     }
     let embed = new bot.RichEmbed();
