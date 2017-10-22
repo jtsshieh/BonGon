@@ -1,6 +1,6 @@
 const fs = require('fs');
 const console = require('chalk-console');
-exports.load = async() => {
+exports.load = async(bot) => {
     fs.readdir('./commands', (err, files) => {
         if (err) console.error(err);
         console.cyan(`Attempting to load a total of ${files.length} commands into the memory.`, false);
