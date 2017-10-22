@@ -19,7 +19,7 @@ const eveLoader = require('./loader/eventLoader');
 async function load(){
     await cmdLoader.load();
     await funLoader.load();
-    await eveLoader.load();
+    await eveLoader.load(bot);
 }
 
 load();
