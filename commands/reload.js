@@ -29,7 +29,7 @@ exports.run = async (bot, msg, args) => {
                             });
                         })
                         .catch(e => {
-                            await m.edit(`Command reload failed: ${command}\n\`\`\`${e.stack}\`\`\``);
+                            m.edit(`Command reload failed: ${command}\n\`\`\`${e.stack}\`\`\``);
                         });
                 });
         }
