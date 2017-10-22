@@ -1,7 +1,7 @@
 const fs = require('fs');
 const console = require('chalk-console');
 exports.load = async() => {
-    fs.readdir('../functions/', (err, files) => {
+    fs.readdir('./functions/', (err, files) => {
         if (err) console.error(err);
         console.cyan(`Attempting to load a total of ${files.length} functions into the memory.`, false);
         files.forEach(file => {
