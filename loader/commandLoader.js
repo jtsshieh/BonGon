@@ -20,5 +20,6 @@ exports.load = async(bot) => {
             }
         });
         console.green('Command Loading complete!');
+        console.log('\n');
     });
 };

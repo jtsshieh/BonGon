@@ -18,11 +18,8 @@ const eveLoader = require('./loader/eventLoader');
 
 async function load(){
     await cmdLoader.load(bot);
-    console.log('\n\n');
     await funLoader.load(bot);
-    console.log('\n\n');
     await eveLoader.load(bot);
-    console.log('\n\n');
 }
 
 load();

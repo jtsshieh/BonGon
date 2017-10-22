@@ -16,5 +16,6 @@ exports.load = async(bot) => {
             }
         });
         console.green('Function Loading complete!');
+        console.log('\n');
     });
 };

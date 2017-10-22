@@ -18,5 +18,6 @@ exports.load = async(bot) => {
             }
         });
         console.green('Event Loading complete!');
+        console.log('\n');
     });
 };
