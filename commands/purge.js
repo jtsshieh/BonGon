@@ -10,7 +10,7 @@ exports.run =async (bot, msg, args) => {
     await msg.channel.createMessage('Purging messages...').then(msg => {
         setTimeout(function() {
             if(!user){
-                await msg.channel.purge(amount).then(no =>
+                msg.channel.purge(amount).then(no =>
                     await msg.channel.createMessage( `Purged ${+no} messages`).then(m => {
                         setTimeout(function() {
                             m.delete();
@@ -20,7 +20,7 @@ exports.run =async (bot, msg, args) => {
             }
             else{
                 let filterBy = user ? user.id : this.bot.user.id;
-                await msg.channel.purge(amount + 2, m => m.author.id === filterBy).then(no =>
+                msg.channel.purge(amount + 2, m => m.author.id === filterBy).then(no =>
                     await msg.channel.createMessage( `Purged ${+no} messages from ${user.username}`).then(m => {
                         setTimeout(function() {
                             m.delete();

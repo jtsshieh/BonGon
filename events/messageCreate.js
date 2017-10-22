@@ -22,7 +22,7 @@ module.exports = async (bot, msg) => {
     if (cmd) {
         if(cmd.conf.guildOnly == true){
             if(!msg.channel.guild){
-                await return msg.channel.createMessage('This command can only be ran in a guild.');
+                return await msg.channel.createMessage('This command can only be ran in a guild.');
             }
         }
         try{

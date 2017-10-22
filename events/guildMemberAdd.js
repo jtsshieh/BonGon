@@ -15,4 +15,4 @@ module.exports = async (bot, guild, member) => {
             await welcomeChannel.createMessage(welcome);
         }
     }
-});
+};

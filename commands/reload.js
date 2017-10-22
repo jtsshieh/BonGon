@@ -20,7 +20,7 @@ exports.run = async (bot, msg, args) => {
         } else {
             await msg.channel.createMessage(`Reloading: ${command}`)
                 .then(m => {
-                    await bot.reload(command)
+                    bot.reload(command)
                         .then(() => {
                             await m.edit(`Successfully reloaded the command: ${command}`).then(m => {
                                 setTimeout(function() {

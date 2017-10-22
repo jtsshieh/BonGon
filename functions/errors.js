@@ -1,5 +1,5 @@
-module.exports = async (bot) =>{
-    bot.errorMessage = (bot, error) => {
+module.exports = (bot) =>{
+    bot.errorMessage = async (bot, error) => {
         let embed = new bot.RichEmbed();
         embed.setTitle('Error');
         embed.setDescription('An Error has occured');

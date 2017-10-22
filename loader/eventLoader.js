@@ -10,7 +10,7 @@ exports.load = async(bot) => {
                 let event = require(`../events/${file}`);
                 console.blue(`Attempting to load the event "${eventName}".`, false);
                 bot.on(eventName, event.bind(null, bot));
-                delete require.cache[require.resolve(`./events/${file}`)];
+                delete require.cache[require.resolve(`../events/${file}`)];
             }
             catch(err){
                 console.red('An error has occured trying to load a event. Here is the error.');

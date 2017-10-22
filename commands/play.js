@@ -11,7 +11,7 @@ exports.run = async (bot, msg, args) => {
             YTVideo(results);
         })
         .catch(() =>{
-            await youtube.searchVideos(args.join(' '), 1)
+            youtube.searchVideos(args.join(' '), 1)
                 .then(results => {
                     await youtube.getVideo(results[0].url)
                         .then(vid => {
