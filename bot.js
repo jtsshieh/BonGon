@@ -14,7 +14,7 @@ async function init(){
     bot.servers = {};
 
     const Loader = require('./loader/loader.js')(bot);
-    Loader.load();
+    Loader();
     bot.editStatus('online', {name: 'b!help', type: 0});
 }
 
