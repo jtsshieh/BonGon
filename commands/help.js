@@ -1,18 +1,18 @@
 exports.run = async (bot, msg, args, prefix) => {
-    let embed = new bot.RichEmbed();
+    const embed = new bot.RichEmbed();
     if (!args[0]) {
-        let categories = [];
-        let commands = Array.from(bot.commands.keys());
-        commands.forEach(function (x){
-            if(!categories.includes(bot.commands.get(x).help.category)){
+        const categories = [];
+        const commands = Array.from(bot.commands.keys());
+        commands.forEach(function(x) {
+            if (!categories.includes(bot.commands.get(x).help.category)) {
                 categories.push(bot.commands.get(x).help.category);
             }
         });
-        let embed = new bot.RichEmbed();
-        categories.forEach(function(x){
+        const embed = new bot.RichEmbed();
+        categories.forEach(function(x) {
             let cat = '';
-            commands.forEach(function (command){
-                if(bot.commands.get(command).help.category == x){
+            commands.forEach(function(command) {
+                if (bot.commands.get(command).help.category == x) {
                     cat = cat + command + '\n';
                 }
             });
@@ -25,13 +25,13 @@ exports.run = async (bot, msg, args, prefix) => {
         embed.setFooter(`The prefix for the server is ${prefix}`);
         embed.setTimestamp();
         await msg.channel.createMessage({embed});
-    } else{
+    } else {
         let command;
         if (bot.commands.has(args[0])) {
             command = args[0];
         } else if (bot.aliases.has(args[0])) {
             command = bot.aliases.get(args[0]);
-        } else{
+        } else {
             embed.setTitle('Error');
             embed.setAuthor('BonGon', bot.user.avatarURL);
             embed.setColor(0xff0000);
@@ -39,8 +39,8 @@ exports.run = async (bot, msg, args, prefix) => {
             embed.setFooter('Parameter wrapped in () are optional. Parameters wrapped in <> are required.');
             embed.setTimestamp();
         }
-        if(command){
-            let commands = bot.commands.get(command);
+        if (command) {
+            const commands = bot.commands.get(command);
             embed.setTitle(`Help for the command ${args[0]}`);
             embed.setAuthor('BonGon', bot.user.avatarURL);
             embed.setColor(0x00afff);
@@ -48,14 +48,14 @@ exports.run = async (bot, msg, args, prefix) => {
             embed.addField('Usage', prefix + commands.help.usage);
             embed.addField('Perm Level', commands.help.permlevel);
             let aliases = '';
-            for(let x = 0; x < commands.conf.aliases.length - 1; x++){
+            for (let x = 0; x < commands.conf.aliases.length - 1; x++) {
                 aliases += commands.conf.aliases[x] + ', ';
             }
-            let lastAlias = commands.conf.aliases[commands.conf.aliases.length - 1];
-            if(lastAlias == undefined){
+            const lastAlias = commands.conf.aliases[commands.conf.aliases.length - 1];
+            if (lastAlias == undefined) {
                 embed.addField('Aliases', '*None*');
             }
-            else{
+            else {
                 embed.addField('Aliases', aliases + lastAlias);
             }
             embed.addField('Description', commands.help.description);

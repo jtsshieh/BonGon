@@ -2,7 +2,7 @@ module.exports = (bot) => {
     bot.reload = (item) => {
         return new Promise((resolve, reject) => {
             try {
-                let cmd = require(`./commands/${item}`);
+                const cmd = require(`./commands/${item}`);
                 delete require.cache[require.resolve(`./commands/${item}.js`)];
                 bot.commands.delete(item);
                 bot.aliases.forEach((cmd, alias) => {
@@ -13,7 +13,7 @@ module.exports = (bot) => {
                     bot.aliases.set(alias, cmd.help.name);
                 });
                 resolve();
-            } catch (e){
+            } catch (e) {
                 reject(e);
             }
         });

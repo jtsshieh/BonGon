@@ -1,11 +1,11 @@
-let YTDL = require('ytdl-core');
+const YTDL = require('ytdl-core');
 module.exports = (bot) => {
     bot.playYT = async (connection, msg) => {
         const EventEmitter = require('events');
         class MyEmitter extends EventEmitter {}
         bot.musicEmit = new MyEmitter();
 
-        let server = bot.MusicVariables(msg.member.guild.id);
+        const server = bot.MusicVariables(msg.member.guild.id);
 
         server.dispatcher = connection;
         connection.play(YTDL(server.queue[0].url, {
@@ -13,10 +13,10 @@ module.exports = (bot) => {
         }));
 
         server.nowPlaying = server.queue[0];
-        if(!server.repeat) {
+        if (!server.repeat) {
             server.queue.shift();
         }
-        else{
+        else {
             server.queue.push(server.queue[0]);
             server.queue.shift();
         }
@@ -24,7 +24,7 @@ module.exports = (bot) => {
 
         let time = 0;
         let counter = setInterval(
-            function () {
+            function() {
                 time = time + 1;
                 server.dispatcher.time = time;
             }, 1000);
@@ -35,7 +35,7 @@ module.exports = (bot) => {
 
         bot.musicEmit.on('resumed',() =>{
             counter = setInterval(
-                function () {
+                function() {
                     time = time + 1;
                     server.dispatcher.time = time;
                 }, 1000);
@@ -43,7 +43,7 @@ module.exports = (bot) => {
 
         connection.once('end', function() {
             clearInterval(counter);
-            if (server.queue[0]){
+            if (server.queue[0]) {
                 server.nowPlaying = null;
                 bot.playYT(connection, msg);
             }
@@ -55,7 +55,7 @@ module.exports = (bot) => {
     };
 
     bot.buildPlayer = (description = '', names = [], values = [], inline = [], thumbnail, author = [bot.user.username, bot.user.avatarURL]) => {
-        let embed = new bot.RichEmbed();
+        const embed = new bot.RichEmbed();
         embed.setTitle('Music Player');
         embed.setAuthor(author[0], author[1]);
         embed.setColor(0x00afff);

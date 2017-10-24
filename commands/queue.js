@@ -1,7 +1,7 @@
 exports.run = async (bot, msg, args) => {
-    let server = bot.MusicVariables(msg.member.guild.id);
+    const server = bot.MusicVariables(msg.member.guild.id);
     if (args.length) {
-        let args2 = Number(args[1]);
+        const args2 = Number(args[1]);
         switch (args[0]) {
             case 'remove':
                 server.queue.splice(args2 - 1, 1);
@@ -10,11 +10,11 @@ exports.run = async (bot, msg, args) => {
                 server.queue.splice(args2 - 1, 1);
                 break;
             case 'repeat':
-                if(!server.repeat){
+                if (!server.repeat) {
                     server.queue.repeat = true;
                     msg.channel.createMessage('Repeat is now on!');
                 }
-                else{
+                else {
                     server.repeat = false;
                     msg.channel.createMessage('Repeat is now off!');
                 }
@@ -22,7 +22,7 @@ exports.run = async (bot, msg, args) => {
                 return;
         }
     }
-    let embed = new bot.RichEmbed();
+    const embed = new bot.RichEmbed();
     embed.setTitle(`${msg.member.guild.name}'s queue`);
     embed.setAuthor(bot.user.username, bot.user.avatarURL);
     embed.setColor(0x00afff);
@@ -31,9 +31,9 @@ exports.run = async (bot, msg, args) => {
     let number = 0;
     let songs = '';
     server.queue.forEach(function(x) {
-        let moment = require('moment');
-        let s = moment.duration({s: x.duration});
-        let totTime = moment().startOf('day').add(s).format('HH:mm:ss');
+        const moment = require('moment');
+        const s = moment.duration({s: x.duration});
+        const totTime = moment().startOf('day').add(s).format('HH:mm:ss');
         number++;
         songs += number + '. ' + x.title + '** - **' + totTime + '** - **' + 'Requested By: ' + x.requested + '\n';
     });

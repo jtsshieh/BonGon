@@ -1,5 +1,5 @@
 exports.run = async (bot, msg) => {
-    let server = bot.MusicVariables(msg.member.guild.id);
+    const server = bot.MusicVariables(msg.member.guild.id);
     if (!server) return await msg.channel.createMessage('There is nothing to stop');
     if (!server.dispatcher) return await msg.channel.createMessage('There is nothing to stop');
     let tempserver = server;

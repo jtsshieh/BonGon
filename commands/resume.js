@@ -1,5 +1,5 @@
 exports.run = async (bot, msg, args, prefix) => {
-    let server = bot.MusicVariables(msg.member.guild.id);
+    const server = bot.MusicVariables(msg.member.guild.id);
     if (!server) return await msg.channel.createMessage('There is nothing to resume');
     if (!server.dispatcher) return await msg.channel.createMessage('There is nothing to resume');
     if (server.nowPlaying.playing) return await msg.channel.createMessage(`You can't resume a song that is already playing. Try ${prefix}pause`);

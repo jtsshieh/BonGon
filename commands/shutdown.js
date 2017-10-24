@@ -1,5 +1,5 @@
 exports.run = async (bot, msg) => {
-    if(msg.author.id == '236279900728721409'){
+    if (msg.author.id == '236279900728721409') {
         await msg.channel.createMessage('Bot is now shutting down...');
         process.exit(0);
     }

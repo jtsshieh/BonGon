@@ -1,9 +1,9 @@
 const Eris = require('eris');
-let bot = new Eris(process.env.TOKEN);
+const bot = new Eris(process.env.TOKEN);
 
-async function init(){
+async function init() {
     bot.getBotGateway().then(result => {
-        let shards = result.shards;
+        const shards = result.shards;
         bot.options.maxShards = shards;
     });
 
@@ -18,5 +18,5 @@ async function init(){
     bot.editStatus('online', {name: 'b!help', type: 0});
 }
 
-init()
+init();
 bot.connect();

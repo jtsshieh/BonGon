@@ -1,6 +1,6 @@
 module.exports = (bot) =>{
     bot.errorMessage = async (bot, error) => {
-        let embed = new bot.RichEmbed();
+        const embed = new bot.RichEmbed();
         embed.setTitle('Error');
         embed.setDescription('An Error has occured');
         embed.setAuthor(bot.user.username, bot.user.avatarURL);

@@ -1,6 +1,6 @@
 exports.run = async (bot, msg) => {
     const m = await msg.channel.createMessage('If you see this, the bot is lagging').then(m => { // eslint-disable-line no-unused-vars
-        let embed = new bot.RichEmbed();
+        const embed = new bot.RichEmbed();
         embed.setTitle('PONG!!');
         embed.setAuthor(msg.author.username, msg.author.avatarURL);
         embed.setColor(0x00aff);
