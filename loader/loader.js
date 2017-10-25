@@ -4,8 +4,10 @@ const eveLoader = require('./eventLoader.js');
 const strLoader = require('./structureLoader.js');
 
 module.exports = async (bot) => {
-  await cmdLoader.load(bot);
-  await funLoader.load(bot);
-  await eveLoader.load(bot);
-  await strLoader.load(bot);
+  bot.Load = async () => {
+    await cmdLoader.load(bot);
+    await funLoader.load(bot);
+    await eveLoader.load(bot);
+    await strLoader.load(bot);
+  };
 };
