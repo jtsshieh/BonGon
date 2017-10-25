@@ -12,7 +12,7 @@ module.exports = (bot) =>{
       }
       else if (typeof content == 'object') {
         if (content.includes(msg.content)) {
-          return content.find(e => e == msg.content);
+          return msg.content;
         }
       }
     };

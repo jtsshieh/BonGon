@@ -1,9 +1,9 @@
 exports.run = async (bot, msg) => {
   let counter = 0;
   const answer = bot.awaitMessage(['rock', 'paper', 'scissors']);
-
+  console.log(answer)
   setInterval(function() {
-    if (answer == 'rock' || answer == 'paper' || answer == 'scissors') {
+    if (answer) {
       return msg.channel.createMessage('I work!');
     }
     counter +=1;
