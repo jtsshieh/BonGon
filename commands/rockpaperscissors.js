@@ -3,8 +3,8 @@ exports.run = async (bot, msg) => {
   const answer = bot.awaitMessage(['rock', 'paper', 'scissors']);
 
   setInterval(function() {
-    if (answer) {
-      msg.channel.createMessage('I work!');
+    if (answer == 'rock' || answer == 'paper' || answer == 'scissors') {
+      return msg.channel.createMessage('I work!');
     }
     counter +=1;
     if (counter == 30) {
