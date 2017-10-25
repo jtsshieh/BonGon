@@ -5,12 +5,12 @@ module.exports = (bot) =>{
         bot.removeListener('messageCreate', callback);
         return msg.content;
       }
-      if (content.typeof(String)) {
+      if (typeof content == 'string') {
         if (msg.content == content) {
           return msg.content;
         }
       }
-      else if (content.typeof(Array)) {
+      else if (typeof content == 'object') {
         if (content.includes(msg.content)) {
           return content.find(e => e == msg.content);
         }
