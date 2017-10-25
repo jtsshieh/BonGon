@@ -13,8 +13,8 @@ async function init() {
   bot.aliases = new Eris.Collection();
   bot.servers = {};
 
-  const Loader = require('./loader/loader.js')(bot);
-  Loader();
+  require('./loader/loader.js')(bot);
+  bot.Load();
   bot.editStatus('online', {name: 'b!help', type: 0});
 }
 
