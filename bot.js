@@ -1,5 +1,5 @@
 const Eris = require('eris');
-const bot = new Eris(process.ENV.TOKEN);
+const bot = new Eris(process.env.TOKEN);
 
 async function init() {
   bot.getBotGateway().then(result => {
