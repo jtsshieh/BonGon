@@ -18,7 +18,7 @@ async function init() {
   bot.Load();
   setInterval(
     function() {
-      bot.editStatus('online', {name: games[Math.floor(Math.Random() * games.length)], type: 0});
+      bot.editStatus('online', {name: games[Math.floor(Math.random() * games.length)], type: 0});
     }
     , 180000);
 
