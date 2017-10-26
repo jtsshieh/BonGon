@@ -13,10 +13,15 @@ async function init() {
   bot.aliases = new Eris.Collection();
   bot.servers = {};
 
-  console.log( Array.from( bot.guilds.keys() ))
+  const games = ['with BonGon', 'learning Java', 'with a Person', `on ${bot.guilds.size} guilds`, 'with music', 'hating', 'THE SKY IS FALLING', 'stoop, droop, and rool', 'with fun', 'rock paper scissors', 'tic tac toe', 'having fun' ];
   require('./loader/loader.js')(bot);
   bot.Load();
-  bot.editStatus('online', {name: 'b!help', type: 0});
+  setInterval(
+    function() {
+      bot.editStatus('online', {name: games[Math.floor(Math.Random() * games.length)], type: 0});
+    }
+    , 180000);
+
 }
 
 init();
