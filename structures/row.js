@@ -35,7 +35,7 @@ class Row {
     this.Perm5Role = data.Perm5Role;
   }
   get(setting, guild_id) {
-    const query = client.query(`SELECT ${setting} FROM settings WHERE (guild_id == ${guild_id})`);
+    const query = client.query(`SELECT ${setting} FROM settings WHERE guild_id = ${guild_id}`);
     query.on('row', function(row, result) {
       result.addRow(row);
     });
@@ -45,8 +45,8 @@ class Row {
     return this;
   }
   set(setting, value, guild_id) {
-    client.query(`UPDATE settings SET ${setting} = ${value} WHERE (guild_id == ${guild_id})`);
-    const query = client.query(`SELECT ${setting} FROM settings WHERE (guild_id == ${guild_id})`);
+    client.query(`UPDATE settings SET ${setting} = ${value} WHERE guild_id = ${guild_id}`);
+    const query = client.query(`SELECT ${setting} FROM settings WHERE guild_id = ${guild_id}`);
     query.on('row', function(row, result) {
       result.addRow(row);
     });
