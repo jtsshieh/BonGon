@@ -11,7 +11,7 @@ exports.run = async (bot, msg, args) => {
         break;
       case 'repeat':
         if (!server.repeat) {
-          server.queue.repeat = true;
+          server.repeat = true;
           msg.channel.createMessage('Repeat is now on!');
         }
         else {
