@@ -12,14 +12,16 @@ module.exports = (bot) => {
       filter: 'audioonly'
     }));
 
+    server.beforeNowPlaying = server.nowPlaying;
+    server.nowPlaying = server.queue[0];
+
     if (!server.repeat) {
       server.queue.shift();
     }
     else {
-      server.queue.push(server.nowPlaying);
+      server.queue.push(server.beforeNowPlaying);
       server.queue.shift();
     }
-    server.nowPlaying = server.queue[0];
 
     server.nowPlaying.playing = true;
 
