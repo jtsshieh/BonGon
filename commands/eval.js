@@ -29,3 +29,16 @@ exports.run = async (bot, msg, args) => {
     msg.channel.createMessage('Nice Try c;');
   }
 };
+
+exports.conf = {
+  aliases: [],
+  guildOnly: false
+};
+
+exports.help = {
+  name: 'eval',
+  description: 'Eval JavaScript Code.',
+  usage: 'eval',
+  permlevel: 0,
+  category: 'Owner'
+};
