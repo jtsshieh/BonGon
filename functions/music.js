@@ -17,7 +17,7 @@ module.exports = (bot) => {
       server.queue.shift();
     }
     else {
-      server.queue.push(server.queue[0]);
+      server.queue.push(server.nowPlaying);
       server.queue.shift();
     }
     server.nowPlaying.playing = true;
