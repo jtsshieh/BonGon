@@ -49,7 +49,7 @@ module.exports = (bot) => {
 
     connection.once('end', function() {
       clearInterval(counter);
-      if (server.queue[0]) {
+      if (server.queue[0] || server.beforeNowPlaying) {
         server.nowPlaying = null;
         bot.playYT(connection, msg);
       }
