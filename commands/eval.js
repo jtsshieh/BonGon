@@ -28,7 +28,7 @@ exports.run = async (bot, msg, args) => {
     embed.setColor(0xff0000);
     embed.setFooter('Eval', bot.user.avatarURL);
     embed.setTimestamp();
-    msg.channel.createMessage({ embed });
+    return msg.channel.createMessage({ embed });
   }
 
 
@@ -41,7 +41,7 @@ exports.run = async (bot, msg, args) => {
     embed.setColor(0x00afff);
     embed.setFooter('Eval', bot.user.avatarURL);
     embed.setTimestamp();
-    msg.channel.createMessage({ embed });
+    return msg.channel.createMessage({ embed });
   } catch (err) {
     const embed = new bot.RichEmbed();
     embed.setAuthor('Eval Error');
@@ -51,7 +51,7 @@ exports.run = async (bot, msg, args) => {
     embed.setColor(0xff0000);
     embed.setFooter('Eval', bot.user.avatarURL);
     embed.setTimestamp();
-    msg.channel.createMessage({ embed });
+    return msg.channel.createMessage({ embed });
   }
 };
 
