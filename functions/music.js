@@ -7,8 +7,6 @@ module.exports = (bot) => {
 
     const server = bot.MusicVariables(msg.member.guild.id);
 
-    server.beforeNowPlaying = server.nowPlaying;
-
     server.dispatcher = connection;
 
     connection.play(YTDL(server.queue[0].url, {
@@ -16,7 +14,9 @@ module.exports = (bot) => {
     }));
 
     server.nowPlaying = server.queue[0];
-    
+    server.beforeNowPlaying = server.nowPlaying;
+
+
     server.queue.shift();
 
     server.nowPlaying.playing = true;
