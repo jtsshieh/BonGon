@@ -28,26 +28,24 @@ exports.run = async (bot, msg, args) => {
   embed.setColor(0x00afff);
   embed.setDescription('The queue for this server');
   embed.setTimestamp();
+  let number = 0;
   let songs = '';
 
-  for (let num; num < 10; num++) {
-    const x = server.queue[num];
+  server.queue.forEach(function(x) {
     const moment = require('moment');
     const s = moment.duration({s: x.duration});
     const totTime = moment().startOf('day').add(s).format('HH:mm:ss');
-    songs += num + '. ' + x.title + '** - **' + totTime + '** - **' + 'Requested By: ' + x.requested + '\n';
-  }
+    number++;
+    songs += number + '. ' + x.title + '** - **' + totTime + '** - **' + 'Requested By: ' + x.requested + '\n';
+  });
 
   if (songs == '') {
     songs = '*There are no songs queued!*';
   }
-
   embed.addField('Songs', songs);
-
   if (server.repeat) {
     embed.addField('Repeat', 'The queue is on repeat mode. Finished songs will go to the end of the queue.');
   }
-
   return await msg.channel.createMessage({
     embed
   });
