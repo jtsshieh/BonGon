@@ -16,8 +16,8 @@ exports.run = async (bot, msg, args) => {
       const embed = new bot.RichEmbed();
       embed.setAuthor('Eval');
       embed.setDescription('Eval\'s result');
-      embed.addField(':inbox_tray: Input:', `\`\`\`js\n${code}\n\`\`\``);
-      embed.addField(':outbox_tray: Output:', `\`\`\`js\n${clean(evaled)}\n\`\`\``);
+      embed.addField(':inbox_tray: Input:', `\`\`\`js\n${code}\n\`\`\``, false);
+      embed.addField(':outbox_tray: Output:', `\`\`\`js\n${clean(evaled)}\n\`\`\``, false);
       embed.setColor(0x00afff);
       embed.setFooter('Eval', bot.user.avatarURL);
       embed.setTimestamp();
