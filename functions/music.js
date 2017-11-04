@@ -12,7 +12,6 @@ module.exports = (bot) => {
       filter: 'audioonly'
     }));
 
-    server.nowPlaying = server.queue[0];
     if (!server.repeat) {
       server.queue.shift();
     }
@@ -20,6 +19,8 @@ module.exports = (bot) => {
       server.queue.push(server.nowPlaying);
       server.queue.shift();
     }
+    server.nowPlaying = server.queue[0];
+
     server.nowPlaying.playing = true;
 
     let time = 0;
