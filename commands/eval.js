@@ -20,7 +20,15 @@ exports.run = async (bot, msg, args) => {
     if (typeof evaled !== 'string')
       evaled = require('util').inspect(evaled);
   } catch (err) {
-    return msg.channel.createMessage(`Error formatting code: ${err}`);
+    const embed = new bot.RichEmbed();
+    embed.setAuthor('Eval Error');
+    embed.setDescription('Eval\'s result');
+    embed.addField(':inbox_tray: Input:', `\`\`\`js\n${code}\n\`\`\``, false);
+    embed.addField(':outbox_tray: Output:', `\`\`\`${err.stack}\`\`\``, false);
+    embed.setColor(0xff0000);
+    embed.setFooter('Eval', bot.user.avatarURL);
+    embed.setTimestamp();
+    msg.channel.createMessage({ embed });
   }
 
 
