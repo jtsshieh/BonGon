@@ -29,9 +29,13 @@ exports.run = async (bot, msg, args) => {
   embed.setDescription('The queue for this server');
   embed.setTimestamp();
   let number = 0;
+  let extra = 0;
   let songs = '';
 
   server.queue.forEach(function(x) {
+    if (number >= 10) {
+      return extra++;
+    }
     const moment = require('moment');
     const s = moment.duration({s: x.duration});
     const totTime = moment().startOf('day').add(s).format('HH:mm:ss');
@@ -39,6 +43,9 @@ exports.run = async (bot, msg, args) => {
     songs += number + '. ' + x.title + '** - **' + totTime + '** - **' + 'Requested By: ' + x.requested + '\n';
   });
 
+  if (extra > 0) {
+    songs+= '-----' + extra + ' more-----';
+  }
   if (songs == '') {
     songs = '*There are no songs queued!*';
   }
