@@ -1,32 +1,49 @@
 exports.run = async (bot, msg, args) => {
-  if (msg.author.id == '236279900728721409') {
-    try {
-      const code = args.join(' ');
-      const clean = text => {
-        if (typeof(text) === 'string')
-          return text.replace(/`/g, '`' + String.fromCharCode(8203)).replace(/@/g, '@' + String.fromCharCode(8203));
-        else
-          return text;
-      };
-      let evaled = eval(code);
+  if (!msg.author.id == '236279900728721409') return msg.channel.createMessage('Nice Try');
 
-      if (typeof evaled !== 'string')
-        evaled = require('util').inspect(evaled);
+  let evaled;
 
-      const embed = new bot.RichEmbed();
-      embed.setAuthor('Eval');
-      embed.setDescription('Eval\'s result');
-      embed.addField(':inbox_tray: Input:', `\`\`\`js\n${code}\n\`\`\``, false);
-      embed.addField(':outbox_tray: Output:', `\`\`\`js\n${clean(evaled)}\n\`\`\``, false);
-      embed.setColor(0x00afff);
-      embed.setFooter('Eval', bot.user.avatarURL);
-      embed.setTimestamp();
-      msg.channel.createMessage({ embed });
-    } catch (err) {
-      msg.channel.createMessage(':x:'+ err);
-    }
-  } else {
-    msg.channel.createMessage('Nice Try c;');
+  let remove;
+  let code;
+
+  try {
+    code = args.join(' ');
+    remove = text => {
+      if (typeof(text) === 'string')
+        return text.replace(/`/g, '`' + String.fromCharCode(8203)).replace(/@/g, '@' + String.fromCharCode(8203));
+      else
+        return text;
+    };
+
+    evaled = eval(code);
+
+    if (typeof evaled !== 'string')
+      evaled = require('util').inspect(evaled);
+  } catch (err) {
+    return msg.channel.createMessage(`Error formatting code: ${err}`);
+  }
+
+
+  try  {
+    const embed = new bot.RichEmbed();
+    embed.setAuthor('Eval Success');
+    embed.setDescription('Eval\'s result');
+    embed.addField(':inbox_tray: Input:', `\`\`\`js\n${code}\n\`\`\``, false);
+    embed.addField(':outbox_tray: Output:', `\`\`\`js\n${remove(evaled)}\n\`\`\``, false);
+    embed.setColor(0x00afff);
+    embed.setFooter('Eval', bot.user.avatarURL);
+    embed.setTimestamp();
+    msg.channel.createMessage({ embed });
+  } catch (err) {
+    const embed = new bot.RichEmbed();
+    embed.setAuthor('Eval Error');
+    embed.setDescription('Eval\'s result');
+    embed.addField(':inbox_tray: Input:', `\`\`\`js\n${code}\n\`\`\``, false);
+    embed.addField(':outbox_tray: Output:', `\`\`\`${err.stack}\`\`\``, false);
+    embed.setColor(0xff0000);
+    embed.setFooter('Eval', bot.user.avatarURL);
+    embed.setTimestamp();
+    msg.channel.createMessage({ embed });
   }
 };
 
