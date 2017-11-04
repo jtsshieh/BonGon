@@ -73,7 +73,7 @@ module.exports = (bot) => {
 
   bot.MusicVariables = (guildID) => {
     if (!bot.servers[guildID]) {
-      bot.servers[guildID] = {'queue' : [], 'dispatcher': null, 'repeat': false};
+      bot.servers[guildID] = {'queue' : [], 'dispatcher': null, 'repeat': false, 'nowPlaying': null, 'beforeNowPlaying': null};
     }
     return bot.servers[guildID];
   };
