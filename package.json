@@ -4,7 +4,8 @@
   "description": "A bot for Discord made in Eris",
   "main": "bot.js",
   "scripts": {
-    "start": "node bot.js --production"
+    "start": "node bot.js --production",
+    "test": "node bot.js --production"
   },
   "author": "Justin",
   "license": "MIT",
