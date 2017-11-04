@@ -16,6 +16,8 @@ module.exports = (bot) => {
     }));
 
     server.nowPlaying = server.queue[0];
+    
+    server.queue.shift();
 
     server.nowPlaying.playing = true;
 
@@ -40,8 +42,6 @@ module.exports = (bot) => {
 
     connection.once('end', function() {
       clearInterval(counter);
-
-      server.queue.shift();
 
       if (server.queue[0] || server.beforeNowPlaying) {
         if (server.repeat) {

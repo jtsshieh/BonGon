@@ -31,7 +31,8 @@ exports.run = async (bot, msg, args) => {
   let number = 0;
   let songs = '';
 
-  for (let x; x < 10; x++) {
+  for (let num; num < 10; num++) {
+    const x = server.queue[num];
     const moment = require('moment');
     const s = moment.duration({s: x.duration});
     const totTime = moment().startOf('day').add(s).format('HH:mm:ss');
