@@ -23,7 +23,7 @@ exports.run = async (bot, msg, args) => {
       embed.setTimestamp();
       msg.channel.createMessage({ embed });
     } catch (err) {
-      msg.channel.createMessage(module.exports.error + err);
+      msg.channel.createMessage(':stop:'+ err);
     }
   } else {
     msg.channel.createMessage('Nice Try c;');
