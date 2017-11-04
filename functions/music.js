@@ -7,9 +7,6 @@ module.exports = (bot) => {
 
     const server = bot.MusicVariables(msg.member.guild.id);
 
-
-    server.nowPlaying = server.queue[0];
-
     server.beforeNowPlaying = server.nowPlaying;
 
     server.dispatcher = connection;
@@ -18,13 +15,11 @@ module.exports = (bot) => {
       filter: 'audioonly'
     }));
 
-    if (!server.repeat) {
-      server.queue.shift();
-    }
-    else {
-      server.queue.push(server.beforeNowPlaying);
-      server.queue.shift();
-    }
+    server.nowPlaying = server.queue[0];
+
+    if()
+
+
 
     server.nowPlaying.playing = true;
 
@@ -49,10 +44,18 @@ module.exports = (bot) => {
 
     connection.once('end', function() {
       clearInterval(counter);
+
+      server.queue.shift();
+
       if (server.queue[0] || server.beforeNowPlaying) {
+        if (server.repeat) {
+          server.queue.push(server.beforeNowPlaying);
+        }
+
         server.nowPlaying = null;
         bot.playYT(connection, msg);
       }
+
       else {
         bot.leaveVoiceChannel(connection.channelID);
         bot.servers[msg.member.guild.id] = null;
