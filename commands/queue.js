@@ -28,7 +28,6 @@ exports.run = async (bot, msg, args) => {
   embed.setColor(0x00afff);
   embed.setDescription('The queue for this server');
   embed.setTimestamp();
-  let number = 0;
   let songs = '';
 
   for (let num; num < 10; num++) {
@@ -36,8 +35,7 @@ exports.run = async (bot, msg, args) => {
     const moment = require('moment');
     const s = moment.duration({s: x.duration});
     const totTime = moment().startOf('day').add(s).format('HH:mm:ss');
-    number++;
-    songs += number + '. ' + x.title + '** - **' + totTime + '** - **' + 'Requested By: ' + x.requested + '\n';
+    songs += num + '. ' + x.title + '** - **' + totTime + '** - **' + 'Requested By: ' + x.requested + '\n';
   }
 
   if (songs == '') {
