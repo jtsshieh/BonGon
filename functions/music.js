@@ -17,10 +17,6 @@ module.exports = (bot) => {
 
     server.nowPlaying = server.queue[0];
 
-    if()
-
-
-
     server.nowPlaying.playing = true;
 
     let time = 0;
