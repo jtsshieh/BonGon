@@ -7,15 +7,17 @@ module.exports = (bot) => {
 
     const server = bot.MusicVariables(msg.member.guild.id);
 
-    server.dispatcher = connection;
+
+    server.nowPlaying = server.queue[0];
 
     server.beforeNowPlaying = server.nowPlaying;
+
+    server.dispatcher = connection;
 
     connection.play(YTDL(server.queue[0].url, {
       filter: 'audioonly'
     }));
 
-    server.nowPlaying = server.queue[0];
     if (!server.repeat) {
       server.queue.shift();
     }
