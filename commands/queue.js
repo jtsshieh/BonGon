@@ -30,17 +30,25 @@ exports.run = async (bot, msg, args) => {
   embed.setTimestamp();
   let number = 0;
   let songs = '';
-  server.queue.forEach(function(x) {
+
+  for (let x; x < 10; x++) {
     const moment = require('moment');
     const s = moment.duration({s: x.duration});
     const totTime = moment().startOf('day').add(s).format('HH:mm:ss');
     number++;
     songs += number + '. ' + x.title + '** - **' + totTime + '** - **' + 'Requested By: ' + x.requested + '\n';
-  });
+  }
+
   if (songs == '') {
     songs = '*There are no songs queued!*';
   }
+
   embed.addField('Songs', songs);
+
+  if (server.repeat) {
+    embed.addField('Repeat', 'The queue is on repeat mode. Finished songs will go to the end of the queue.');
+  }
+
   return await msg.channel.createMessage({
     embed
   });
