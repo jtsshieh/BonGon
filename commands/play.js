@@ -28,7 +28,7 @@ exports.run = async (bot, msg, args) => {
 
     const d = moment.duration({s: video.durationSeconds});
     const server = bot.MusicVariables(msg.member.guild.id);
-    const time = moment().startOf('day').add(d).format('HH:mm:ss');
+    const time = moment().startOf('day').add(d).format('hh:mm:ss');
 
     server.queue.push({url: video.url, title: video.title, thumbnail: video.thumbnails.high.url, duration: video.durationSeconds, requested: msg.author.mention , playing: false});
 

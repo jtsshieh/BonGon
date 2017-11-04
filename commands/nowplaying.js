@@ -25,7 +25,7 @@ exports.run = async (bot, msg) => {
   const totTime = moment().startOf('day').add(s).format('HH:mm:ss');
   embed.addField('Title:', server.nowPlaying.title);
   embed.addField('Position: ', trac + `\n**[${curTime}/${totTime}]**`);
-  embed.addField('URL: ', server.nowPlaying.url);
+  embed.addField('Link: ', server.nowPlaying.url);
   embed.addField('Requested by: ', server.nowPlaying.requested);
   if (server.nowPlaying.playing == false) {
     embed.addField('Paused', 'The song is currently paused.');
