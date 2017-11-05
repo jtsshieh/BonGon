@@ -44,7 +44,7 @@ exports.run = async (bot, msg, args) => {
   });
 
   if (extra > 0) {
-    songs+= '-----' + extra + ' more-----';
+    songs+= '---------------' + extra + ' more---------------';
   }
   if (songs == '') {
     songs = '*There are no songs queued!*';
@@ -64,7 +64,7 @@ exports.conf = {
 exports.help = {
   name: 'queue',
   description: 'View this server\'s queue, or modify it.',
-  usage: 'queue (text:remove)',
+  usage: 'queue (text:remove/r/repeat)',
   permlevel: 0,
   category: 'Music'
 };

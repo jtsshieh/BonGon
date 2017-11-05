@@ -9,7 +9,7 @@ exports.run = async (bot, msg) => {
   embed.setAuthor(server.nowPlaying.title, server.nowPlaying.thumbnail);
   embed.setColor(0x00afff);
   let trac = '';
-  for (let x = 0; x < 7; x++) {
+  for (let x = 0; x < 8; x++) {
     if (timeLeft == x) {
       trac += ':radio_button:';
     }
