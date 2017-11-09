@@ -3,13 +3,18 @@ exports.run = async (bot, msg) => {
   if (!server.nowPlaying) return await msg.channel.createMessage('There is nothing currently playing');
   const currentTime = Math.round(server.dispatcher ? server.dispatcher.time / 60 : 0);
   const totalTime = Math.round(server.nowPlaying.duration / 60);
-  const timeLeft = Math.round(currentTime/totalTime * 7);
+  let timeLeft = Math.round(currentTime/totalTime * 10);
+
   const embed = new bot.RichEmbed();
   embed.setTitle('Music Player');
   embed.setAuthor(server.nowPlaying.title, server.nowPlaying.thumbnail);
   embed.setColor(0x00afff);
+
+  if (timeLeft > 10) {
+    timeLeft = 10;
+  }
   let trac = '';
-  for (let x = 0; x < 8; x++) {
+  for (let x = 0; x == 10; x++) {
     if (timeLeft == x) {
       trac += ':radio_button:';
     }
