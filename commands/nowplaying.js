@@ -10,8 +10,8 @@ exports.run = async (bot, msg) => {
   embed.setAuthor(server.nowPlaying.title, server.nowPlaying.thumbnail);
   embed.setColor(0x00afff);
 
-  if (timeLeft > 10) {
-    timeLeft = 10;
+  if (timeLeft > 20) {
+    timeLeft = 20;
   }
   let trac = '`';
   for (let x = 0; x < 21; x++) {
