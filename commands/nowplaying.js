@@ -15,7 +15,7 @@ exports.run = async (bot, msg) => {
   }
   let trac = '`';
   for (let x = 0; x <  41; x++) {
-    if (timeLeft == x) { trac += ':radio_button:'; }
+    if (timeLeft == x) { trac += '🔘'; }
     else { trac +=  '▬';}
   }
   trac += '`';
