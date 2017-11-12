@@ -13,11 +13,12 @@ exports.run = async (bot, msg) => {
   if (timeLeft > 10) {
     timeLeft = 10;
   }
-  let trac = '';
+  let trac = '`';
   for (let x = 0; x <  41; x++) {
     if (timeLeft == x) { trac += ':radio_button:'; }
-    else { trac+= '▬';}
+    else { trac +=  '▬';}
   }
+  trac += '`';
   const moment = require('moment');
   const d = moment.duration({s: server.dispatcher ? server.dispatcher.time : 0});
   const curTime = moment().startOf('day').add(d).format('HH:mm:ss');
