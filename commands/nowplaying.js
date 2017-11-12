@@ -3,7 +3,7 @@ exports.run = async (bot, msg) => {
   if (!server.nowPlaying) return await msg.channel.createMessage('There is nothing currently playing');
   const currentTime = Math.round(server.dispatcher ? server.dispatcher.time / 60 : 0);
   const totalTime = Math.round(server.nowPlaying.duration / 60);
-  let timeLeft = Math.round(currentTime/totalTime * 40);
+  let timeLeft = Math.round(currentTime/totalTime * 20);
 
   const embed = new bot.RichEmbed();
   embed.setTitle('Music Player');
@@ -14,7 +14,7 @@ exports.run = async (bot, msg) => {
     timeLeft = 10;
   }
   let trac = '`';
-  for (let x = 0; x <  41; x++) {
+  for (let x = 0; x < 21; x++) {
     if (timeLeft == x) { trac += '🔘'; }
     else { trac +=  '▬';}
   }
