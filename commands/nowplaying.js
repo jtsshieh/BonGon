@@ -1,9 +1,9 @@
 exports.run = async (bot, msg) => {
   const server = bot.MusicVariables(msg.member.guild.id);
   if (!server.nowPlaying) return await msg.channel.createMessage('There is nothing currently playing');
-  const currentTime = Math.round(server.dispatcher ? server.dispatcher.time / 60 : 0);
-  const totalTime = Math.round(server.nowPlaying.duration / 60);
-  let timeLeft = Math.round(currentTime/totalTime * 20);
+  const currentTime = Math.floor(server.dispatcher ? server.dispatcher.time / 60 : 0);
+  const totalTime = Math.floor(server.nowPlaying.duration / 60);
+  let timeLeft = Math.floor(currentTime/totalTime * 20);
 
   const embed = new bot.RichEmbed();
   embed.setTitle('Music Player');
