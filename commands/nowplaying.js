@@ -3,7 +3,7 @@ exports.run = async (bot, msg) => {
   if (!server.nowPlaying) return await msg.channel.createMessage('There is nothing currently playing');
   const currentTime = Math.round(server.dispatcher ? server.dispatcher.time / 60 : 0);
   const totalTime = Math.round(server.nowPlaying.duration / 60);
-  let timeLeft = Math.round(currentTime/totalTime * 10);
+  let timeLeft = Math.round(currentTime/totalTime * 40);
 
   const embed = new bot.RichEmbed();
   embed.setTitle('Music Player');
@@ -13,16 +13,12 @@ exports.run = async (bot, msg) => {
   if (timeLeft > 10) {
     timeLeft = 10;
   }
-  let trac = '';
-  for (let x = 0; x == 10; x++) {
-    if (timeLeft == x) {
-      trac += ':radio_button:';
-    }
-
-    else {
-      trac+= '▬';
-    }
+  let trac = '`';
+  for (let x = 0; x == 41; x++) {
+    if (timeLeft == x) { trac += ':radio_button:'; }
+    else { trac+= '▬';}
   }
+  trac += '`';
   const moment = require('moment');
   const d = moment.duration({s: server.dispatcher ? server.dispatcher.time : 0});
   const curTime = moment().startOf('day').add(d).format('HH:mm:ss');
