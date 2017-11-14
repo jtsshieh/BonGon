@@ -59,19 +59,6 @@ module.exports = (bot) => {
     });
   };
 
-  bot.buildPlayer = (description = '', names = [], values = [], inline = [], thumbnail, author = [bot.user.username, bot.user.avatarURL]) => {
-    const embed = new bot.RichEmbed();
-    embed.setTitle('Music Player');
-    embed.setAuthor(author[0], author[1]);
-    embed.setColor(0x00afff);
-    embed.setDescription(description);
-    embed.setThumbnail(thumbnail);
-    embed.setTimestamp();
-    for (let i = 0; i < names.length; i++) {
-      embed.addField(names[i], values[i], inline[i]);
-    }
-    return embed;
-  };
 
   bot.MusicVariables = (guildID) => {
     if (!bot.servers[guildID]) {

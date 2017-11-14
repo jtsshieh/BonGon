@@ -1,13 +1,12 @@
 exports.run = async (bot, msg) => {
   let counter = 0;
   const answer = bot.awaitMessage(['rock', 'paper', 'scissors']);
-  console.log(answer)
   const timer = setInterval(function() {
     if (answer) {
       clearInterval(timer);
       return msg.channel.createMessage('I work!');
     }
-    counter +=1;
+    counter += 1;
     if (counter == 30) {
       return msg.channel.createMessage('Times up, you weren\'t fast enough. The computer automatically wins!');
     }
