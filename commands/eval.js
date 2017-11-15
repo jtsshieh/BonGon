@@ -1,6 +1,6 @@
 exports.run = async (bot, msg, args) => {
   //Check if author id is good
-  if (!msg.author.id == '236279900728721409') return msg.channel.createMessage('Nice Try');
+  if (msg.author.id != '236279900728721409') return msg.channel.createMessage('Nice Try');
 
   const code = args.join(' ');
 
