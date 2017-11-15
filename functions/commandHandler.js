@@ -1,5 +1,5 @@
 module.exports = (bot) =>{
-  bot.handleCommand = async (msg) => {
+  bot.handleCommand = async (msg, bot) => {
     let prefix = '';
     if (msg.author.bot) return;
 
