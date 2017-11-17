@@ -1,15 +1,7 @@
 module.exports = async (bot, msg) => {
-  let prefix = '';
+  const prefix = 'b!';
   if (msg.author.bot) return;
-  if (msg.channel.guild) {
-    if (bot.settings.get(msg.channel.guild.id) == undefined) {
-      bot.settings.set(msg.channel.guild.id, {'prefix': 'b!', 'modlogs':'mod-logs', 'welcome': 0, 'welcomeMessage': 'Welcome to the server {mention}', 'welcomeChannel' : 'mainchat', 'Perm2': 'Trusted', 'Perm3': 'Moderator', 'Perm4' : 'Admin', 'Perm5': 'Owner'});
-    }
-    prefix = bot.settings.get(msg.channel.guild.id).prefix;
-  }
-  else {
-    prefix = 'b!';
-  }
+
   if (!msg.content.startsWith(prefix)) return;
   const args = msg.content.slice(prefix.length).trim().split(/ +/g);
   const command = args.shift();

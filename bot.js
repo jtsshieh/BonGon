@@ -7,7 +7,6 @@ async function init() {
     bot.options.maxShards = shards;
   });
 
-  bot.settings = new Map();
   bot.commands = new Eris.Collection();
   bot.functions = new Eris.Collection();
   bot.aliases = new Eris.Collection();
