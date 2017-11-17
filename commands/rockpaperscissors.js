@@ -2,6 +2,7 @@ exports.run = async (bot, msg) => {
   let counter = 0;
   //const answer = bot.awaitMessage(['rock', 'paper', 'scissors']);
   setInterval(time, 1000);
+
   function time() {
     counter++;
     if (counter == 30) {

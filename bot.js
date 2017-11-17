@@ -7,7 +7,7 @@ async function init() {
     bot.options.maxShards = shards;
   });
 
-  bot.settings = new Eris.Collection();
+  bot.settings = new Map();
   bot.commands = new Eris.Collection();
   bot.functions = new Eris.Collection();
   bot.aliases = new Eris.Collection();
@@ -17,8 +17,8 @@ async function init() {
   bot.Load();
   setInterval(
     function() {
-      const games = ['with BonGon', 'learning Java', 'with a Person', `on ${bot.guilds.size} guilds`, 'with music', 'hating', 'THE SKY IS FALLING', 'stoop, droop, and rool', 'with fun', 'rock paper scissors', 'tic tac toe', 'having fun' ];
-      bot.editStatus('online', {name: games[Math.floor(Math.random() * games.length)], type: 0});
+      const games = [{name:'with BonGon', type: 1}, 'learning Java', 'with a Person', `on ${bot.guilds.size} guilds`, 'with music', 'hating', 'THE SKY IS FALLING', 'stoop, droop, and rool', 'with fun', 'rock paper scissors', 'tic tac toe', 'having fun' ];
+      bot.editStatus('online', {name: games[Math.floor(Math.random() * games.length)]});
     }
     , 180000);
 }
