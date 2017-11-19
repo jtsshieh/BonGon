@@ -64,7 +64,7 @@ exports.run = async (bot, msg, args) => {
     //Build the player
     const embed = new bot.RichEmbed()
       .setTitle('A song has been queued')
-      .setAuthor(video.title, server.nowPlaying.thumbnail)
+      .setAuthor(video.title, video.thumbnails.high.url)
       .setColor(0x00afff)
       .setTimestamp()
       .addField('Title', video.title)
