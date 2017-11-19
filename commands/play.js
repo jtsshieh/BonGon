@@ -62,8 +62,8 @@ exports.run = async (bot, msg, args) => {
     });
 
     //Build the player
-    const embed = bot.RichEmbed()
-      .setTitle('A song has been queued')
+    const embed = new bot.RichEmbed()
+      .setTitle('A song has been queued | Beat Music Player')
       .setAuthor(server.nowPlaying.title, server.nowPlaying.thumbnail)
       .setColor(0x00afff)
       .setTimestamp()

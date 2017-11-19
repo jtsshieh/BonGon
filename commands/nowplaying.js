@@ -10,7 +10,7 @@ exports.run = async (bot, msg) => {
 
   //Build the player
   const embed = new bot.RichEmbed()
-    .setTitle('Music Player')
+    .setTitle('Now Playing | Beat Music Player')
     .setAuthor(server.nowPlaying.title, server.nowPlaying.thumbnail)
     .setColor(0x00afff)
     .setThumbnail(server.nowPlaying.thumbnail)

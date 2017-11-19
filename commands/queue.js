@@ -25,7 +25,7 @@ exports.run = async (bot, msg, args) => {
 
   //Setup the queue
   const embed = new bot.RichEmbed()
-    .setTitle(`${msg.member.guild.name}'s queue`)
+    .setTitle(`${msg.member.guild.name}'s queue | Beat Music Player`)
     .setAuthor(bot.user.username, bot.user.avatarURL)
     .setColor(0x00afff)
     .setDescription('The queue for this server')
