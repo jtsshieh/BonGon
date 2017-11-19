@@ -6,11 +6,13 @@ module.exports = async (bot, msg) => {
   const args = msg.content.slice(prefix.length).trim().split(/ +/g);
   const command = args.shift();
   let cmd;
+
   if (bot.commands.has(command)) {
     cmd = bot.commands.get(command);
   } else if (bot.aliases.has(command)) {
     cmd = bot.commands.get(bot.aliases.get(command));
   }
+  
   if (cmd) {
     if (cmd.conf.guildOnly == true) {
       if (!msg.channel.guild) {

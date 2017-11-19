@@ -63,15 +63,15 @@ exports.run = async (bot, msg, args) => {
 
     //Build the player
     const embed = new bot.RichEmbed()
-      .setTitle('A song has been queued | Beat Music Player')
-      .setAuthor(server.nowPlaying.title, server.nowPlaying.thumbnail)
+      .setTitle('A song has been queued')
+      .setAuthor(video.title, server.nowPlaying.thumbnail)
       .setColor(0x00afff)
       .setTimestamp()
       .addField('Title', video.title)
       .addField('Link', video.url)
       .addField('Duration', time)
       .setThumbnail(video.thumbnails.high.url)
-      .setFootor(video.title, video.thumbnails.high.url);
+      .setFootor('Beat Music Player');
 
     //Send the player
     await msg.channel.createMessage({
